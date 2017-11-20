@@ -6,6 +6,16 @@ import * as actions from '../actions';
 
 class Header extends Component{
 
+
+    componentWillMount() {
+        if (localStorage.getItem('token')) {
+            this.props.checkSession(()=>{
+                this.props.history.push('/feature');
+            });
+        }
+
+    }
+
     handleClick(){
         this.props.signoutUser();
     }

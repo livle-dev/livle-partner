@@ -16,12 +16,6 @@ const renderInput=field=>{
 
 
 class Signin extends Component {
-    componentWillMount() {
-        if (this.props.authenticated) {
-            this.props.history.push('/feature');
-        }
-
-    }
     handleFormSubmit({ email, password }) {
         console.log(email, password);
         this.props.signinUser({email, password}, ()=>{

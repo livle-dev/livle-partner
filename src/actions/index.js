@@ -7,7 +7,6 @@ export function signinUser({email, password}, callback){
         //Submit email/password to the server
         axios.get("/partner/session", { params: { username: email, password: password } })
             .then(response=>{ //200 or 204인 경우 them을 hit함
-                console.log(response.data)
                 //If request is good...
                 //-Update state to indicate user is authenticated
                 dispatch({type: AUTH_USER});
@@ -56,23 +55,36 @@ export function signoutUser(){
 
 export function fetchMessage(){
     return function(dispatch){
-        axios.get('',{
-            headers: {authorization: localStorage.getItem('token')}
-        })
+        axios.get('')
             .then(response=>{
                 console.log(response);
                 dispatch({
                     type: FETCH_MESSAGE,
-                    payload: response.data.message
+                    payload: response.data
                 })
             })
     }
 }
 
 
-export function checkSession(){
-  return dispatch => axios.get('/partner')
-    .then(res => console.log(res))
+export function checkSession(callback){
+  return function(dispatch){
+      axios.get('/partner')
+         .then(res => {
+            console.log('res가 안나오네'+ res);
+            dispatch({
+                type: AUTH_USER,
+                payload: res.data
+            });
+            callback()
+         })
+          .catch((e)=>{
+
+        dispatch({
+            type: UNAUTH_USER
+        })
+      })
+    }
 }
 
 export function createTicket(values) {
