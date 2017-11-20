@@ -84,20 +84,20 @@ function validate(formProps){
     const errors={};
 
     if(!formProps.email){
-        errors.email='이메일을 입력해라'
+        errors.email='이메일을 입력해주세요'
     }
     if(!formProps.company){
-        errors.company='회사명 입력해'
+        errors.company='회사명을 입력해주세요'
     }
     if(!formProps.password){
-        errors.password='비번을 입력해라'
+        errors.password='비밀번호를 입력해주세요'
     }
     if(!formProps.passwordConfirm){
-        errors.passwordConfirm='요것도 입력해라'
+        errors.passwordConfirm='요것도 입력해주세요'
     }
 
     if(formProps.password !== formProps.passwordConfirm){
-        errors.passwordConfirm='패스워드 not 일치!'
+        errors.passwordConfirm='패스워드가 일치하지 않습니다'
     }
     return errors;
 }

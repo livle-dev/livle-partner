@@ -22,12 +22,22 @@ class Signin extends Component {
       this.props.history.push('/feature')
     }
   }
+  // componentWillUnmount(){
+  //     console.log('componentWillUnmount');
+  //     console.log(localStorage.getItem('token'));
+  //     this.props.history.push('/feature')
+  // }
+  //
 
-    handleFormSubmit({ email, password }) {
+  handleFormSubmit({ email, password }) {
         console.log(email, password);
-        this.props.signinUser({email, password}, ()=>{
-            this.props.history.push('/feature')
-        })
+        this.props.signinUser({email, password}
+            //, ()=>{
+            // this.props.history.push('/feature')}
+        ,()=>{
+                this.props.history.push('/feature');
+            })
+
         //Need to do something to log user in
     }
     renderAlert(){

@@ -70,14 +70,12 @@ export function fetchMessage(){
 export function checkSession() {
   return dispatch => axios.get('/partner')
     .then(res => {
-      console.log('checkSession Action의 res '+ res);
       dispatch({
         type: AUTH_USER,
         payload: res.data
       })
     })
     .catch((e)=>{
-      console.log('checkSession Action의 err'+ e);
       dispatch({
         type: UNAUTH_USER
       })

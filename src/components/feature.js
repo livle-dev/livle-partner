@@ -3,11 +3,13 @@ import {connect} from 'react-redux';
 import * as actions from '../actions';
 
 class Feature extends Component{
-    componentWillMount(){
-        console.log(this.props.data)
-        // this.props.fetchMessage()
-    }
-
+    //
+    componentWillMount() {
+        console.log('Feature\'s componentWillMount');
+        if (localStorage.getItem('token')) {
+            this.props.checkSession()
+        }
+    } //새로 들어왔을땐 이게 아예 실행이 안됨
 
     render(){
         return (

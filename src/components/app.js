@@ -13,15 +13,22 @@ import * as actions from '../actions';
 class App extends Component {
 
   constructor() {
-    super()
+    super();
     this.state = { ready: false }
   }
 
+
   componentWillMount() {
+      console.log('App\'s componentWillMount');
     if (localStorage.getItem('token')) {
-      this.props.checkSession().then(() => this.setState({ ready: true }))
+      this.props.checkSession().then(() => this.setState({ ready: true }));
     }
   }
+  // componentWillUpdate(){
+  //     if (localStorage.getItem('token')) {
+  //         this.props.checkSession().then(() => this.setState({ ready: true }));
+  //     }
+  // }
 
     render() {
         return this.state.ready ? (
@@ -30,7 +37,6 @@ class App extends Component {
                     <Header />
                     <Switch>
                         <Route exact path="/" component={Session} />
-                        {/*<Route path="/signout" component={Signout} />*/}
                         <Route path="/signup" component={Signup} />
                         <Route path="/feature" component={RequireAuth(Feature)} />
                         <Route path="/add" component={TicketForm} />
@@ -38,7 +44,19 @@ class App extends Component {
                     </Switch>
                 </div>
             </BrowserRouter>
-        ) : <div>Validating session ...</div>;
+        ) : (
+            <div>
+                <BrowserRouter>
+                    <div>
+                    <Header />
+                       <Switch>
+                           <Route exact path="/" component={Session} />
+                           <Route path="/signup" component={Signup} />
+                       </Switch>
+                    </div>
+                </BrowserRouter>
+            </div>
+        )
     }
 }
 
