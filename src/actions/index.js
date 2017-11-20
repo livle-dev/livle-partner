@@ -20,7 +20,8 @@ export function signinUser({email, password}, callback){
             .catch((e)=>{
                 //If request is bad
                 //- Show an error to the user
-                dispatch(authError('Bad Login Info'))
+                console.log(e.response.data.message);
+                dispatch(authError(e.response.data.message))
             })
     }
 }
@@ -35,8 +36,7 @@ export function signupUser({email, password, company}, callback){
                 callback();
             })
             .catch(error=>{
-                console.log(error.response.data.error);
-                return dispatch(authError(error.response.data.error))})
+                return dispatch(authError(error.response.data.message))})
     }
 }
 
@@ -71,18 +71,18 @@ export function checkSession(callback){
   return function(dispatch){
       axios.get('/partner')
          .then(res => {
-            console.log('res가 안나오네'+ res);
+            console.log('checkSession Action의 res '+ res);
             dispatch({
                 type: AUTH_USER,
-                payload: res.data
+                payload: res
             });
             callback()
          })
           .catch((e)=>{
-
-        dispatch({
-            type: UNAUTH_USER
-        })
+            console.log('checkSession Action의 err'+ e);
+            dispatch({
+                type: UNAUTH_USER
+            })
       })
     }
 }
