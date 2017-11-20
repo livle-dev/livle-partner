@@ -5,29 +5,31 @@ import {connect} from 'react-redux';
 import Header from '../components/header'
 import Feature from '../components/feature'
 import TicketForm from '../components/TicketForm';
-import Signin from '../components/auth/signin';
+import Session from '../components/auth/Session';
 import Signup from '../components/auth/signup'
-import RequireAuth from '../components/auth/require_auth';
+import RequireAuth from '../components/auth/RequireAuth'
 import * as actions from '../actions';
 
 class App extends Component {
 
+  constructor() {
+    super()
+    this.state = { ready: false }
+  }
 
-    componentWillMount() {
-        if (localStorage.getItem('token')) {
-            this.props.checkSession(function(){
-                this.props.history.push('/feature');
-            })
-        }
+  componentWillMount() {
+    if (localStorage.getItem('token')) {
+      this.props.checkSession().then(() => this.setState({ ready: true }))
     }
+  }
 
     render() {
-        return (
+        return this.state.ready ? (
             <BrowserRouter>
                 <div>
                     <Header />
                     <Switch>
-                        <Route exact path="/" component={Signin} />
+                        <Route exact path="/" component={Session} />
                         {/*<Route path="/signout" component={Signout} />*/}
                         <Route path="/signup" component={Signup} />
                         <Route path="/feature" component={RequireAuth(Feature)} />
@@ -36,7 +38,7 @@ class App extends Component {
                     </Switch>
                 </div>
             </BrowserRouter>
-        );
+        ) : <div>Validating session ...</div>;
     }
 }
 
