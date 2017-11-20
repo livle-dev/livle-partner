@@ -14,6 +14,7 @@ import Header from './components/header';
 import Signup from './components/auth/signup'
 import Feature from './components/feature'
 import RequireAuth from './components/auth/require_auth'
+import TicketForm from './components/TicketForm'
 //import App from './components/app';
 import {AUTH_USER} from "./actions/types";
 
@@ -39,6 +40,7 @@ ReactDOM.render(
                         {/*<Route path="/signout" component={Signout} />*/}
                         <Route path="/signup" component={Signup} />
                         <Route path="/feature" component={RequireAuth(Feature)} />
+                        <Route path="/add" component={TicketForm} />
 
                     </Switch>
                 </div>

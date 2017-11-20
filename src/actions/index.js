@@ -71,11 +71,14 @@ export function fetchMessage(){
 
 
 export function checkSession(){
-    return function(dispatch){
-        axios.get('/partner',{
+  return dispatch => axios.get('/partner')
+    .then(res => console.log(res))
+}
 
-        })
-    }
+export function createTicket(values) {
+  return dispatch => axios.post("/ticket", values)
+    .then(res => console.log(res))
+    .catch(err => console.error(err))
 }
 //아래는 redux-promise로 했을 때 - much more readable
 // export function fetchMessage(){
