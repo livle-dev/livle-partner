@@ -15,7 +15,7 @@ export function signinUser({email, password}, callback){
         axios.get("/partner/session", { params: { username: email, password: password } })
             .then(response=>{ //200 or 204인 경우 them을 hit함
                 //If request is good...
-              dispatch(authUser(response.data))
+              dispatch(authUser(response.data));
                 callback();
             })
             .catch((e)=>{
@@ -31,7 +31,7 @@ export function signupUser({email, password, company}, callback){
     return function(dispatch){
         axios.post("/partner", { company: company, username: email, password: password})
             .then(response => {
-              dispatch(authUser(response.data))
+              dispatch(authUser(response.data));
               callback();
             })
             .catch(error=>{
@@ -68,10 +68,14 @@ export function fetchMessage(){
 export function checkSession() {
   return dispatch => axios.get('/partner')
     .then(res => {
-      dispatch(authUser(res.data))
+        console.log('dispatch, then');
+      dispatch(authUser(res.data));
+        return Promise.resolve()
     })
     .catch((e)=>{
-      dispatch(signoutUser())
+      console.log('dispatch, catch');
+      dispatch(signoutUser());
+        return Promise.reject()
     })
 }
 

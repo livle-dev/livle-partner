@@ -21,9 +21,15 @@ class App extends Component {
   componentWillMount() {
       console.log('App\'s componentWillMount');
     if (localStorage.getItem('token')) {
-      this.props.checkSession().then(() => this.setState({ ready: true }));
-    } else {
-      this.setState({ ready: true })
+      this.props.checkSession().then(() => {
+          this.setState({ ready: true });
+            console.log('App부분, promise resolve')
+
+      }).catch(()=>{
+          this.setState({ready:true})
+      })
+    }else {
+        this.setState({ ready: true })
     }
   }
   // componentWillUpdate(){
@@ -47,16 +53,7 @@ class App extends Component {
             </BrowserRouter>
         ) : (
             <div>
-              이 떄는 뭐가 안 떠야 정상
-                <BrowserRouter>
-                    <div>
-                    <Header />
-                       <Switch>
-                           <Route exact path="/" component={Session} />
-                           <Route path="/signup" component={Signup} />
-                       </Switch>
-                    </div>
-                </BrowserRouter>
+              Loading...
             </div>
         )
     }
