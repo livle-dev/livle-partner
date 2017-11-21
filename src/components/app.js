@@ -22,6 +22,8 @@ class App extends Component {
       console.log('App\'s componentWillMount');
     if (localStorage.getItem('token')) {
       this.props.checkSession().then(() => this.setState({ ready: true }));
+    } else {
+      this.setState({ ready: true })
     }
   }
   // componentWillUpdate(){
@@ -40,12 +42,12 @@ class App extends Component {
                         <Route path="/signup" component={Signup} />
                         <Route path="/feature" component={RequireAuth(Feature)} />
                         <Route path="/add" component={TicketForm} />
-
                     </Switch>
                 </div>
             </BrowserRouter>
         ) : (
             <div>
+              이 떄는 뭐가 안 떠야 정상
                 <BrowserRouter>
                     <div>
                     <Header />

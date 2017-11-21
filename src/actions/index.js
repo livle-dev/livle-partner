@@ -1,6 +1,13 @@
 import axios from './axios';
 import {AUTH_ERROR, AUTH_USER, UNAUTH_USER, FETCH_MESSAGE} from "./types";
 
+function authUser(data) {
+  return {
+    type: AUTH_USER,
+    payload: data
+  }
+}
+
 export function signinUser({email, password}, callback){
 
     return function(dispatch){ //다똑같아
@@ -8,13 +15,7 @@ export function signinUser({email, password}, callback){
         axios.get("/partner/session", { params: { username: email, password: password } })
             .then(response=>{ //200 or 204인 경우 them을 hit함
                 //If request is good...
-                //-Update state to indicate user is authenticated
-                dispatch({type: AUTH_USER});
-
-                //-Save the JWT token
-                localStorage.setItem('token', response.data.token);
-
-                //-Redirect to the route '/feature'
+              dispatch(authUser(response.data))
                 callback();
             })
             .catch((e)=>{
@@ -30,10 +31,8 @@ export function signupUser({email, password, company}, callback){
     return function(dispatch){
         axios.post("/partner", { company: company, username: email, password: password})
             .then(response => {
-                dispatch({type: AUTH_USER});
-
-                localStorage.setItem('token', response.data.token);
-                callback();
+              dispatch(authUser(response.data))
+              callback();
             })
             .catch(error=>{
                 return dispatch(authError(error.response.data.message))})
@@ -48,7 +47,6 @@ export function authError(error){
 }
 
 export function signoutUser(){
-    localStorage.removeItem('token');
 
     return {type: UNAUTH_USER};
 }
@@ -70,15 +68,10 @@ export function fetchMessage(){
 export function checkSession() {
   return dispatch => axios.get('/partner')
     .then(res => {
-      dispatch({
-        type: AUTH_USER,
-        payload: res.data
-      })
+      dispatch(authUser(res.data))
     })
     .catch((e)=>{
-      dispatch({
-        type: UNAUTH_USER
-      })
+      dispatch(signoutUser())
     })
 }
 
