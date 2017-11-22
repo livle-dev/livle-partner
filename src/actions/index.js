@@ -84,6 +84,12 @@ export function createTicket(values) {
     .then(res => console.log(res))
     .catch(err => console.error(err))
 }
+
+export function getSignedUrl(file, callback) {
+  return dispatch => axios.get('/file')
+    .then(res => callback(res.data))
+    .catch(error => console.error(error))
+}
 //아래는 redux-promise로 했을 때 - much more readable
 // export function fetchMessage(){
 //     const request= axios.get(ROOT_URL, {
