@@ -67,6 +67,10 @@ class TicketForm extends Component {
             onChange={e => formApi.setValue(e.target.name, e.target.value)} />
         </div>
         <div>
+          <h3>라인업</h3>
+          <button>추가</button>
+        </div>
+        <div>
           <h3>선택입력</h3>
           <Text field="music_id" placeholder="음악 아이디 (선택)" />
           <Text field="video_id" placeholder="비디오 아이디 (선택)" />
