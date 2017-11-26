@@ -4,11 +4,13 @@ import {connect} from 'react-redux';
 
 import Header from '../components/header'
 import Feature from '../components/feature'
-import TicketForm from '../components/TicketForm';
-import Session from '../components/auth/Session';
+import TicketForm from '../components/TicketForm'
+import Session from '../components/auth/Session'
 import Signup from '../components/auth/signup'
 import RequireAuth from '../components/auth/RequireAuth'
-import * as actions from '../actions';
+import * as actions from '../actions'
+
+import Payment from '../components/Payment'
 
 class App extends Component {
 
@@ -48,6 +50,7 @@ class App extends Component {
                         <Route path="/signup" component={Signup} />
                         <Route path="/feature" component={RequireAuth(Feature)} />
                         <Route path="/add" component={TicketForm} />
+                        <Route path="/pay" component={Payment} />
                     </Switch>
                 </div>
             </BrowserRouter>
