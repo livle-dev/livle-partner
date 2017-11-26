@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form, Text } from 'react-form'
+import { Form, NestedForm, Text } from 'react-form'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import ReactS3Uploader from 'react-s3-uploader'
 import { createTicket, getSignedUrl } from '../actions'
+import _ from 'lodash'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -22,6 +23,24 @@ class TicketForm extends Component {
   }
 
   render() {
+
+    const Artist = ({ i, handleRemove, artist }) => (
+      <NestedForm field={['artists', i]} key={`artist-${i}`}>
+        <Form defaultValues={artist}>
+          { formApi => (<div>
+            <div>
+              <Text field="name" placeholder="아티스트 이름" />
+            </div>
+            <div>
+              { formApi.values.image && <img src={formApi.values.image} /> }
+              <ReactS3Uploader accept="image/*" getSignedUrl={this.props.getSignedUrl}
+                onFinish={ sign => formApi.setValue('image', sign.filePath) } />
+            </div>
+            <button onClick={e => { e.preventDefault(); handleRemove(e) }}>삭제</button>
+          </div>) }
+        </Form>
+      </NestedForm>
+    )
 
     // TODO validation
     return (<Form onSubmit={submittedValues => this.handleSubmit(submittedValues)}
@@ -68,7 +87,10 @@ class TicketForm extends Component {
         </div>
         <div>
           <h3>라인업</h3>
-          <button>추가</button>
+          { formApi.values.artists && _.map(formApi.values.artists, (a, index) =>
+            <Artist key={index} artist={a} i={index} handleRemove={() => formApi.removeValue('artists', index)} />
+          ) }
+          <button onClick={e => { e.preventDefault(); formApi.addValue('artists', {}) } }>추가</button>
         </div>
         <div>
           <h3>선택입력</h3>
