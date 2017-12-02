@@ -1,3 +1,4 @@
+import axios from '../actions/axios'
 import {
     AUTH_USER,
     UNAUTH_USER,
@@ -9,9 +10,19 @@ import {
 export default function(state={}, action){
     switch(action.type){
         case AUTH_USER:
-            return {...state, error: '',authenticated: true};
+        {
+          if(action.payload.token) {
+            localStorage.setItem('token', action.payload.token) //-Save the JWT token
+            axios.defaults.headers = { Authorization: localStorage.getItem('token') } // Fill header
+          }
+          return { ...action.payload, authenticated: true }
+        }
         case UNAUTH_USER:
-            return {...state, authenticated: false};
+        {
+          localStorage.removeItem('token');
+          axios.defaults.headers = { } // Empty header
+          return {authenticated: false};
+        }
         case AUTH_ERROR:
             return {...state, error:action.payload};
         case FETCH_MESSAGE:
