@@ -8,6 +8,7 @@ const SignIn = ({ history, signinUser }) => {
   const handleSubmit = ({ email, password }) => {
     signinUser({ email, password })
       .then(() => history.push('/concerts'))
+      .catch((msg) => alert(msg))
   }
 
   return (<Form onSubmit={ submittedValues => handleSubmit(submittedValues) }>

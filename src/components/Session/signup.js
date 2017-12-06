@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { Form, Text } from 'react-form'
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signupUser } from '../../actions';
 
-const SignUp = (props) => {
-  const handleSubmit = ({ email, password }) => {
-    signupUser({ email, password })
+const SignUp = ({ signupUser }) => {
+  const handleSubmit = ({ email, password, company }) => {
+    signupUser({ email, password, company })
       .then(() => {
         alert('회원가입이 신청되었습니다. 관리자의 승인 후 파트너 페이지를 이용하실 수 있습니다.')
-        history.push('/')
-      })
+        window.location.reload()
+      }).catch((msg) => alert(msg))
   }
 
   return (<Form onSubmit={ submittedValues => handleSubmit(submittedValues) }>
@@ -25,4 +24,4 @@ const SignUp = (props) => {
   </Form>)
 }
 
-export default withRouter(connect(null, { signupUser })(SignUp))
+export default connect(null, { signupUser })(SignUp)

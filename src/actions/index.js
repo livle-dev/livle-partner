@@ -8,74 +8,75 @@ function authUser(data) {
   }
 }
 
-export function signinUser({email, password}, callback){
-
-    return function(dispatch){ //다똑같아
-        //Submit email/password to the server
-        axios.get("/partner/session", { params: { username: email, password: password } })
-            .then(response=>{ //200 or 204인 경우 them을 hit함
-                //If request is good...
-              dispatch(authUser(response.data));
-                callback();
-            })
-            .catch((e)=>{
-                //If request is bad
-                //- Show an error to the user
-                console.log(e.response.data.message);
-                dispatch(authError(e.response.data.message))
-            })
-    }
+export function signinUser({email, password}) {
+  return (dispatch) => {
+    // Submit email/password to the server
+    return axios.get("/partner/session", { params: { username: email, password: password } })
+      .then(response=>{ //200 or 204인 경우 them을 hit함
+        //If request is good...
+        dispatch(authUser(response.data))
+        Promise.resolve()
+      })
+      .catch((e)=>{
+        //If request is bad
+        //- Show an error to the user
+        //dispatch(authError(e.response.data.message))
+        return Promise.reject(e.response.data.message)
+      })
+  }
 }
 
-export function signupUser({email, password, company}, callback){
-    return function(dispatch){
-        axios.post("/partner", { company: company, username: email, password: password})
-            .then(response => {
-              dispatch(authUser(response.data));
-              callback();
-            })
-            .catch(error=>{
-                return dispatch(authError(error.response.data.message))})
-    }
+export function signupUser( { email, password, company } ) {
+  return (dispatch) =>
+    axios.post("/partner", { company: company, username: email, password: password})
+      .then(response => {
+        console.log('succ')
+        dispatch(authUser(response.data));
+        return Promise.resolve()
+      })
+      .catch(error=>{
+        //dispatch(authError(error.response.data.message))
+        return Promise.reject(error.response.data.message)
+      })
 }
 
 export function authError(error){
-    return {
-        type: AUTH_ERROR,
-        payload: error
-    }
+  return {
+    type: AUTH_ERROR,
+    payload: error
+  }
 }
 
 export function signoutUser(){
 
-    return {type: UNAUTH_USER};
+  return {type: UNAUTH_USER};
 }
 
 export function fetchMessage(){
-    return function(dispatch){
-        axios.get('')
-            .then(response=>{
-                console.log(response);
-                dispatch({
-                    type: FETCH_MESSAGE,
-                    payload: response.data
-                })
-            })
-    }
+  return function(dispatch){
+    axios.get('')
+      .then(response=>{
+        console.log(response);
+        dispatch({
+          type: FETCH_MESSAGE,
+          payload: response.data
+        })
+      })
+  }
 }
 
 
 export function checkSession() {
   return dispatch => axios.get('/partner')
     .then(res => {
-        console.log('dispatch, then');
+      console.log('dispatch, then');
       dispatch(authUser(res.data));
-        return Promise.resolve()
+      return Promise.resolve()
     })
     .catch((e)=>{
       console.log('dispatch, catch');
       dispatch(signoutUser());
-        return Promise.reject()
+      return Promise.reject()
     })
 }
 
