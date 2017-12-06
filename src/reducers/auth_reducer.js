@@ -15,7 +15,8 @@ export default function(state={}, action){
             localStorage.setItem('token', action.payload.token) //-Save the JWT token
             axios.defaults.headers = { Authorization: localStorage.getItem('token') } // Fill header
           }
-          return { ...action.payload, authenticated: true }
+          const isAdmin = action.payload.username.endsWith("@livle.kr")
+          return { ...action.payload, authenticated: true, isAdmin: isAdmin }
         }
         case UNAUTH_USER:
         {

@@ -1,60 +1,57 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import Feature from './components/feature'
-import TicketForm from './components/TicketForm';
+import Navigation from './components/Navigation'
 import Session from './components/Session';
 import RequireAuth from './components/RequireAuth'
 import ConcertList from './components/ConcertList'
-import * as actions from './actions';
+import UserList from './components/UserList'
+import TicketForm from './components/TicketForm';
+
+import { checkSession } from './actions';
 
 class App extends Component {
 
-  constructor() {
-    super();
-    this.state = { ready: false }
-  }
-
+  state = { ready: false }
 
   componentWillMount() {
-      console.log('App\'s componentWillMount');
     if (localStorage.getItem('token')) {
       this.props.checkSession().then(() => {
-          this.setState({ ready: true });
-            console.log('App부분, promise resolve')
+        this.setState({ ready: true });
+        console.log('App부분, promise resolve')
 
       }).catch(()=>{
-          this.setState({ready:true})
+        this.setState({ ready:true })
       })
-    }else {
-        this.setState({ ready: true })
+    } else {
+      this.setState({ ready: true })
     }
   }
-  // componentWillUpdate(){
-  //     if (localStorage.getItem('token')) {
-  //         this.props.checkSession().then(() => this.setState({ ready: true }));
-  //     }
-  // }
 
-    render() {
-        return this.state.ready ? (
-            <BrowserRouter>
-                <div>
-                    <Switch>
-                      <Route exact path="/" component={Session} />
-                      <Route path="/concerts" component={RequireAuth(ConcertList)} />
-                      <Route path="/add" component={TicketForm} />
-                    </Switch>
-                </div>
-            </BrowserRouter>
-        ) : (
-            <div>
-              Loading...
-            </div>
-        )
-    }
+  render() {
+    return this.state.ready ? (
+      <BrowserRouter>
+        <div>
+          { this.props.authenticated && <Navigation /> }
+          <Switch>
+            <Route exact path="/" component={Session} />
+            <Route path="/concerts" component={RequireAuth(ConcertList)} />
+            <Route path="/users" component={RequireAuth(UserList)} />
+            <Route path="/add" component={RequireAuth(TicketForm)} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    ) : (
+      <div>
+        Loading...
+      </div>
+    )
+  }
 }
 
+function mapStateToProps(state){
+    return { authenticated: state.auth.authenticated }
+}
 
-export default connect(null, actions)(App);
+export default connect(mapStateToProps, { checkSession })(App);
