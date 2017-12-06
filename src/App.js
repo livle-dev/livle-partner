@@ -6,6 +6,7 @@ import Navigation from './components/Navigation'
 import Session from './components/Session';
 import RequireAuth from './components/RequireAuth'
 import ConcertList from './components/ConcertList'
+import ConcertDetail from './components/ConcertDetail'
 import UserList from './components/UserList'
 import ConcertAdd from './components/ConcertAdd';
 
@@ -37,6 +38,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Session} />
             <Route path="/concerts" component={RequireAuth(ConcertList)} />
+            <Route path="/concert/:id" component={RequireAuth(ConcertDetail)} />
             <Route path="/users" component={RequireAuth(UserList)} />
             <Route path="/add" component={RequireAuth(ConcertAdd)} />
           </Switch>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
-import * as actions from '../actions';
+import { signoutUser } from '../actions';
 
 const Navigation = ({ user, signoutUser }) =>
   (<nav className="navbar navbar-light">
@@ -28,4 +28,4 @@ function mapStateToProps(state){
     user: state.auth
   }
 }
-export default connect(mapStateToProps, actions)(Navigation)
+export default connect(mapStateToProps, { signoutUser })(Navigation)

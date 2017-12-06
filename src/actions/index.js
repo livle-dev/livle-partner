@@ -143,6 +143,10 @@ function _fetchConcerts(data) {
     payload: data
   }
 }
+
+export function fetchConcertDetail() {
+  // TODO : implement
+}
 //아래는 redux-promise로 했을 때 - much more readable
 // export function fetchMessage(){
 //     const request= axios.get(ROOT_URL, {
