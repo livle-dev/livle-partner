@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import Header from '../components/header'
 import Feature from '../components/feature'
 import TicketForm from '../components/TicketForm';
 import Session from '../components/auth/Session';
@@ -42,7 +41,6 @@ class App extends Component {
         return this.state.ready ? (
             <BrowserRouter>
                 <div>
-                    <Header />
                     <Switch>
                         <Route exact path="/" component={Session} />
                         <Route path="/signup" component={Signup} />

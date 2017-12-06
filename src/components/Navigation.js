@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import * as actions from '../actions';
 
 
-class Header extends Component{
+class Navigation extends Component{
 
     handleClick(){
         this.props.signoutUser();
@@ -60,4 +60,4 @@ function mapStateToProps(state){
         authenticated: state.auth.authenticated
     }
 }
-export default connect(mapStateToProps, actions)(Header);
+export default connect(mapStateToProps, actions)(Navigation)
