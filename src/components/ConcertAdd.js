@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchConcerts } from '../actions'
 import { map } from 'lodash'
+import TicketForm from './TicketForm'
 
-class ConcertList extends Component {
+class ConcertAdd extends Component {
   state = { fetched: false }
 
   constructor({ fetchConcerts }) {
@@ -18,7 +19,14 @@ class ConcertList extends Component {
       map(this.props.concertList, c => <div key={c.id}>{c.title}</div>)
 
     return (<div>
-      { this.state.fetched ? concertList : 'Loading...' }
+      <div>
+        <h2>등록하기</h2>
+        <TicketForm />
+      </div>
+      <div>
+        <h2>목록</h2>
+        { this.state.fetched ? concertList : 'Loading...' }
+      </div>
     </div>)
   }
 }
@@ -27,4 +35,4 @@ function mapStateToProps(state) {
   return { concertList: state.concertList }
 }
 
-export default connect(mapStateToProps, { fetchConcerts })(ConcertList)
+export default connect(mapStateToProps, { fetchConcerts })(ConcertAdd)

@@ -16,14 +16,16 @@ class TicketForm extends Component {
     this.state = { startDate: moment(), endDate: moment() }
   }
 
-  handleSubmit(values) {
+  handleSubmit(values, e, formApi) {
     this.props.createTicket(values)
-      .then(() => alert("SUCCESS"))
-      .catch(err => { console.log(err); alert("FAILURE")})
+      .then(() => {
+        alert("공연을 추가했습니다.")
+        formApi.resetAll()
+      })
+      .catch(err => { console.log(err); alert(err) })
   }
 
   render() {
-
     const Artist = ({ i, handleRemove, artist }) => (
       <NestedForm field={['artists', i]} key={`artist-${i}`}>
         <Form defaultValues={artist}>
@@ -43,7 +45,7 @@ class TicketForm extends Component {
     )
 
     // TODO validation
-    return (<Form onSubmit={submittedValues => this.handleSubmit(submittedValues)}
+    return (<Form onSubmit={this.handleSubmit}
       defaultValues={ { start_at: moment(), end_at: moment(), capacity: 0 } }>
       { formApi => (<form onSubmit={formApi.submitForm}>
         <div>

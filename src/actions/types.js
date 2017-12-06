@@ -6,3 +6,5 @@ export const FETCH_MESSAGE='fetch_message';
 
 export const FETCH_USERS = 'fetch_users'
 export const FETCH_PARTNERS = 'fetch_partners'
+export const FETCH_CONCERTS = 'fetch_concerts'
+export const CREATE_CONCERT = 'create_concert'

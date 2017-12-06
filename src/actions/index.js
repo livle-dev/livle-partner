@@ -1,7 +1,7 @@
 import axios from './axios';
 import {
   AUTH_ERROR, AUTH_USER, UNAUTH_USER, FETCH_MESSAGE,
-  FETCH_PARTNERS, FETCH_USERS
+  FETCH_PARTNERS, FETCH_USERS, FETCH_CONCERTS, CREATE_CONCERT
 } from "./types";
 
 function authUser(data) {
@@ -85,8 +85,15 @@ export function checkSession() {
 
 export function createTicket(values) {
   return dispatch => axios.post("/ticket", values)
-    .then(res => console.log(res))
-    .catch(err => console.error(err))
+    .then(res => dispatch(_createConcert(res.data)))
+    .catch(err => Promise.reject(err.response.data))
+}
+
+function _createConcert(data) {
+  return {
+    type: CREATE_CONCERT,
+    payload: data
+  }
 }
 
 export function getSignedUrl(file, callback) {
@@ -101,7 +108,7 @@ export function fetchPartners() {
     .catch(err => Promise.reject(err.response.data))
 }
 
-export function _fetchPartners(data) {
+function _fetchPartners(data) {
   return {
     type: FETCH_PARTNERS,
     payload: data
@@ -114,9 +121,25 @@ export function fetchUsers() {
     .catch(err => Promise.reject(err.response.data))
 }
 
-export function _fetchUsers(data) {
+function _fetchUsers(data) {
   return {
     type: FETCH_USERS,
+    payload: data
+  }
+}
+
+export function fetchConcerts() {
+  return (dispatch, getState) => {
+    if (getState().concertList.length > 0) return Promise.resolve()
+    return axios.get('/ticket/all')
+    .then(res => dispatch(_fetchConcerts(res.data)))
+    .catch(err => Promise.reject(err.response.data))
+  }
+}
+
+function _fetchConcerts(data) {
+  return {
+    type: FETCH_CONCERTS,
     payload: data
   }
 }

@@ -7,7 +7,7 @@ import Session from './components/Session';
 import RequireAuth from './components/RequireAuth'
 import ConcertList from './components/ConcertList'
 import UserList from './components/UserList'
-import TicketForm from './components/TicketForm';
+import ConcertAdd from './components/ConcertAdd';
 
 import { checkSession } from './actions';
 
@@ -38,7 +38,7 @@ class App extends Component {
             <Route exact path="/" component={Session} />
             <Route path="/concerts" component={RequireAuth(ConcertList)} />
             <Route path="/users" component={RequireAuth(UserList)} />
-            <Route path="/add" component={RequireAuth(TicketForm)} />
+            <Route path="/add" component={RequireAuth(ConcertAdd)} />
           </Switch>
         </div>
       </BrowserRouter>
