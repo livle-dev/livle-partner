@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import Feature from '../components/feature'
-import TicketForm from '../components/TicketForm';
-import Session from '../components/auth/Session';
-import RequireAuth from './RequireAuth'
-import * as actions from '../actions';
+import Feature from './components/feature'
+import TicketForm from './components/TicketForm';
+import Session from './components/Session';
+import RequireAuth from './components/RequireAuth'
+import ConcertList from './components/ConcertList'
+import * as actions from './actions';
 
 class App extends Component {
 
@@ -41,9 +42,9 @@ class App extends Component {
             <BrowserRouter>
                 <div>
                     <Switch>
-                        <Route exact path="/" component={Session} />
-                        <Route path="/feature" component={RequireAuth(Feature)} />
-                        <Route path="/add" component={TicketForm} />
+                      <Route exact path="/" component={Session} />
+                      <Route path="/concerts" component={RequireAuth(ConcertList)} />
+                      <Route path="/add" component={TicketForm} />
                     </Switch>
                 </div>
             </BrowserRouter>
