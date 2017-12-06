@@ -1,5 +1,8 @@
 import axios from './axios';
-import {AUTH_ERROR, AUTH_USER, UNAUTH_USER, FETCH_MESSAGE} from "./types";
+import {
+  AUTH_ERROR, AUTH_USER, UNAUTH_USER, FETCH_MESSAGE,
+  FETCH_PARTNERS, FETCH_USERS
+} from "./types";
 
 function authUser(data) {
   return {
@@ -90,6 +93,32 @@ export function getSignedUrl(file, callback) {
   return dispatch => axios.get('/file')
     .then(res => callback(res.data))
     .catch(error => console.error(error))
+}
+
+export function fetchPartners() {
+  return dispatch => axios.get('/partner/all')
+    .then(res => dispatch(_fetchPartners(res.data)))
+    .catch(err => Promise.reject(err.response.data))
+}
+
+export function _fetchPartners(data) {
+  return {
+    type: FETCH_PARTNERS,
+    payload: data
+  }
+}
+
+export function fetchUsers() {
+  return dispatch => axios.get('/user/all')
+    .then(res => dispatch(_fetchUsers(res.data)))
+    .catch(err => Promise.reject(err.response.data))
+}
+
+export function _fetchUsers(data) {
+  return {
+    type: FETCH_USERS,
+    payload: data
+  }
 }
 //아래는 redux-promise로 했을 때 - much more readable
 // export function fetchMessage(){
