@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchConcerts } from '../../actions'
-import { map } from 'lodash'
+import { filter } from 'lodash'
 import { withRouter } from 'react-router-dom';
 import ConcertTable from './ConcertTable'
 
@@ -16,15 +16,22 @@ class ConcertManage extends Component {
   }
 
   render() {
-    if (!this.state.fetched) {
+    if (!this.state.fetched)
       return 'Loading...'
-    }
 
     const concerts = this.props.concertList
+    if (concerts.length == 0)
+      return "등록된 공연이 없습니다."
+
+    const now = new Date()
+    const upcomings = filter(concerts, c => Date.parse(c.start_at) > now)
+    const ended = filter(concerts, c => Date.parse(c.start_at) <= now)
+
     return (<div>
-      {
-        concerts.length == 0 ?  "등록된 공연이 없습니다." : <ConcertTable concerts={concerts} />
-      }
+      <h2>예정 공연</h2>
+      <ConcertTable concerts={upcomings} />
+      <h2>끝난 공연</h2>
+      <ConcertTable concerts={ended} />
     </div>)
   }
 }
