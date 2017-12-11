@@ -1,7 +1,8 @@
 import axios from './axios';
 import {
   AUTH_ERROR, AUTH_USER, UNAUTH_USER, FETCH_MESSAGE,
-  FETCH_PARTNERS, FETCH_USERS, FETCH_CONCERTS, CREATE_CONCERT
+  FETCH_PARTNERS, FETCH_USERS, FETCH_CONCERTS, CREATE_CONCERT,
+  REPLACE_PARTNER
 } from "./types";
 
 function authUser(data) {
@@ -34,7 +35,8 @@ export function signupUser( { email, password, company } ) {
     axios.post("/partner", { company: company, username: email, password: password})
       .then(response => {
         console.log('succ')
-        dispatch(authUser(response.data));
+        // Should not be logged in before approval of livle admin
+        // dispatch(authUser(response.data));
         return Promise.resolve()
       })
       .catch(error=>{
@@ -140,6 +142,20 @@ export function fetchConcerts() {
 function _fetchConcerts(data) {
   return {
     type: FETCH_CONCERTS,
+    payload: data
+  }
+}
+
+export function approvePartner(id) {
+  return dispatch =>
+    axios.post(`/partner/${id}/approve`)
+      .then(res => dispatch(replacePartner(res.data)))
+      .catch(err => Promise.reject(err.response.data))
+}
+
+function replacePartner(data) {
+  return {
+    type: REPLACE_PARTNER,
     payload: data
   }
 }

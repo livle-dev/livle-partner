@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { fetchPartners, fetchUsers } from '../actions'
+import { fetchPartners, fetchUsers } from '../../actions'
 import { map } from 'lodash'
+import PartnerTable from './PartnerTable'
 
 class UserList extends Component {
   state = { partnerFetched: false, userFetched: false }
@@ -18,7 +19,6 @@ class UserList extends Component {
 
   render() {
     const userList = map(this.props.userList, u => <div key={u.email}>{u.email}</div>)
-    const partnerList = map(this.props.partnerList, p => <div key={p.username}>{p.username}</div>)
 
     return (<div>
       <h1>목록</h1>
@@ -28,7 +28,7 @@ class UserList extends Component {
       </div>
       <div>
         <h2>파트너 회원 목록</h2>
-        { this.state.partnerFetched ? partnerList : 'Loading...' }
+        { this.state.partnerFetched ? <PartnerTable partners={this.props.partnerList} /> : 'Loading...' }
       </div>
     </div>)
   }
