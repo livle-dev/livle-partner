@@ -7,8 +7,8 @@ import { withRouter } from 'react-router-dom';
 class ConcertList extends Component {
   state = { fetched: false }
 
-  constructor({ fetchConcerts }) {
-    super()
+  componentWillMount() {
+    const { fetchConcerts } = this.props
     fetchConcerts()
       .then(() => this.setState({ fetched: true }))
       .catch((msg) => alert(msg))

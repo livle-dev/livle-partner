@@ -6,8 +6,8 @@ import { map } from 'lodash'
 class UserList extends Component {
   state = { partnerFetched: false, userFetched: false }
 
-  constructor({ fetchPartners, fetchUsers }) {
-    super()
+  componentWillMount() {
+    const { fetchPartners, fetchUsers } = this.props
     fetchPartners()
       .then(() => this.setState({ partnerFetched: true }))
       .catch((msg) => alert(msg))
