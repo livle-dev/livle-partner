@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { fetchConcerts } from '../actions'
+import { fetchConcerts } from '../../actions'
 import { map } from 'lodash'
 import { withRouter } from 'react-router-dom';
 
-class ConcertList extends Component {
+class ConcertManage extends Component {
   state = { fetched: false }
 
   componentWillMount() {
@@ -30,4 +30,4 @@ function mapStateToProps(state) {
   return { concertList: state.concertList }
 }
 
-export default withRouter(connect(mapStateToProps, { fetchConcerts })(ConcertList))
+export default withRouter(connect(mapStateToProps, { fetchConcerts })(ConcertManage))
