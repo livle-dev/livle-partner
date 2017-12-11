@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchPartners, fetchUsers } from '../../actions'
 import { map } from 'lodash'
 import PartnerTable from './PartnerTable'
+import UserTable from './UserTable'
 
 class UserList extends Component {
   state = { partnerFetched: false, userFetched: false }
@@ -24,7 +25,7 @@ class UserList extends Component {
       <h1>목록</h1>
       <div>
         <h2>라이블 회원 목록</h2>
-        { this.state.userFetched ? userList : 'Loading...' }
+        { this.state.userFetched ? <UserTable users={this.props.userList} /> : 'Loading...' }
       </div>
       <div>
         <h2>파트너 회원 목록</h2>
