@@ -32,7 +32,7 @@ const UserTable = ({ users }) => {
 }
 
 UserTable.propTypes = {
-  // prop 'partners' should be an array of partner objects
+  // prop 'users' should be an array of user objects
   users: PropTypes.arrayOf(PropTypes.object)
 }
 

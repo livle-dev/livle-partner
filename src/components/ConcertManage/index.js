@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchConcerts } from '../../actions'
 import { map } from 'lodash'
 import { withRouter } from 'react-router-dom';
+import ConcertTable from './ConcertTable'
 
 class ConcertManage extends Component {
   state = { fetched: false }
@@ -15,13 +16,15 @@ class ConcertManage extends Component {
   }
 
   render() {
-    const concertList = this.props.concertList.length == 0 ? "등록된 공연이 없습니다." :
-      map(this.props.concertList, c =>
-        (<div key={c.id} onClick={ e => this.props.history.push(`/concert/${c.id}`) }>{c.title}</div>)
-      )
+    if (!this.state.fetched) {
+      return 'Loading...'
+    }
 
+    const concerts = this.props.concertList
     return (<div>
-      { this.state.fetched ? concertList : 'Loading...' }
+      {
+        concerts.length == 0 ?  "등록된 공연이 없습니다." : <ConcertTable concerts={concerts} />
+      }
     </div>)
   }
 }
