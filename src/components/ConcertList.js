@@ -5,10 +5,10 @@ import { map } from 'lodash'
 import { withRouter } from 'react-router-dom';
 
 class ConcertList extends Component {
-  state = { fetched: false }
+ state = { fetched: false };
 
   constructor({ fetchConcerts }) {
-    super()
+    super();
     fetchConcerts()
       .then(() => this.setState({ fetched: true }))
       .catch((msg) => alert(msg))
@@ -18,13 +18,15 @@ class ConcertList extends Component {
     const concertList = this.props.concertList.length == 0 ? "등록된 공연이 없습니다." :
       map(this.props.concertList, c =>
         (<div key={c.id} onClick={ e => this.props.history.push(`/concert/${c.id}`) }>{c.title}</div>)
-      )
+      );
 
-    return (<div>
-      { this.state.fetched ? concertList : 'Loading...' }
-    </div>)
+    return (
+        <div>
+          { this.state.fetched ? concertList : 'Loading...' }
+        </div>
+      )
+    }
   }
-}
 
 function mapStateToProps(state) {
   return { concertList: state.concertList }

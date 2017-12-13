@@ -1,1 +1,1 @@
-export const ENDPOINT = 'https://api.livle.kr/dev'
+export const ENDPOINT = 'https://api.livle.kr/dev';

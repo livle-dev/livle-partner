@@ -19,7 +19,7 @@ const Navigation = ({ user, signoutUser }) =>
       { user.company }님
       <Link onClick={signoutUser} className="nav-link" to="/">Sign Out</Link>
     </div>
-  </nav>)
+  </nav>);
 
 
 

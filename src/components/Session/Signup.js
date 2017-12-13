@@ -7,10 +7,10 @@ const SignUp = ({ signupUser }) => {
   const handleSubmit = ({ email, password, company }) => {
     signupUser({ email, password, company })
       .then(() => {
-        alert('회원가입이 신청되었습니다. 관리자의 승인 후 파트너 페이지를 이용하실 수 있습니다.')
+        alert('회원가입이 신청되었습니다. 관리자의 승인 후 파트너 페이지를 이용하실 수 있습니다.');
         window.location.reload()
       }).catch((msg) => alert(msg))
-  }
+  };
 
   return (<Form onSubmit={ submittedValues => handleSubmit(submittedValues) }>
     { formApi => (<form onSubmit={formApi.submitForm}>

@@ -9,16 +9,21 @@ const SignIn = ({ history, signinUser }) => {
     signinUser({ email, password })
       .then(() => history.push('/concerts'))
       .catch((msg) => alert(msg))
-  }
+  };
 
-  return (<Form onSubmit={ submittedValues => handleSubmit(submittedValues) }>
-    { formApi => (<form onSubmit={formApi.submitForm}>
-      <Text field="email" placeholder="이메일"/>
-      <Text field="password" type="password" placeholder="비밀번호" />
-      <button type="submit" className="btn btn-primary">로그인</button>
-    </form>)
-    }
-  </Form>)
-}
+  return (
+      <Form onSubmit={ submittedValues => handleSubmit(submittedValues) }>
+          { formApi => (
+                  <form onSubmit={formApi.submitForm}>
+                    <Text field="email" placeholder="이메일" />
+                    <Text field="password" type="password" placeholder="비밀번호" />
+                    <button type="submit" className="btn btn-primary">로그인</button>
+                  </form>
+                      )
+          }
+      </Form>
+
+      )
+};
 
 export default withRouter(connect(null, { signinUser })(SignIn))

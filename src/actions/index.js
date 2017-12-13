@@ -17,7 +17,7 @@ export function signinUser({email, password}) {
     return axios.get("/partner/session", { params: { username: email, password: password } })
       .then(response=>{ //200 or 204인 경우 them을 hit함
         //If request is good...
-        dispatch(authUser(response.data))
+        dispatch(authUser(response.data));
         Promise.resolve()
       })
       .catch((e)=>{
@@ -33,7 +33,7 @@ export function signupUser( { email, password, company } ) {
   return (dispatch) =>
     axios.post("/partner", { company: company, username: email, password: password})
       .then(response => {
-        console.log('succ')
+        console.log('succ');
         dispatch(authUser(response.data));
         return Promise.resolve()
       })
@@ -117,7 +117,10 @@ function _fetchPartners(data) {
 
 export function fetchUsers() {
   return dispatch => axios.get('/user/all')
-    .then(res => dispatch(_fetchUsers(res.data)))
+    .then(res => {
+        dispatch(_fetchUsers(res.data));
+        return Promise.resolve();
+    })
     .catch(err => Promise.reject(err.response.data))
 }
 
@@ -130,9 +133,13 @@ function _fetchUsers(data) {
 
 export function fetchConcerts() {
   return (dispatch, getState) => {
-    if (getState().concertList.length > 0) return Promise.resolve()
+    if (getState().concertList.length > 0) return Promise.resolve();
     return axios.get('/ticket/all')
-    .then(res => dispatch(_fetchConcerts(res.data)))
+    .then(res =>{
+      console.log(res.data);
+      dispatch(_fetchConcerts(res.data));
+      return Promise.resolve()
+    })
     .catch(err => Promise.reject(err.response.data))
   }
 }

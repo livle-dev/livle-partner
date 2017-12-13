@@ -12,16 +12,16 @@ export default function(state={}, action){
         case AUTH_USER:
         {
           if(action.payload.token) {
-            localStorage.setItem('token', action.payload.token) //-Save the JWT token
+            localStorage.setItem('token', action.payload.token); //-Save the JWT token
             axios.defaults.headers = { Authorization: localStorage.getItem('token') } // Fill header
           }
-          const isAdmin = action.payload.username.endsWith("@livle.kr")
+          const isAdmin = action.payload.username.endsWith("@livle.kr");
           return { ...action.payload, authenticated: true, isAdmin: isAdmin }
         }
         case UNAUTH_USER:
         {
           localStorage.removeItem('token');
-          axios.defaults.headers = { } // Empty header
+          axios.defaults.headers = { }; // Empty header
           return {authenticated: false};
         }
         case AUTH_ERROR:

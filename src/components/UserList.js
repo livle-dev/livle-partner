@@ -4,21 +4,21 @@ import { fetchPartners, fetchUsers } from '../actions'
 import { map } from 'lodash'
 
 class UserList extends Component {
-  state = { partnerFetched: false, userFetched: false }
+  state = { partnerFetched: false, userFetched: false };
 
   constructor({ fetchPartners, fetchUsers }) {
-    super()
+    super();
     fetchPartners()
       .then(() => this.setState({ partnerFetched: true }))
-      .catch((msg) => alert(msg))
+      .catch((msg) => alert(msg));
     fetchUsers()
       .then(() => this.setState({ userFetched: true }))
-      .catch((msg) => alert(msg))
+      .catch((msg) => alert(msg));
   }
 
   render() {
     const userList = map(this.props.userList, u => <div key={u.email}>{u.email}</div>)
-    const partnerList = map(this.props.partnerList, p => <div key={p.username}>{p.username}</div>)
+    const partnerList = map(this.props.partnerList, p => <div key={p.username}>{p.username}</div>);
 
     return (<div>
       <h1>목록</h1>
