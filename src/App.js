@@ -14,7 +14,7 @@ import { checkSession } from './actions';
 
 class App extends Component {
 
-  state = { ready: false }
+  state = { ready: false };
 
   componentWillMount() {
     if (localStorage.getItem('token')) {
