@@ -5,7 +5,7 @@ import { map } from 'lodash'
 import TicketForm from './TicketForm'
 
 class ConcertAdd extends Component {
-  state = { fetched: false };xxt
+  state = { fetched: false };
 
     constructor({ fetchConcerts }) {
       super();

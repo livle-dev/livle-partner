@@ -137,6 +137,7 @@ export function fetchConcerts() {
     return axios.get('/ticket/all')
     .then(res =>{
       console.log(res.data);
+      // console.log(Date.parse(res.data[0]))
       dispatch(_fetchConcerts(res.data));
       return Promise.resolve()
     })
