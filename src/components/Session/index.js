@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SignIn from './SignIn'
-import SignUp from './SignUp'
+import SignUp from './Signup'
 
 class Session extends Component {
 
-  state = { signUp: false }
+  state = { signUp: false };
 
   componentWillMount() {
     if(this.props.authenticated) {
