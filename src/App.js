@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Navigation from './components/Navigation'
 import Session from './components/Session';
 import RequireAuth from './components/RequireAuth'
-import ConcertList from './components/ConcertList'
+import ConcertManage from './components/ConcertManage'
 import ConcertDetail from './components/ConcertDetail'
 import UserList from './components/UserList'
 import ConcertAdd from './components/ConcertAdd';
@@ -37,7 +37,7 @@ class App extends Component {
           { this.props.authenticated && <Navigation /> }
           <Switch>
             <Route exact path="/" component={Session} />
-            <Route path="/concerts" component={RequireAuth(ConcertList)} />
+            <Route path="/concerts" component={RequireAuth(ConcertManage)} />
             <Route path="/concert/:id" component={RequireAuth(ConcertDetail)} />
             <Route path="/users" component={RequireAuth(UserList)} />
             <Route path="/add" component={RequireAuth(ConcertAdd)} />

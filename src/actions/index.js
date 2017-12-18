@@ -1,7 +1,8 @@
 import axios from './axios';
 import {
   AUTH_ERROR, AUTH_USER, UNAUTH_USER, FETCH_MESSAGE,
-  FETCH_PARTNERS, FETCH_USERS, FETCH_CONCERTS, CREATE_CONCERT
+  FETCH_PARTNERS, FETCH_USERS, FETCH_CONCERTS, CREATE_CONCERT,
+  REPLACE_PARTNER
 } from "./types";
 
 function authUser(data) {
@@ -17,7 +18,7 @@ export function signinUser({email, password}) {
     return axios.get("/partner/session", { params: { username: email, password: password } })
       .then(response=>{ //200 or 204인 경우 them을 hit함
         //If request is good...
-        dispatch(authUser(response.data));
+        dispatch(authUser(response.data))
         Promise.resolve()
       })
       .catch((e)=>{
@@ -33,8 +34,9 @@ export function signupUser( { email, password, company } ) {
   return (dispatch) =>
     axios.post("/partner", { company: company, username: email, password: password})
       .then(response => {
-        console.log('succ');
-        dispatch(authUser(response.data));
+        console.log('succ')
+        // Should not be logged in before approval of livle admin
+        // dispatch(authUser(response.data));
         return Promise.resolve()
       })
       .catch(error=>{
@@ -117,10 +119,7 @@ function _fetchPartners(data) {
 
 export function fetchUsers() {
   return dispatch => axios.get('/user/all')
-    .then(res => {
-        dispatch(_fetchUsers(res.data));
-        return Promise.resolve();
-    })
+    .then(res => dispatch(_fetchUsers(res.data)))
     .catch(err => Promise.reject(err.response.data))
 }
 
@@ -133,14 +132,9 @@ function _fetchUsers(data) {
 
 export function fetchConcerts() {
   return (dispatch, getState) => {
-    if (getState().concertList.length > 0) return Promise.resolve();
+    if (getState().concertList.length > 0) return Promise.resolve()
     return axios.get('/ticket/all')
-    .then(res =>{
-      console.log(res.data);
-      // console.log(Date.parse(res.data[0]))
-      dispatch(_fetchConcerts(res.data));
-      return Promise.resolve()
-    })
+    .then(res => dispatch(_fetchConcerts(res.data)))
     .catch(err => Promise.reject(err.response.data))
   }
 }
@@ -148,6 +142,20 @@ export function fetchConcerts() {
 function _fetchConcerts(data) {
   return {
     type: FETCH_CONCERTS,
+    payload: data
+  }
+}
+
+export function approvePartner(id) {
+  return dispatch =>
+    axios.post(`/partner/${id}/approve`)
+      .then(res => dispatch(replacePartner(res.data)))
+      .catch(err => Promise.reject(err.response.data))
+}
+
+function replacePartner(data) {
+  return {
+    type: REPLACE_PARTNER,
     payload: data
   }
 }
