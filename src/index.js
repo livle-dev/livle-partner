@@ -4,8 +4,10 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 
-// import 'normalize.css/normalize.css';
+// styles
 import './styles/styles.scss';
+// images
+import './images';
 import reducers from './reducers';
 import App from './App';
 

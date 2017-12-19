@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SignIn from './SignIn';
 import SignUp from './Signup';
+// images
+import session_bg from '../../images/background/session_bg.png';
+import { background } from '../../styles/javascript';
 
 class Session extends Component {
   state = { signUp: false };
@@ -15,9 +18,12 @@ class Session extends Component {
 
   render() {
     return (
-      <div className="_fullscreen _flex">
+      <div
+        className="_fullscreen _flex _hcenter-position _vcenter-position"
+        style={background(session_bg)}
+      >
         <div>
-          <div style={{ display: 'flex' }}>
+          <div className="_flex">
             <div onClick={e => this.setState({ signUp: false })}>LOG IN</div>
             <div onClick={e => this.setState({ signUp: true })}>SIGN UP</div>
           </div>
