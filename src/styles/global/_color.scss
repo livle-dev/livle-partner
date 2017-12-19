@@ -1,14 +1,20 @@
-// white
+@import './mixin';
+
+// grayscale
 $white: #ffffff;
+$black: #000000;
 // green
 $green-clear: rgba(13, 54, 57, 0.38);
 $green-light: #47efb2;
 $green-aqua: #19e298;
-$green-dark: #555555;
+$green-dark: #0d3639;
+// gray
+$gray-dark: #555555;
 
 ._white {
   color: $white;
 }
+// green
 ._green-clear {
   color: $green-clear;
 }
@@ -20,4 +26,12 @@ $green-dark: #555555;
 }
 ._green-dark {
   color: $green-dark;
+}
+// gray
+._gray-dark {
+  color: $gray-dark;
+}
+
+@mixin _green-dark-gradient {
+  @include background-gradient(right, rgba(255, 255, 255, 0.5), rgba(208, 208, 208, 0.5) 43%, rgba(0, 0, 0, 0.7));
 }

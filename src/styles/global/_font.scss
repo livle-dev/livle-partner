@@ -40,3 +40,13 @@
   @include default_font;
   font-size: calc-size(1.6rem);
 }
+
+// letter-spacing
+._ls-4 {
+  letter-spacing: calc-size(0.4rem);
+}
+
+// line-height
+._lh-1 {
+  line-height: 1.45;
+}

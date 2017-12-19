@@ -2,22 +2,43 @@
 @import '../global/size';
 @import '../global/color';
 
-$session-container: 86rem;
-$session-height: 30rem;
+$session-container: 82rem;
+$session-height: 40rem;
 $session-margin: 2rem;
+
 $login-box-size: 0.3;
 
-.session-container {
-  width: $session-container;
-  height: $session-height;
-  margin: 0 $session-margin;
-}
+#session {
+  .session-container {
+    width: $session-container;
+    height: $session-height;
+    margin: 0 $session-margin;
+  }
 
-.typo-container {
-  @include flex-grow(1 - $login-box-size);
-}
+  .typo-container {
+    @include flex-grow(1 - $login-box-size);
+  }
 
-.login-box-container {
-  @include flex-grow($login-box-size);
-  background-color: $green-clear;
+  .typo-text {
+    margin: 0.5rem 0;
+  }
+
+  .login-box-container {
+    @include flex-grow($login-box-size);
+    background-color: $green-dark;
+    mix-blend-mode: hard-light;
+    @include box-shadow(0 34px 24px 0 rgba(7, 6, 6, 0.38),
+      0 15px 14px 0 rgba(0, 0, 0, 0.27), 0 2px 4px 0 rgba(0, 0, 0, 0.1));
+  }
+
+  .select-container {
+    @include cursor-pointer;
+    width: 100%;
+    height: 13.6%;
+  }
+
+  .unselected-container {
+    background-color: $gray-dark;
+    mix-blend-mode: overlay;
+  }
 }

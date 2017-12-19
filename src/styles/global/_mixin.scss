@@ -123,3 +123,8 @@
   filter: $effect;
   -webkit-filter: $effect;
 }
+
+@mixin box-shadow($pos1, $pos2: $pos1, $pos3: $pos2) {
+  box-shadow: $pos1, $pos2, $pos3;
+  -webkit-box-shadow: $pos1, $pos2, $pos3;
+}
