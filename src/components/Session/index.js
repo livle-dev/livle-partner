@@ -5,7 +5,20 @@ import SignIn from './SignIn';
 import SignUp from './Signup';
 // images
 import session_bg from '../../images/background/session_bg.png';
+// style
 import { background } from '../../styles/javascript';
+import { strings, stringToCode } from '../../strings';
+
+// function stringToCode(data) {
+//   return data.split('\n').map(line => {
+//     return (
+//       <span key={line[0]}>
+//         {line}
+//         <br />
+//       </span>
+//     );
+//   });
+// }
 
 class Session extends Component {
   state = { signUp: false };
@@ -22,12 +35,33 @@ class Session extends Component {
         className="_fullscreen _flex _hcenter-position _vcenter-position"
         style={background(session_bg)}
       >
-        <div>
-          <div className="_flex">
-            <div onClick={e => this.setState({ signUp: false })}>LOG IN</div>
-            <div onClick={e => this.setState({ signUp: true })}>SIGN UP</div>
+        <div className="session-container _row-direction">
+          <div className="typo-container">
+            <p className="_fs_48 _fw-semi-bold _white">
+              {stringToCode(strings.typoTitle)}
+            </p>
+            <p className="_fs_22 _fw-normal _white">
+              {stringToCode(strings.typoContent)}
+            </p>
           </div>
-          <div>{this.state.signUp ? <SignUp /> : <SignIn />}</div>
+
+          <div className="login-box-container _hcenter-position">
+            <div className="_row-direction">
+              <div
+                className="_flex_1 _hcenter-position _vcenter-position"
+                onClick={e => this.setState({ signUp: false })}
+              >
+                <p>LOG IN</p>
+              </div>
+              <div
+                className="_flex_1 _hcenter-position _vcenter-position"
+                onClick={e => this.setState({ signUp: true })}
+              >
+                <p>SIGN UP</p>
+              </div>
+            </div>
+            <div>{this.state.signUp ? <SignUp /> : <SignIn />}</div>
+          </div>
         </div>
       </div>
     );

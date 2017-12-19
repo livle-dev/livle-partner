@@ -5,6 +5,11 @@
   @include display-flex;
 }
 
+._flex_1 {
+  @include display-flex;
+  @include flex-grow(1);
+}
+
 // direction
 ._row-direction {
   @include display-flex;

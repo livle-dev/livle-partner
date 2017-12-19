@@ -1,0 +1,42 @@
+@import url('http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700');
+
+@mixin default_font {
+  font-family: 'Roboto';
+  font-style: normal;
+}
+
+@function calc-size($input) {
+  @return $input * 0.48;
+}
+
+// font-weight
+._fw-light {
+  font-weight: 300;
+}
+._fw-normal {
+  font-weight: 400;
+}
+._fw-semi-bold {
+  font-weight: 500;
+}
+._fw-bold {
+  font-weight: 700;
+}
+
+// font-size
+._fs_48 {
+  @include default_font;
+  font-size: calc-size(4.8rem);
+}
+._fs_36 {
+  @include default_font;
+  font-size: calc-size(3.6rem);
+}
+._fs_22 {
+  @include default_font;
+  font-size: calc-size(2.2rem);
+}
+._fs_16 {
+  @include default_font;
+  font-size: calc-size(1.6rem);
+}

@@ -1,1 +1,23 @@
 @import '../global/mixin';
+@import '../global/size';
+@import '../global/color';
+
+$session-container: 86rem;
+$session-height: 30rem;
+$session-margin: 2rem;
+$login-box-size: 0.3;
+
+.session-container {
+  width: $session-container;
+  height: $session-height;
+  margin: 0 $session-margin;
+}
+
+.typo-container {
+  @include flex-grow(1 - $login-box-size);
+}
+
+.login-box-container {
+  @include flex-grow($login-box-size);
+  background-color: $green-clear;
+}
