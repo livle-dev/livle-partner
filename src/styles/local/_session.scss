@@ -1,0 +1,6 @@
+@import '../global/mixin';
+
+.session_background {
+  position: absolute;
+  @include position(0);
+}

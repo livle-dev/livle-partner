@@ -16,7 +16,6 @@ class Session extends Component {
   render() {
     return (
       <div className="_fullscreen _flex">
-        <div>로고가 떠있다</div>
         <div>
           <div style={{ display: 'flex' }}>
             <div onClick={e => this.setState({ signUp: false })}>LOG IN</div>
