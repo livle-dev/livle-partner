@@ -1,2 +1,12 @@
 @import './base/settings';
-@import './base/base';
+
+@import './global/base';
+@import './global/container';
+@import './global/font';
+@import './global/option';
+@import './global/size';
+
+.fullscreen {
+  width: 100%;
+  height: 100vh;
+}

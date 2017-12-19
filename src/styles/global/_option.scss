@@ -1,0 +1,39 @@
+@import './mixin';
+
+// flex
+._flex {
+  @include display-flex;
+}
+
+// direction
+._row-direction {
+  @include display-flex;
+  @include flex-direction(row);
+}
+
+._column-direction {
+  @include display-flex;
+  @include flex-direction(column);
+}
+
+// position
+._hcenter-position {
+  @include justify-content(center);
+}
+
+._hright-position {
+  @include justify-content(flex-end);
+}
+
+._vcenter-position {
+  @include align-items(center);
+}
+
+._vbottom-position {
+  @include align-items(flex-end);
+}
+
+// text
+._text-center {
+  text-align: center;
+}

@@ -1,0 +1,7 @@
+@import './mixin';
+@import './color';
+
+._fullscreen {
+  position: relative;
+  @include size(100%, 100vh);
+}

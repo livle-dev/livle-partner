@@ -1,0 +1,125 @@
+//position
+@mixin position($top, $right: $top, $bottom: $top, $left: $right) {
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+//size
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+//background with gradient
+@mixin background-gradient($dir, $pos1, $pos2, $pos3: $pos2) {
+  @each $prefix in -moz, -ms-, -webkit- {
+    background: #{$prefix}linear-gradient($dir, $pos1, $pos2, $pos3);
+  }
+  @if $dir == bottom {
+    background: linear-gradient(to top, $pos1, $pos2, $pos3);
+  } @else if $dir == top {
+    background: linear-gradient(to bottom, $pos1, $pos2, $pos3);
+  } @else if $dir == right {
+    background: linear-gradient(to left, $pos1, $pos2, $pos3);
+  } @else if $dir == left {
+    background: linear-gradient(to right, $pos1, $pos2, $pos3);
+  }
+}
+
+//containing video player
+@mixin video-player {
+  @include size(100%, 0);
+  padding-bottom: 56.25%;
+  background: rgba(0, 0, 0, 1);
+  overflow: hidden;
+  iframe,
+  object,
+  embed {
+    position: absolute;
+    @include size(100%);
+  }
+}
+
+//cursor pointer
+@mixin cursor-pointer {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+//for multiple browser
+@mixin display-flex {
+  display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox; /* TWEENER - IE 10 */
+  display: -moz-flex;
+  display: -webkit-flex; /* NEW - Chrome */
+  display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+@mixin justify-content($pos) {
+  justify-content: $pos;
+  -webkit-justify-content: $pos;
+  -moz-box-pack: $pos;
+  -ms-flex-pack: $pos;
+}
+
+@mixin flex-direction($dir) {
+  @each $prefix in -ms-, -moz-, -webkit-, null {
+    #{$prefix}flex-direction: $dir;
+  }
+}
+
+@mixin align-items($pos) {
+  @each $prefix in -ms-, -moz-, -webkit-, null {
+    #{$prefix}align-items: $pos;
+  }
+}
+
+@mixin flex-grow($size) {
+  @each $prefix in -ms-, -moz-, -webkit-, null {
+    #{$prefix}flex-grow: $size;
+  }
+  -ms-flex-positive: $size;
+}
+
+@mixin flex-wrap {
+  @include display-flex;
+  display: -webkit-flex; /* Safari */
+  -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+  @each $prefix in -moz-, -webkit-, null {
+    #{$prefix}flex-wrap: wrap;
+  }
+}
+
+@mixin flex-basis($param) {
+  @include flex-grow(0);
+  @each $prefix in -moz-, -webkit-, null {
+    #{$prefix}flex-basis: $param;
+  }
+}
+
+@mixin border-radius($size) {
+  @each $prefix in -moz-, -webkit-, null {
+    #{$prefix}border-radius: $size;
+  }
+}
+
+@mixin transition($prop) {
+  @each $prefix in -moz-, -webkit-, null {
+    #{$prefix}transition: $prop;
+  }
+}
+
+@mixin transform($prop) {
+  @each $prefix in -webkit-, null {
+    #{$prefix}transform: $prop;
+  }
+}
+
+@mixin filter($effect) {
+  filter: $effect;
+  -webkit-filter: $effect;
+}

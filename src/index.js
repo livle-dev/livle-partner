@@ -9,17 +9,11 @@ import './styles/styles.scss';
 import reducers from './reducers';
 import App from './App';
 
-// const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
-// const store=createStoreWithMiddleware(reducers);
-
-const store = createStore(
-    reducers,
-    applyMiddleware(reduxThunk)
-);
+const store = createStore(reducers, applyMiddleware(reduxThunk));
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>
-, document.querySelector('.container'));
-
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.querySelector('#app')
+);
