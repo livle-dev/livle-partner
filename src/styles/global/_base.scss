@@ -31,6 +31,14 @@ body {
   transition: background-color 5000s ease-in-out 0s;
 }
 
+form {
+  width: 100%;
+}
+
+button {
+  color: $white;
+}
+
 input {
   width: 100%;
   color: $white;

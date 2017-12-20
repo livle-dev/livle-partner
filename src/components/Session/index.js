@@ -27,7 +27,7 @@ class Session extends Component {
         style={background(session_bg)}
       >
         <div className="session-container _row-direction">
-          <div className="typo-container _column-direction _hcenter-position">
+          <div className="_flex_1 _column-direction _hcenter-position">
             <div className="typo-title">
               <p className="_fs_48 _fw-semi-bold _white">
                 {stringToCode(strings.typoTitle)}
@@ -57,7 +57,9 @@ class Session extends Component {
                 <p className="_fs_36 _fw-bold _ls-4 _white">SIGN UP</p>
               </div>
             </div>
-            <div>{this.state.isLogin ? <SignIn /> : <SignUp />}</div>
+            <div className="form-continer _flex_1 _vcenter-position">
+              {this.state.isLogin ? <SignIn /> : <SignUp />}
+            </div>
           </div>
         </div>
       </div>

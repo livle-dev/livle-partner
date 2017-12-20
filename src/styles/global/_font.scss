@@ -50,3 +50,12 @@
 ._lh-1 {
   line-height: 1.45;
 }
+
+// font default setting
+#session {
+  input,
+  button {
+    font-weight: 500;
+    font-size: calc-size(2.2rem);
+  }
+}

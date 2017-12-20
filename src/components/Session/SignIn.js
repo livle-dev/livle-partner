@@ -17,7 +17,7 @@ const SignIn = ({ history, signinUser }) => {
         <form onSubmit={formApi.submitForm}>
           <Text field="email" placeholder="이메일" />
           <Text field="password" type="password" placeholder="비밀번호" />
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="submit-button">
             로그인
           </button>
         </form>
