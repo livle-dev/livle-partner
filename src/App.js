@@ -34,7 +34,7 @@ class App extends Component {
   render() {
     return this.state.ready ? (
       <BrowserRouter>
-        <div>
+        <div className="_background">
           <Switch>
             <Route exact path="/" component={Session} />
             <Route path="/concerts" component={RequireAuth(ConcertManage)} />

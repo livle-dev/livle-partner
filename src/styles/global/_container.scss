@@ -22,4 +22,33 @@
   left: 0;
   height: $navbar-height;
   padding: 0 4rem;
+
+  ._selecotr-container {
+    margin: 0 4rem 0 0;
+    height: 3rem;
+  }
+
+  ._selector {
+    position: relative;
+    width: 8rem;
+    margin: 0 1rem;
+  }
+
+  ._selector-border {
+    border-bottom: solid 4px $green-light;
+  }
+
+  ._logout-button {
+    @include size(6rem, 2.5rem);
+    @include border-radius(0.5rem);
+    margin: 0 0 0 2rem;
+    background: $green-light;
+    color: $white;
+  }
+}
+
+._background {
+  width: 100%;
+  min-height: 100vh;
+  @include background-gradient(left, #177f48, #1b4f34, #091913);
 }

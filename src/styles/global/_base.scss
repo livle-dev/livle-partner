@@ -34,9 +34,14 @@ body {
 form {
   width: 100%;
 }
-
 button {
   color: $white;
+}
+a {
+  text-decoration: none;
+}
+p {
+  margin: 0;
 }
 
 input {
