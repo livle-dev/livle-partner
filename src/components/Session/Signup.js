@@ -27,7 +27,7 @@ const SignUp = ({ signupUser }) => {
             placeholder="비밀번호 확인"
           />
           <Text field="company" placeholder="회사명" />
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="submit-button">
             회원가입
           </button>
         </form>

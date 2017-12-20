@@ -10,3 +10,16 @@
 ._full-width {
   width: 100%;
 }
+
+._full-container {
+  @include size(100%);
+}
+
+._navbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: $navbar-height;
+  padding: 0 4rem;
+}

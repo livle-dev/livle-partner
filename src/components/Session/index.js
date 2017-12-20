@@ -4,9 +4,9 @@ import { withRouter } from 'react-router-dom';
 import SignIn from './SignIn';
 import SignUp from './Signup';
 // images
-import session_bg from '../../images/background/session_bg.png';
+import { background } from '../../images';
 // style
-import { background } from '../../styles/javascript';
+import { backgroundImage } from '../../styles/javascript';
 import { strings, stringToCode } from '../../strings';
 
 class Session extends Component {
@@ -24,7 +24,7 @@ class Session extends Component {
       <div
         id="session"
         className="_fullscreen _flex _hcenter-position _vcenter-position"
-        style={background(session_bg)}
+        style={backgroundImage(background.session_bg)}
       >
         <div className="session-container _row-direction">
           <div className="_flex_1 _column-direction _hcenter-position">

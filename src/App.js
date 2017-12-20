@@ -35,7 +35,6 @@ class App extends Component {
     return this.state.ready ? (
       <BrowserRouter>
         <div>
-          {this.props.authenticated && <Navigation />}
           <Switch>
             <Route exact path="/" component={Session} />
             <Route path="/concerts" component={RequireAuth(ConcertManage)} />
@@ -43,6 +42,7 @@ class App extends Component {
             <Route path="/users" component={RequireAuth(UserList)} />
             <Route path="/add" component={RequireAuth(ConcertAdd)} />
           </Switch>
+          <Navigation />
         </div>
       </BrowserRouter>
     ) : (
