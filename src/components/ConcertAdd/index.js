@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { map } from 'lodash';
 import { fetchConcerts } from '../../actions';
 import TicketForm from './TicketForm';
+import Content from '../Content';
 
 class ConcertAdd extends Component {
   state = { fetched: false };
@@ -43,17 +44,15 @@ class ConcertAdd extends Component {
 
     return (
       <div>
-        <div>
-          <h2>등록하기</h2>
+        <Content title="공연 등록" backgroundColor="rgba(0, 0, 0, 0.58)">
           <TicketForm
             selected={this.state.selectedConcert}
             key={this.state.selectedConcert.id || '00000'}
           />
-        </div>
-        <div>
-          <h2>목록</h2>
-          {this.state.fetched ? concertList : 'Loading...'}
-        </div>
+        </Content>
+        <Content title="공연 목록" backgroundColor="rgba(20, 42, 41, 0.58)">
+          <div>{this.state.fetched ? concertList : 'Loading...'}</div>
+        </Content>
       </div>
     );
   }

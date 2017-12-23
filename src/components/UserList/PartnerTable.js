@@ -27,7 +27,7 @@ const PartnerTable = ({ partners, approvePartner }) => {
   ));
 
   return (
-    <Content title="파트너 목록">
+    <Content title="파트너 목록" backgroundColor="rgba(20, 42, 41, 0.58)">
       <table>
         <thead>
           <tr>

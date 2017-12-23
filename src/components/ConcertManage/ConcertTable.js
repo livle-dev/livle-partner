@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 // Views
 import Content from '../Content';
 
-const ConcertTable = ({ title, concerts, history }) => {
+const ConcertTable = ({ title, backgroundColor, concerts, history }) => {
   const concertRows = map(concerts, c => (
     <tr key={c.id} onClick={e => history.push(`/concert/${c.id}`)}>
       <td>{c.partner_id}</td>
@@ -18,7 +18,7 @@ const ConcertTable = ({ title, concerts, history }) => {
   ));
 
   return (
-    <Content title={title}>
+    <Content title={title} backgroundColor={backgroundColor}>
       <table>
         <thead>
           <tr>

@@ -4,6 +4,7 @@ import { find } from 'lodash';
 import { fetchConcertDetail } from '../actions';
 import Chart from './Chart';
 
+import Content from './Content';
 import axios from '../actions/axios';
 
 class ConcertDetail extends Component {
@@ -37,20 +38,16 @@ class ConcertDetail extends Component {
     return concert ? (
       <div>
         <div>입장 비밀번호: {concert.checkin_code}</div>
-        <div>
-          <div>예약 현황</div>
-          <div>
-            <Chart
-              start_at={this.state.stats.start_at}
-              reservations={this.state.stats.reservations}
-            />
-          </div>
-        </div>
-        <div>
-          <div>예약자</div>
+        <Content title="예약현황" backgroundColor="rgba(0, 0, 0, 0.58)">
+          <Chart
+            start_at={this.state.stats.start_at}
+            reservations={this.state.stats.reservations}
+          />
+        </Content>
+        <Content title="예약자" backgroundColor="rgba(20, 42, 41, 0.58)">
           <div>예약자 테이블</div>
           <div>예약자 수</div>
-        </div>
+        </Content>
         {
           //콘서트 아이디: { concert.id }
           //제목 : { concert.title }

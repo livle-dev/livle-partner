@@ -17,7 +17,7 @@ const UserTable = ({ users }) => {
   ));
 
   return (
-    <Content title="회원 목록">
+    <Content title="회원 목록" backgroundColor="rgba(0, 0, 0, 0.58)">
       <table>
         <thead>
           <tr>

@@ -27,8 +27,16 @@ class ConcertManage extends Component {
 
     return (
       <div>
-        <ConcertTable title="예정공연" concerts={upcomings} />
-        <ConcertTable title="끝난공연" concerts={ended} />
+        <ConcertTable
+          title="예정공연"
+          backgroundColor="rgba(0, 0, 0, 0.58)"
+          concerts={upcomings}
+        />
+        <ConcertTable
+          title="끝난공연"
+          backgroundColor="rgba(20, 42, 41, 0.58)"
+          concerts={ended}
+        />
       </div>
     );
   }

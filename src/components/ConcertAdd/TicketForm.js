@@ -6,6 +6,7 @@ import moment from 'moment';
 import ReactS3Uploader from 'react-s3-uploader';
 import { createTicket, getSignedUrl } from '../../actions';
 import _ from 'lodash';
+
 import 'react-datepicker/dist/react-datepicker.css';
 
 class TicketForm extends Component {
@@ -13,28 +14,14 @@ class TicketForm extends Component {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = { startDate: moment(), endDate: moment() };
-    // if(this.props.selected===''){
-    //     this.state = {  startDate: moment(), endDate: moment() }
-    // }else{
-    //     this.state = {  startDate: this.props.selected.start_at, endDate: this.props.selected.end_at }
-    // }
   }
+
   componentWillMount() {
-    console.log('hihello');
     this.setState({
       startDate: moment(this.props.selected.start_at),
       endDate: moment(this.props.selected.end_at),
     });
   }
-  //
-  // componentDidMount(){
-  //   console.log(moment(this.props.selected.start_at));
-  //   if(this.props.selected===''){
-  //       console.log('hi');
-  //   }else{
-  //       console.log('bye');
-  //   }
-  // }
 
   handleSubmit(values, e, formApi) {
     console.log(values);
@@ -46,7 +33,6 @@ class TicketForm extends Component {
       })
       .catch(err => {
         console.log(err);
-        alert(err);
       });
   }
 
