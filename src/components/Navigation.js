@@ -20,10 +20,13 @@ class Navigation extends Component {
 
   render() {
     const { user, signoutUser } = this.props;
+    const checkAuth = user.id;
 
     return (
-      <nav className="_navbar">
-        {user.id ? (
+      <nav
+        className="_navbar"
+        style={{ position: checkAuth ? 'relative' : 'absolute' }}>
+        {checkAuth ? (
           <div className="_full-container _row-direction _vcenter-position">
             <Link to="/concerts" className="_flex_1 _vcenter-position">
               <img

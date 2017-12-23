@@ -15,11 +15,23 @@
   @include size(100%);
 }
 
+._content-container {
+  width: 100%;
+  min-height: $tabel-height;
+  padding: 2rem 4rem;
+
+  ._title-container {
+    height: 3rem;
+    margin: 0 4rem 0 0;
+    border-bottom: solid 4px $green-light;
+  }
+}
+
 ._navbar {
-  position: absolute;
   top: 0;
   right: 0;
   left: 0;
+  z-index: 999;
   height: $navbar-height;
   padding: 0 4rem;
 

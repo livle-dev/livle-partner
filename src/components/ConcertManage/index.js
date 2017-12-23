@@ -27,10 +27,8 @@ class ConcertManage extends Component {
 
     return (
       <div>
-        <h2>예정 공연</h2>
-        <ConcertTable concerts={upcomings} />
-        <h2>끝난 공연</h2>
-        <ConcertTable concerts={ended} />
+        <ConcertTable title="예정공연" concerts={upcomings} />
+        <ConcertTable title="끝난공연" concerts={ended} />
       </div>
     );
   }
