@@ -85,13 +85,12 @@
   -ms-flex-positive: $size;
 }
 
-@mixin flex-wrap {
+@mixin flex-wrap($param) {
   @include display-flex;
-  display: -webkit-flex; /* Safari */
-  -webkit-flex-wrap: wrap; /* Safari 6.1+ */
   @each $prefix in -moz-, -webkit-, null {
-    #{$prefix}flex-wrap: wrap;
+    #{$prefix}flex-wrap: $param;
   }
+  -webkit-flex-wrap: $param; /* Safari 6.1+ */
 }
 
 @mixin flex-basis($param) {

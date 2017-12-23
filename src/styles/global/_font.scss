@@ -9,18 +9,23 @@
   @return $input * 0.48;
 }
 
+$fw-light: 300;
+$fw-normal: 400;
+$fw-semi-bold: 500;
+$fw-bold: 700;
+
 // font-weight
 ._fw-light {
-  font-weight: 300;
+  font-weight: $fw-light;
 }
 ._fw-normal {
-  font-weight: 400;
+  font-weight: $fw-normal;
 }
 ._fw-semi-bold {
-  font-weight: 500;
+  font-weight: $fw-semi-bold;
 }
 ._fw-bold {
-  font-weight: 700;
+  font-weight: $fw-bold;
 }
 
 // font-size

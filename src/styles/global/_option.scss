@@ -1,4 +1,5 @@
 @import './mixin';
+@import './font';
 @import './size';
 
 // flex
@@ -37,6 +38,31 @@
 
 ._vbottom-position {
   @include align-items(flex-end);
+}
+
+// table
+._table-row {
+  @include display-flex;
+  @include flex-direction(row);
+  @include flex-wrap(nowrap);
+  @include align-items(center);
+  @include size(100%, 2rem);
+  // border
+  border-bottom: solid 1px $blue-dark;
+  // font
+  @include default_font;
+  font-size: calc-size(2.2rem);
+}
+
+._title {
+  color: $white;
+  font-weight: $fw-semi-bold;
+}
+
+._body {
+  @include cursor-pointer;
+  color: $gray-light;
+  font-weight: $fw-normal;
 }
 
 // text

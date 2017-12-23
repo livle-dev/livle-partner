@@ -1,0 +1,22 @@
+// 공통
+$number: 8rem;
+
+// 공연관리
+$partner-id: 30%;
+$title: 100% - $partner-id;
+
+._table-row {
+  .text-cetner {
+    text-align: center;
+  }
+  // 공연관리
+  .partner-id {
+    width: $partner-id;
+  }
+  .title {
+    width: $title;
+  }
+  .number {
+    width: $number;
+  }
+}
