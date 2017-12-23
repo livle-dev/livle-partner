@@ -68,3 +68,10 @@ $fw-bold: 700;
     font-size: calc-size(2.2rem);
   }
 }
+
+#ticket-form {
+  input {
+    font-weight: 500;
+    font-size: calc-size(1.8rem);
+  }
+}

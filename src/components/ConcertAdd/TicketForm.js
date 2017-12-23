@@ -9,6 +9,15 @@ import _ from 'lodash';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
+const Input = ({ title, children }) => {
+  return (
+    <div className="input-container _row-direction _vcenter-position">
+      <p className="input-placeholder _white _fs_22">{title}</p>
+      {children}
+    </div>
+  );
+};
+
 class TicketForm extends Component {
   constructor() {
     super();
@@ -42,7 +51,15 @@ class TicketForm extends Component {
         <NestedForm field={['artists', i]} key={`artist-${i}`}>
           <Form defaultValues={artist}>
             {formApi => (
-              <div>
+              <div className="add-artist-container">
+                <div
+                  className="button _red _flex _hright-position"
+                  onClick={e => {
+                    e.preventDefault();
+                    handleRemove(e);
+                  }}>
+                  취소하기
+                </div>
                 <div>
                   <Text field="name" placeholder="아티스트 이름" />
                 </div>
@@ -54,19 +71,13 @@ class TicketForm extends Component {
                     onFinish={sign => formApi.setValue('image', sign.filePath)}
                   />
                 </div>
-                <button
-                  onClick={e => {
-                    e.preventDefault();
-                    handleRemove(e);
-                  }}>
-                  삭제
-                </button>
               </div>
             )}
           </Form>
         </NestedForm>
       );
     };
+
     // TODO validation
     return (
       <Form
@@ -75,107 +86,111 @@ class TicketForm extends Component {
           title: this.props.selected.title || '',
           place: this.props.selected.place || '',
           image: this.props.selected.image || '',
-          music_id: this.props.selected.music_id || '',
           video_id: this.props.selected.video_id || '',
-          article: this.props.selected.article || '',
           capacity: this.props.selected.capacity || 0,
-
+          // datetime
           start_at: this.props.selected.start_at || moment(),
           end_at: this.props.selected.end_at || moment(),
 
           artists: this.props.selected.artists || [],
         }}>
         {formApi => (
-          <form onSubmit={formApi.submitForm}>
-            <div>
-              <h3>기본 정보</h3>
-              <div>
-                <Text field="title" placeholder="공연이름" />
-              </div>
-              <div>
-                <Text field="place" placeholder="공연장소" />
-              </div>
-              <div>
-                대표이미지
-                {formApi.values.image && <img src={formApi.values.image} />}
-                <ReactS3Uploader
-                  accept="image/*"
-                  getSignedUrl={this.props.getSignedUrl}
-                  onProgress={percent =>
-                    this.setState({ uploadProgress: percent })
-                  }
-                  onFinish={sign => {
-                    this.setState({ uploadProgress: null });
-                    formApi.setValue('image', sign.filePath);
-                  }}
-                />
-                {!!this.state.uploadProgress &&
-                  `${this.state.uploadProgress}% 완료`}
-              </div>
-            </div>
-            <div>
-              <h3>공연일정</h3>
-              <DatePicker
-                selected={this.state.startDate}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                dateFormat="LLL"
-                onChange={date => {
-                  this.setState({ startDate: date });
-                  formApi.setValue('start_at', date);
-                }}
-              />
-              <DatePicker
-                selected={this.state.endDate}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                dateFormat="LLL"
-                onChange={date => {
-                  this.setState({ endDate: date });
-                  formApi.setValue('end_at', date);
-                }}
-              />
-            </div>
-            <div>
-              <h3>확보 좌석 수</h3>
-              <input
-                type="number"
-                name="capacity"
-                value={formApi.values.capacity}
-                onChange={e => formApi.setValue(e.target.name, e.target.value)}
-              />
-            </div>
-            <div>
-              <h3>라인업</h3>
-
-              {formApi.values.artists &&
-                _.map(formApi.values.artists, (a, index) => (
-                  <Artist
-                    key={index}
-                    artist={a}
-                    i={index}
-                    handleRemove={() => formApi.removeValue('artists', index)}
+          <form onSubmit={formApi.submitForm} id="ticket-form">
+            <div className="_row-direction">
+              <div className="left-container">
+                <Input title="공연이름">
+                  <Text field="title" placeholder="공연이름" />
+                </Input>
+                <Input title="공연장소">
+                  <Text field="place" placeholder="공연장소" />
+                </Input>
+                <Input title="대표이미지">
+                  {formApi.values.image && <img src={formApi.values.image} />}
+                  <ReactS3Uploader
+                    accept="image/*"
+                    getSignedUrl={this.props.getSignedUrl}
+                    onProgress={percent =>
+                      this.setState({ uploadProgress: percent })
+                    }
+                    onFinish={sign => {
+                      this.setState({ uploadProgress: null });
+                      formApi.setValue('image', sign.filePath);
+                    }}
                   />
-                ))}
-              <button
-                onClick={e => {
-                  e.preventDefault();
-                  formApi.addValue('artists', {});
-                }}>
-                추가
+                  {!!this.state.uploadProgress &&
+                    `${this.state.uploadProgress}% 완료`}
+                </Input>
+                <Input title="공연일정">
+                  <DatePicker
+                    selected={this.state.startDate}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="LLL"
+                    onChange={date => {
+                      this.setState({ startDate: date });
+                      formApi.setValue('start_at', date);
+                    }}
+                  />
+                  <div className="_flex_1 _vcenter-position _hcenter-position">
+                    <p className="_white _fs_2">~</p>
+                  </div>
+                  <DatePicker
+                    selected={this.state.endDate}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="LLL"
+                    onChange={date => {
+                      this.setState({ endDate: date });
+                      formApi.setValue('end_at', date);
+                    }}
+                  />
+                </Input>
+              </div>
+              <div className="right-container">
+                <Input title="확보 좌석">
+                  <input
+                    type="number"
+                    name="capacity"
+                    className="_flex_1"
+                    value={formApi.values.capacity}
+                    onChange={e =>
+                      formApi.setValue(e.target.name, e.target.value)
+                    }
+                  />
+                </Input>
+                <Input title="라인업">
+                  {formApi.values.artists &&
+                    _.map(formApi.values.artists, (a, index) => (
+                      <Artist
+                        key={index}
+                        artist={a}
+                        i={index}
+                        handleRemove={() =>
+                          formApi.removeValue('artists', index)
+                        }
+                      />
+                    ))}
+                  <div
+                    className="button _green-aqua"
+                    onClick={e => {
+                      e.preventDefault();
+                      formApi.addValue('artists', {});
+                    }}>
+                    추가
+                  </div>
+                </Input>
+                <Input title="영상정보">
+                  <Text field="video_id" placeholder="Youtube ID" />
+                </Input>
+              </div>
+            </div>
+            <div className="_flex _hright-position">
+              <button type="submit" className="submit-button">
+                {this.props.selected === '' ? '공연 등록하기' : '수정하기'}
               </button>
             </div>
-            <div>
-              <h3>선택입력</h3>
-              <Text field="music_id" placeholder="음악 아이디 (선택)" />
-              <Text field="video_id" placeholder="비디오 아이디 (선택)" />
-              <Text field="article" placeholder="웹뷰 주소 (선택)" />
-            </div>
-            <button type="submit">
-              {this.props.selected === '' ? '추가하기' : '수정하기'}
-            </button>
           </form>
         )}
       </Form>

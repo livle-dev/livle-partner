@@ -1,8 +1,9 @@
 @import './mixin';
 
-// grayscale
+// default
 $white: #ffffff;
 $black: #000000;
+$red: #ff0000;
 $black-clear: rgba(0, 0, 0, 0.58);
 // green
 $green-clear: rgba(13, 54, 57, 0.38);
@@ -17,6 +18,12 @@ $gray-dark: #555555;
 
 ._white {
   color: $white;
+}
+._black {
+  color: $black;
+}
+._red {
+  color: $red;
 }
 // green
 ._green-clear {
@@ -34,8 +41,4 @@ $gray-dark: #555555;
 // gray
 ._gray-dark {
   color: $gray-dark;
-}
-
-@mixin _green-dark-gradient {
-  @include background-gradient(right, rgba(255, 255, 255, 0.5), rgba(208, 208, 208, 0.5) 43%, rgba(0, 0, 0, 0.7));
 }

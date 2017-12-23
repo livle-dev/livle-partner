@@ -66,6 +66,51 @@ $place: 100% - ($main-image + $main-title + $line-up);
   }
 }
 
+#ticket-form {
+  input {
+    padding: 1rem 0;
+  }
+
+  .left-container {
+    width: 50%;
+    padding: 0 4% 0 0;
+  }
+
+  .right-container {
+    width: 50%;
+    padding: 0 0 0 4%;
+  }
+
+  .input-container {
+    margin: 0 0 2rem;
+  }
+
+  .add-artist-container {
+    @include border-radius(0.2rem);
+    width: 40%;
+    padding: 1rem;
+    background: rgba(256, 256, 256, 0.2);
+  }
+
+  .input-placeholder {
+    white-space: nowrap;
+    margin: 0 1rem 0 0;
+  }
+
+  .button {
+    @include cursor-pointer;
+  }
+
+  .submit-button {
+    @include cursor-pointer;
+    @include size(20%, 4rem);
+    margin-top: 8%;
+    background: $green-light;
+    border: none;
+    @include border-radius(0.2rem);
+  }
+}
+
 ._title {
   color: $white;
   font-weight: $fw-semi-bold;
