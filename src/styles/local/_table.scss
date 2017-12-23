@@ -11,6 +11,11 @@ $user-id: 16rem;
 // 공연관리
 $partner-id: 30%;
 $title: 100% - $partner-id;
+// 공연등록
+$main-image: 20%;
+$main-title: 30%;
+$line-up: 30%;
+$place: 100% - ($main-image + $main-title + $line-up);
 
 ._table-row {
   .text-cetner {
@@ -45,6 +50,19 @@ $title: 100% - $partner-id;
   }
   .title {
     width: $title;
+  }
+  // 공연등록
+  .main-image {
+    width: $main-image;
+  }
+  .main-title {
+    width: $main-title;
+  }
+  .line-up {
+    width: $line-up;
+  }
+  .place {
+    width: $place;
   }
 }
 
