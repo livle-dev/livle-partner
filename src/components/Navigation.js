@@ -9,7 +9,7 @@ const Navigation = ({ user, signoutUser }) => {
   console.log(user);
   return (
     <nav className="_navbar">
-      {user ? (
+      {user.id ? (
         <div className="_full-container _row-direction _vcenter-position">
           <Link to="/concerts" className="_flex_1 _vcenter-position">
             <img
@@ -22,22 +22,19 @@ const Navigation = ({ user, signoutUser }) => {
           {user.isAdmin && (
             <div className="_selecotr-container _row-direction">
               <div
-                className={`_selector _flex _vcenter-position _hcenter-position ${'_selector-border'}`}
-              >
+                className={`_selector _flex _vcenter-position _hcenter-position ${'_selector-border'}`}>
                 <Link to="/users" className="_white _fs_20">
                   회원관리
                 </Link>
               </div>
               <div
-                className={`_selector _flex _vcenter-position _hcenter-position`}
-              >
+                className={`_selector _flex _vcenter-position _hcenter-position`}>
                 <Link to="/concerts" className="_white _fs_20">
                   공연관리
                 </Link>
               </div>
               <div
-                className={`_selector _flex _vcenter-position _hcenter-position`}
-              >
+                className={`_selector _flex _vcenter-position _hcenter-position`}>
                 <Link to="/add" className="_white _fs_20">
                   공연등록
                 </Link>
@@ -50,13 +47,14 @@ const Navigation = ({ user, signoutUser }) => {
           <Link
             onClick={signoutUser}
             className="_logout-button _flex _vcenter-position _hcenter-position"
-            to="/"
-          >
+            to="/">
             Logout
           </Link>
         </div>
       ) : (
-        <img src={logo.logo_livle_partner} className="_logo" />
+        <div className="_full-container _row-direction _vcenter-position">
+          <img src={logo.logo_livle_partner} className="_logo" />
+        </div>
       )}
     </nav>
   );
