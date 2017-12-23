@@ -26,17 +26,11 @@ class UserList extends Component {
     return (
       <div>
         <div>
-          {this.state.userFetched ? (
-            <UserTable users={this.props.userList} />
-          ) : (
-            'Loading...'
-          )}
+          {this.state.userFetched && <UserTable users={this.props.userList} />}
         </div>
         <div>
-          {this.state.partnerFetched ? (
+          {this.state.partnerFetched && (
             <PartnerTable partners={this.props.partnerList} />
-          ) : (
-            'Loading...'
           )}
         </div>
       </div>

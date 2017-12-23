@@ -4,7 +4,7 @@ import { Form, NestedForm, Text } from 'react-form';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import ReactS3Uploader from 'react-s3-uploader';
-import { createTicket, getSignedUrl } from '../actions';
+import { createTicket, getSignedUrl } from '../../actions';
 import _ from 'lodash';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -72,8 +72,7 @@ class TicketForm extends Component {
                   onClick={e => {
                     e.preventDefault();
                     handleRemove(e);
-                  }}
-                >
+                  }}>
                   삭제
                 </button>
               </div>
@@ -99,8 +98,7 @@ class TicketForm extends Component {
           end_at: this.props.selected.end_at || moment(),
 
           artists: this.props.selected.artists || [],
-        }}
-      >
+        }}>
         {formApi => (
           <form onSubmit={formApi.submitForm}>
             <div>
@@ -179,8 +177,7 @@ class TicketForm extends Component {
                 onClick={e => {
                   e.preventDefault();
                   formApi.addValue('artists', {});
-                }}
-              >
+                }}>
                 추가
               </button>
             </div>

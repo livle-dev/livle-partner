@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchConcerts } from '../actions';
 import { map } from 'lodash';
+import { fetchConcerts } from '../../actions';
 import TicketForm from './TicketForm';
 
 class ConcertAdd extends Component {
@@ -34,8 +34,7 @@ class ConcertAdd extends Component {
                   onClick={e => {
                     e.preventDefault();
                     this.handleClick(c);
-                  }}
-                >
+                  }}>
                   수정하기
                 </button>
               </div>
