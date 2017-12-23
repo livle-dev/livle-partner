@@ -45,6 +45,10 @@ $fw-bold: 700;
   @include default_font;
   font-size: calc-size(2.2rem);
 }
+._fs-18 {
+  @include default_font;
+  font-size: calc-size(1.8rem);
+}
 ._fs_16 {
   @include default_font;
   font-size: calc-size(1.6rem);

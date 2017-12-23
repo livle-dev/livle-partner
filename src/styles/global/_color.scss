@@ -10,6 +10,7 @@ $green-clear: rgba(13, 54, 57, 0.38);
 $green-light: #47efb2;
 $green-aqua: #19e298;
 $green-dark: #0d3639;
+$green-dark-dark: #091913;
 // blue
 $blue-dark: #29353e;
 // gray
@@ -37,6 +38,9 @@ $gray-dark: #555555;
 }
 ._green-dark {
   color: $green-dark;
+}
+._green-dark-dark {
+  color: $green-dark-dark;
 }
 // gray
 ._gray-dark {

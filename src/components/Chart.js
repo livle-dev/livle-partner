@@ -92,7 +92,7 @@ export default class Chart extends React.Component {
   }
   render() {
     return (
-      <div style={{ width: 800, height: 300 }}>
+      <div style={{ width: 1040, height: 520 }}>
         <canvas ref="chart" />
       </div>
     );
