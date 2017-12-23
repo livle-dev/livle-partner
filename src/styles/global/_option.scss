@@ -51,18 +51,7 @@
   border-bottom: solid 1px $blue-dark;
   // font
   @include default_font;
-  font-size: calc-size(2.2rem);
-}
-
-._title {
-  color: $white;
-  font-weight: $fw-semi-bold;
-}
-
-._body {
-  @include cursor-pointer;
-  color: $gray-light;
-  font-weight: $fw-normal;
+  font-size: calc-size(2rem);
 }
 
 // text

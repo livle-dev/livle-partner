@@ -7,29 +7,33 @@ import Content from '../Content';
 
 const UserTable = ({ users }) => {
   const userRows = map(users, u => (
-    <tr key={u.id}>
-      <td>{u.email}</td>
-      <td>{u.nickname || '없음'}</td>
-      <td>TODO</td>
-      <td>TODO</td>
-      <td>TODO</td>
-    </tr>
+    <div className="_table-row _body" key={u.id}>
+      <div className="_flex_1">
+        <div className="email text-cetner">{u.email}</div>
+        <div className="nickname text-cetner">{u.nickname || '없음'}</div>
+      </div>
+      <div className="date">TODO</div>
+      <div className="short-text">TODO</div>
+      <div className="number">TODO</div>
+      <div className="button text-cetner _green-aqua">승인</div>
+    </div>
   ));
 
   return (
     <Content title="회원 목록" backgroundColor="rgba(0, 0, 0, 0.58)">
-      <table>
-        <thead>
-          <tr>
-            <th>회원 이메일</th>
-            <th>회원 닉네임</th>
-            <th>~</th>
-            <th>~</th>
-            <th>~</th>
-          </tr>
-        </thead>
-        <tbody>{userRows}</tbody>
-      </table>
+      <div className="_flex_1 _column-direction">
+        <div className="_table-row _title">
+          <div className="_flex_1">
+            <div className="email text-cetner">파트너명</div>
+            <div className="nickname text-cetner">공연명</div>
+          </div>
+          <div className="date">구독 시작일자</div>
+          <div className="short-text">구독상태</div>
+          <div className="number">월평균 예약 공연 수</div>
+          <div className="button" />
+        </div>
+        {userRows}
+      </div>
     </Content>
   );
 };

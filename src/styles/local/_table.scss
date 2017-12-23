@@ -1,6 +1,13 @@
+@import '../global/mixin';
 // 공통
 $number: 8rem;
-
+$date: 10rem;
+$short-text: 6rem;
+$button: 4rem;
+// 회원목록
+$email: 40%;
+$nickname: 100% - $email;
+$user-id: 16rem;
 // 공연관리
 $partner-id: 30%;
 $title: 100% - $partner-id;
@@ -9,6 +16,29 @@ $title: 100% - $partner-id;
   .text-cetner {
     text-align: center;
   }
+  .number {
+    width: $number;
+  }
+  .date {
+    width: $date;
+  }
+  .short-text {
+    width: $short-text;
+  }
+  .button {
+    @include cursor-pointer;
+    width: $button;
+  }
+  // 회원목록
+  .email {
+    width: $email;
+  }
+  .nickname {
+    width: $nickname;
+  }
+  .user-id {
+    width: $user-id;
+  }
   // 공연관리
   .partner-id {
     width: $partner-id;
@@ -16,7 +46,20 @@ $title: 100% - $partner-id;
   .title {
     width: $title;
   }
-  .number {
-    width: $number;
-  }
+}
+
+._title {
+  color: $white;
+  font-weight: $fw-semi-bold;
+}
+
+._clickable-body {
+  @include cursor-pointer;
+  color: $gray-light;
+  font-weight: $fw-normal;
+}
+
+._body {
+  color: $gray-light;
+  font-weight: $fw-normal;
 }

@@ -10,7 +10,7 @@ import Content from '../Content';
 const ConcertTable = ({ title, backgroundColor, concerts, history }) => {
   const concertRows = map(concerts, c => (
     <div
-      className="_table-row _body"
+      className="_table-row _clickable-body"
       key={c.id}
       onClick={e => history.push(`/concert/${c.id}`)}>
       <div className="_flex_1">
