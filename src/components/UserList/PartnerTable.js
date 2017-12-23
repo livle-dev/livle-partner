@@ -7,22 +7,21 @@ import PropTypes from 'prop-types';
 import Content from '../Content';
 
 const PartnerTable = ({ partners, approvePartner }) => {
-  const ApproveButton = ({ id }) => (
-    <button
-      onClick={e =>
-        approvePartner(id)
-          .then(() => alert('성공'))
-          .catch(msg => alert(msg))
-      }>
-      승인
-    </button>
-  );
-
   const partnerRows = map(partners, p => (
     <div className="_table-row _body" key={p.id}>
       <div className="user-id">{p.username}</div>
       <div className="_flex_1">{p.company}</div>
-      {p.approved ? 'O' : <ApproveButton id={p.id} />}
+      {!p.approved && (
+        <div
+          className="button text-cetner _green-aqua"
+          onClick={e =>
+            approvePartner(p.id)
+              .then(() => alert('성공'))
+              .catch(err => alert(err))
+          }>
+          승인
+        </div>
+      )}
     </div>
   ));
 
@@ -32,6 +31,7 @@ const PartnerTable = ({ partners, approvePartner }) => {
         <div className="_table-row _title">
           <div className="user-id text-cetner">아이디</div>
           <div className="_flex_1">회사명</div>
+          <div className="button" />
         </div>
         {partnerRows}
       </div>

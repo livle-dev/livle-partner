@@ -15,7 +15,6 @@ const UserTable = ({ users }) => {
       <div className="date">TODO</div>
       <div className="short-text">TODO</div>
       <div className="number">TODO</div>
-      <div className="button text-cetner _green-aqua">승인</div>
     </div>
   ));
 
@@ -30,7 +29,6 @@ const UserTable = ({ users }) => {
           <div className="date">구독 시작일자</div>
           <div className="short-text">구독상태</div>
           <div className="number">월평균 예약 공연 수</div>
-          <div className="button" />
         </div>
         {userRows}
       </div>
