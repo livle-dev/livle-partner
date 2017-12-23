@@ -21,7 +21,6 @@ class App extends Component {
         .checkSession()
         .then(() => {
           this.setState({ ready: true });
-          console.log('App부분, promise resolve');
         })
         .catch(() => {
           this.setState({ ready: true });
@@ -32,6 +31,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props);
     return this.state.ready ? (
       <BrowserRouter>
         <div className="_background">
