@@ -4,7 +4,7 @@ import { Form, NestedForm, Text } from 'react-form';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import ReactS3Uploader from 'react-s3-uploader';
-import { createTicket, getSignedUrl } from '../../actions';
+import { createTicket, getSignedUrl, patchTicket } from '../../actions';
 import _ from 'lodash';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -24,7 +24,6 @@ class TicketForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = { startDate: moment(), endDate: moment() };
   }
-
   componentWillMount() {
     this.setState({
       startDate: moment(this.props.selected.start_at),
@@ -33,7 +32,7 @@ class TicketForm extends Component {
   }
 
   handleSubmit(values, e, formApi) {
-    console.log(values);
+    !this.props.selected ? (
     this.props
       .createTicket(values)
       .then(() => {
@@ -42,7 +41,16 @@ class TicketForm extends Component {
       })
       .catch(err => {
         console.log(err);
-      });
+      }) )
+        : (
+          this.props
+              .patchTicket(values, this.props.selected.id, this.props.selected.partner_id)
+              .then(()=>{
+                  console.log(this.state);
+                  alert('공연이 수정되었습니다.');
+              })
+              .catch(err=>console.log(err))
+        )
   }
 
   render() {
@@ -198,4 +206,4 @@ class TicketForm extends Component {
   }
 }
 
-export default connect(null, { createTicket, getSignedUrl })(TicketForm);
+export default connect(null, { createTicket, patchTicket, getSignedUrl })(TicketForm);
