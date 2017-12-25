@@ -22,10 +22,8 @@ class ConcertDetail extends Component {
     const concertId = match.params.id;
     const concert = find(concertList, c => c.id == concertId); // object가 들어와있음
     // concert: object, id: string
-    this.state = { concert: concert || { id: concertId }, stats: {} };
+    this.state = { concert: concert || { id: concertId }, stats: null };
     this.fetchConcertStats = this.fetchConcertStats.bind(this);
-    // TODO
-    // fetchConcertDetail(id)....
   }
 
   componentWillMount() {
@@ -36,14 +34,14 @@ class ConcertDetail extends Component {
     axios
       .get(`/ticket/${this.state.concert.id}/stats`)
       .then(res => {
-        console.log(res.data);
         this.setState({ stats: res.data });
       })
       .catch(err => console.log(err));
   }
 
   render() {
-    const concert = this.state.concert;
+    const { concert, stats } = this.state;
+
     return concert ? (
       <div id="detail">
         <div className="password-container">
@@ -53,10 +51,12 @@ class ConcertDetail extends Component {
           </p>
         </div>
         <Content title="예약현황" backgroundColor="rgba(0, 0, 0, 0.58)">
-          <Chart
-            start_at={this.state.stats.start_at}
-            reservations={this.state.stats.reservations}
-          />
+          {stats && (
+            <Chart
+              start_at={this.state.stats.start_at}
+              reservations={this.state.stats.reservations}
+            />
+          )}
         </Content>
         <Content title="예약자" backgroundColor="rgba(20, 42, 41, 0.58)">
           <div className="_flex_1 _column-direction">

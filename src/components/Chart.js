@@ -1,16 +1,35 @@
 import React from 'react';
 import ChartJS from 'chart.js';
+import moment from 'moment';
 
-// import {fetchConcerts} from '../actions/index';
+const getDday = time => {
+  const today = moment();
+  const data = moment(time);
+  return data.diff(today, 'days');
+};
 
 export default class Chart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { reservations: [] };
-    console.log(this.props.reservations);
-  }
+  state = { sellInfo: null };
+
+  updateSellInfo = () => {
+    const { reservations } = this.props;
+    let dayData = [];
+    reservations.map(item => {
+      const index = 8 - getDday(item.created_at);
+      dayData[index].push(item);
+    });
+
+    const sellInfo = [];
+    for (let i = 0; i < 8; i++) {
+      sellInfo[i] = dayData[i] ? dayData[i].length : 0;
+    }
+
+    this.setState({ sellInfo: sellInfo });
+  };
 
   componentDidMount() {
+    this.updateSellInfo();
+
     const ctx = this.refs['chart'].getContext('2d');
     var gradientSell = ctx.createLinearGradient(500, 0, 100, 0);
     gradientSell.addColorStop(0, '#FF3D73');
@@ -22,7 +41,7 @@ export default class Chart extends React.Component {
 
     const sell = {
       label: '판매',
-      data: [0, 59, 75, 20, 20, 55, 40],
+      data: this.state.sellInfo,
       lineTension: 0,
       borderColor: gradientSell,
       pointBorderColor: gradientSell,
@@ -90,6 +109,7 @@ export default class Chart extends React.Component {
       options: chartOptions,
     });
   }
+
   render() {
     return (
       <div style={{ width: 1040, height: 520 }}>
