@@ -1,35 +1,38 @@
 import React from 'react';
 import ChartJS from 'chart.js';
 import moment from 'moment';
-
-const getDday = time => {
-  const today = moment();
-  const data = moment(time);
-  return data.diff(today, 'days');
-};
+import { filter, groupBy, map } from 'lodash';
 
 export default class Chart extends React.Component {
   state = { sellInfo: null };
 
+  constructor() {
+    super()
+    this.renderChart = this.renderChart.bind(this)
+  }
+
   updateSellInfo = () => {
-    const { reservations } = this.props;
-    let dayData = [];
-    reservations.map(item => {
-      const index = 8 - getDday(item.created_at);
-      dayData[index].push(item);
-    });
+    const { start_at, reservations } = this.props;
 
-    const sellInfo = [];
-    for (let i = 0; i < 8; i++) {
-      sellInfo[i] = dayData[i] ? dayData[i].length : 0;
-    }
+    const getDday = time => {
+      const start = moment(start_at);
+      const data = moment(time);
+      return start.diff(data, 'days');
+    };
 
-    this.setState({ sellInfo: sellInfo });
+    const soldOn = groupBy(reservations, item => 7 - getDday(item.created_at))
+    const cancelled = filter(reservations, item => !!item.cancelled_at)
+    const cancelledOn = groupBy(cancelled, item => 7 - getDday(item.cancelled_at))
+
+    const sellInfo = map(Array(8).fill(0),
+      (v, index) => (soldOn[index] && soldOn[index].length) || 0)
+    const cancelInfo = map(Array(8).fill(0),
+      (v, index) => (cancelledOn[index] && cancelledOn[index].length) || 0)
+
+    this.renderChart(sellInfo, cancelInfo);
   };
 
-  componentDidMount() {
-    this.updateSellInfo();
-
+  renderChart(sellInfo, cancelInfo) {
     const ctx = this.refs['chart'].getContext('2d');
     var gradientSell = ctx.createLinearGradient(500, 0, 100, 0);
     gradientSell.addColorStop(0, '#FF3D73');
@@ -41,7 +44,7 @@ export default class Chart extends React.Component {
 
     const sell = {
       label: '판매',
-      data: this.state.sellInfo,
+      data: sellInfo,
       lineTension: 0,
       borderColor: gradientSell,
       pointBorderColor: gradientSell,
@@ -58,7 +61,7 @@ export default class Chart extends React.Component {
 
     const cancel = {
       label: '취소',
-      data: [20, 15, 60, 60, 65, 30, 70],
+      data: cancelInfo,
       lineTension: 0,
       borderColor: gradientStroke2,
       pointBorderColor: gradientStroke2,
@@ -108,6 +111,10 @@ export default class Chart extends React.Component {
       },
       options: chartOptions,
     });
+  }
+
+  componentDidMount() {
+    this.updateSellInfo();
   }
 
   render() {
