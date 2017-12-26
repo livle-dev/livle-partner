@@ -1,2 +1,11 @@
-@import './base/settings';
-@import './base/base';
+// global
+@import './global/base';
+@import './global/color';
+@import './global/container';
+@import './global/font';
+@import './global/option';
+@import './global/size';
+// local
+@import './local/concertDetail';
+@import './local/session';
+@import './local/table';

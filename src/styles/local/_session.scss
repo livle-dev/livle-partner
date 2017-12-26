@@ -1,0 +1,57 @@
+@import '../global/mixin';
+@import '../global/size';
+@import '../global/color';
+
+$session-container: 82rem;
+$session-height: 40rem;
+$session-margin: 2rem;
+
+$login-box-size: 28rem;
+
+#session {
+  .session-container {
+    width: $session-container;
+    height: $session-height;
+    margin: 0 $session-margin;
+  }
+
+  .typo-text {
+    margin: 0.5rem 0;
+  }
+
+  .login-box-container {
+    width: $login-box-size;
+    background-color: $green-dark;
+    mix-blend-mode: hard-light;
+    @include box-shadow(0 34px 24px 0 rgba(7, 6, 6, 0.38),
+      0 15px 14px 0 rgba(0, 0, 0, 0.27), 0 2px 4px 0 rgba(0, 0, 0, 0.1));
+
+    .select-container {
+      @include cursor-pointer;
+      @include size(100%, 13.6%);
+    }
+
+    .unselected-container {
+      background-color: $gray-dark;
+      mix-blend-mode: overlay;
+    }
+
+    .form-continer {
+      width: 82%;
+    }
+
+    input {
+      padding: 1rem 0;
+      margin: 0.5rem 0;
+    }
+
+    .submit-button {
+      @include cursor-pointer;
+      @include size(100%, 4rem);
+      margin-top: 8%;
+      background: $green-light;
+      border: none;
+      @include border-radius(0.2rem);
+    }
+  }
+}

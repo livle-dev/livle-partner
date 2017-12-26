@@ -1,0 +1,48 @@
+@import './mixin';
+
+// default
+$white: #ffffff;
+$black: #000000;
+$red: #ff0000;
+$black-clear: rgba(0, 0, 0, 0.58);
+// green
+$green-clear: rgba(13, 54, 57, 0.38);
+$green-light: #47efb2;
+$green-aqua: #19e298;
+$green-dark: #0d3639;
+$green-dark-dark: #091913;
+// blue
+$blue-dark: #29353e;
+// gray
+$gray-light: #72848b;
+$gray-dark: #555555;
+
+._white {
+  color: $white;
+}
+._black {
+  color: $black;
+}
+._red {
+  color: $red;
+}
+// green
+._green-clear {
+  color: $green-clear;
+}
+._green-light {
+  color: $green-light;
+}
+._green-aqua {
+  color: $green-aqua;
+}
+._green-dark {
+  color: $green-dark;
+}
+._green-dark-dark {
+  color: $green-dark-dark;
+}
+// gray
+._gray-dark {
+  color: $gray-dark;
+}

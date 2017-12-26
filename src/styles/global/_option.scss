@@ -1,0 +1,65 @@
+@import './mixin';
+@import './font';
+@import './size';
+
+// flex
+._flex {
+  @include display-flex;
+}
+
+._flex_1 {
+  @include display-flex;
+  @include flex-grow(1);
+}
+
+// direction
+._row-direction {
+  @include display-flex;
+  @include flex-direction(row);
+}
+
+._column-direction {
+  @include display-flex;
+  @include flex-direction(column);
+}
+
+// position
+._hcenter-position {
+  @include justify-content(center);
+}
+
+._hright-position {
+  @include justify-content(flex-end);
+}
+
+._vcenter-position {
+  @include align-items(center);
+}
+
+._vbottom-position {
+  @include align-items(flex-end);
+}
+
+// table
+._table-row {
+  @include display-flex;
+  @include flex-direction(row);
+  @include flex-wrap(nowrap);
+  @include align-items(center);
+  @include size(100%, 2rem);
+  // border
+  border-bottom: solid 1px $blue-dark;
+  // font
+  @include default_font;
+  font-size: calc-size(2rem);
+}
+
+// text
+._text-center {
+  text-align: center;
+}
+
+// logo
+._logo {
+  @include size(auto, $logo-height);
+}

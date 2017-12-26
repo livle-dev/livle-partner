@@ -1,0 +1,128 @@
+@import '../global/mixin';
+// 공통
+$number: 8rem;
+$date: 10rem;
+$short-text: 6rem;
+$button: 4rem;
+// 회원목록
+$email: 40%;
+$nickname: 100% - $email;
+$user-id: 16rem;
+// 공연관리
+$partner-id: 30%;
+$title: 100% - $partner-id;
+// 공연등록
+$main-image: 20%;
+$main-title: 30%;
+$line-up: 30%;
+$place: 100% - ($main-image + $main-title + $line-up);
+
+._table-row {
+  .text-cetner {
+    text-align: center;
+  }
+  .number {
+    width: $number;
+  }
+  .date {
+    width: $date;
+  }
+  .short-text {
+    width: $short-text;
+  }
+  .button {
+    @include cursor-pointer;
+    width: $button;
+  }
+  // 회원목록
+  .email {
+    width: $email;
+  }
+  .nickname {
+    width: $nickname;
+  }
+  .user-id {
+    width: $user-id;
+  }
+  // 공연관리
+  .partner-id {
+    width: $partner-id;
+  }
+  .title {
+    width: $title;
+  }
+  // 공연등록
+  .main-image {
+    width: $main-image;
+  }
+  .main-title {
+    width: $main-title;
+  }
+  .line-up {
+    width: $line-up;
+  }
+  .place {
+    width: $place;
+  }
+}
+
+#ticket-form {
+  input {
+    padding: 1rem 0;
+  }
+
+  .left-container {
+    width: 50%;
+    padding: 0 4% 0 0;
+  }
+
+  .right-container {
+    width: 50%;
+    padding: 0 0 0 4%;
+  }
+
+  .input-container {
+    margin: 0 0 2rem;
+  }
+
+  .add-artist-container {
+    @include border-radius(0.2rem);
+    width: 40%;
+    padding: 1rem;
+    background: rgba(256, 256, 256, 0.2);
+  }
+
+  .input-placeholder {
+    white-space: nowrap;
+    margin: 0 1rem 0 0;
+  }
+
+  .button {
+    @include cursor-pointer;
+  }
+
+  .submit-button {
+    @include cursor-pointer;
+    @include size(20%, 4rem);
+    margin-top: 8%;
+    background: $green-light;
+    border: none;
+    @include border-radius(0.2rem);
+  }
+}
+
+._title {
+  color: $white;
+  font-weight: $fw-semi-bold;
+}
+
+._clickable-body {
+  @include cursor-pointer;
+  color: $gray-light;
+  font-weight: $fw-normal;
+}
+
+._body {
+  color: $gray-light;
+  font-weight: $fw-normal;
+}

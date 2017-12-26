@@ -1,45 +1,74 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import SignIn from './SignIn'
-import SignUp from './Signup'
+import SignIn from './SignIn';
+import SignUp from './Signup';
+// images
+import { background } from '../../images';
+// style
+import { backgroundImage } from '../../styles/javascript';
+import { strings, stringToCode } from '../../strings';
 
 class Session extends Component {
-
-  state = { signUp: false };
+  state = { isLogin: true };
 
   componentWillMount() {
-    if(this.props.authenticated) {
-      this.props.history.push('/concerts')
+    if (this.props.authenticated) {
+      this.props.history.push('/concerts');
     }
   }
 
   render() {
-    return (<div>
-      <div>로고가 떠있다</div>
-      <div>
-        <div style={ { display: "flex" } }>
-          <div onClick={ e => this.setState({ signUp: false })}>
-            LOG IN
+    const { isLogin } = this.state;
+    return (
+      <div
+        id="session"
+        className="_fullscreen _flex _hcenter-position _vcenter-position"
+        style={backgroundImage(background.session_bg)}
+      >
+        <div className="session-container _row-direction">
+          <div className="_flex_1 _column-direction _hcenter-position">
+            <div className="typo-title">
+              <p className="_fs_48 _fw-semi-bold _white">
+                {stringToCode(strings.typoTitle)}
+              </p>
+            </div>
+            <div className="typo-text">
+              <p className="_fs_22 _fw-normal _lh-1 _white">
+                {stringToCode(strings.typoContent)}
+              </p>
+            </div>
           </div>
-          <div onClick={ e => this.setState({ signUp: true })}>
-            SIGN UP
+
+          <div className="login-box-container _column-direction _vcenter-position">
+            <div className="select-container _row-direction">
+              <div
+                className={`_flex_1 _hcenter-position _vcenter-position ${!isLogin &&
+                  'unselected-container'}`}
+                onClick={e => this.setState({ isLogin: true })}
+              >
+                <p className="_fs_36 _fw-bold _ls-4 _white">LOG IN</p>
+              </div>
+              <div
+                className={`_flex_1 _hcenter-position _vcenter-position ${isLogin &&
+                  'unselected-container'}`}
+                onClick={e => this.setState({ isLogin: false })}
+              >
+                <p className="_fs_36 _fw-bold _ls-4 _white">SIGN UP</p>
+              </div>
+            </div>
+            <div className="form-continer _flex_1 _vcenter-position">
+              {this.state.isLogin ? <SignIn /> : <SignUp />}
+            </div>
           </div>
-        </div>
-        <div>
-          { this.state.signUp ? <SignUp /> : <SignIn /> }
         </div>
       </div>
-      </div>)
+    );
   }
 }
 
-function mapStateToProps(state){
-    return { authenticated: state.auth.authenticated }
+function mapStateToProps(state) {
+  return { authenticated: state.auth.authenticated };
 }
 
-export default withRouter(
-  (
-    connect(mapStateToProps, { })(Session)
-  )
-)
+export default withRouter(connect(mapStateToProps, {})(Session));
