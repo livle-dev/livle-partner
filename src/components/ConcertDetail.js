@@ -20,7 +20,9 @@ const DataInfo = ({ backgroundColor, text }) => {
 class ConcertDetail extends Component {
   constructor({ concertList, match }) {
     super();
+
     const concertId = match.params.id;
+
     const concert = find(concertList, c => c.id == concertId); // object가 들어와있음
     // concert: object, id: string
     this.state = {

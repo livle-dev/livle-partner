@@ -5,8 +5,9 @@ import axios from "../../actions/axios";
 
 
 class ChangePassword extends Component {
-  constructor() {
+  constructor(props) {
     super();
+    this.state=({token: props.match.params.token});
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit({ password, passwordCheck }) {
@@ -19,7 +20,7 @@ class ChangePassword extends Component {
     }
     axios
       .patch("/user/password", {
-        params: { password, token: '' }
+        params: { password, token: this.state.token }
       })
       .then(response => {
         console.log(response);

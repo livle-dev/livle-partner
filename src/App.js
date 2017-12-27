@@ -40,7 +40,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Session} />
             <Route path="/find" component={FindPassword} />
-            <Route exact path="/password" component={ChangePassword} />
+            <Route exact path="/password/:token" component={ChangePassword} />
             <Route path="/concerts" component={RequireAuth(ConcertManage)} />
             <Route path="/concert/:id" component={RequireAuth(ConcertDetail)} />
             <Route path="/users" component={RequireAuth(UserList)} />
