@@ -7,7 +7,7 @@ export default class Chart extends React.Component {
   state = { sellInfo: null };
 
   constructor() {
-    super()
+    super();
     this.renderChart = this.renderChart.bind(this)
   }
 
@@ -20,14 +20,14 @@ export default class Chart extends React.Component {
       return start.diff(data, 'days');
     };
 
-    const soldOn = groupBy(reservations, item => 7 - getDday(item.created_at))
-    const cancelled = filter(reservations, item => !!item.cancelled_at)
-    const cancelledOn = groupBy(cancelled, item => 7 - getDday(item.cancelled_at))
+    const soldOn = groupBy(reservations, item => 7 - getDday(item.created_at));
+    const cancelled = filter(reservations, item => !!item.cancelled_at);
+    const cancelledOn = groupBy(cancelled, item => 7 - getDday(item.cancelled_at));
 
     const sellInfo = map(Array(8).fill(0),
-      (v, index) => (soldOn[index] && soldOn[index].length) || 0)
+      (v, index) => (soldOn[index] && soldOn[index].length) || 0);
     const cancelInfo = map(Array(8).fill(0),
-      (v, index) => (cancelledOn[index] && cancelledOn[index].length) || 0)
+      (v, index) => (cancelledOn[index] && cancelledOn[index].length) || 0);
 
     this.renderChart(sellInfo, cancelInfo);
   };
@@ -35,12 +35,12 @@ export default class Chart extends React.Component {
   renderChart(sellInfo, cancelInfo) {
     const ctx = this.refs['chart'].getContext('2d');
     var gradientSell = ctx.createLinearGradient(500, 0, 100, 0);
-    gradientSell.addColorStop(0, '#FF3D73');
-    gradientSell.addColorStop(1, '#FFBE57');
+    gradientSell.addColorStop(0, '#45EAAD');
+    gradientSell.addColorStop(1, '#A7D456');
 
     var gradientStroke2 = ctx.createLinearGradient(500, 0, 100, 0);
-    gradientStroke2.addColorStop(0, '#45EAAD');
-    gradientStroke2.addColorStop(1, '#A7D456');
+    gradientStroke2.addColorStop(0, '#FF3D73');
+    gradientStroke2.addColorStop(1, '#FFBE57');
 
     const sell = {
       label: '판매',
@@ -50,13 +50,17 @@ export default class Chart extends React.Component {
       pointBorderColor: gradientSell,
       pointHoverBackgroundColor: gradientSell,
       pointHoverBorderColor: gradientSell,
-      // pointBackgroundColor: '#fff',
-      pointBorderWidth: 3,
+      pointBackgroundColor: '#74DF83',
+      // pointBorderWidth: 3,
       pointHoverRadius: 10,
       pointHoverBorderWidth: 1,
       pointRadius: 3,
-      fill: false,
-      borderWidth: 3,
+      // fill: false,
+      borderWidth: 6,
+
+        // strokeColor: '#000',
+        // pointColor: '#000',
+
     };
 
     const cancel = {
@@ -65,18 +69,30 @@ export default class Chart extends React.Component {
       lineTension: 0,
       borderColor: gradientStroke2,
       pointBorderColor: gradientStroke2,
-      pointBackgroundColor: '#fff',
+      pointBackgroundColor: '#FF8064',
       pointHoverBackgroundColor: gradientStroke2,
       pointHoverBorderColor: gradientStroke2,
-      pointBorderWidth: 3,
+      // pointBorderWidth: 0,
       pointHoverRadius: 10,
 
       pointRadius: 3,
-      fill: false,
-      borderWidth: 4,
+      // fill: false,
+      borderWidth: 6,
+
+        // strokeColor: '#000',
+        // pointColor: '#000',
+
     };
     const chartOptions = {
-      legend: { display: false },
+        legend: {
+            display: true,
+            position: "top",
+            fullWidth: true,
+            labels: {
+                boxWidth: 15,
+                fontSize: 18
+            }
+        },
       scales: {
         xAxes: [
           {
@@ -89,8 +105,10 @@ export default class Chart extends React.Component {
       tooltips: {
         mode: 'x-axis',
         backgroundColor: '#42505b',
-        // titleFontSize:10,
-        // bodyFontSize: 10
+          position: 'average',
+        titleFontSize:0,
+        bodyFontSize: 20,
+          bodySpacing: 5
       },
     };
 

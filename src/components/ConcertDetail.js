@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { find } from 'lodash';
-import { fetchConcertDetail } from '../actions';
-import Chart from './Chart';
-
-import Content from './Content';
-import axios from '../actions/axios';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { find } from "lodash";
+import { fetchConcertDetail } from "../actions";
+import Chart from "./Chart";
+import { map } from "lodash";
+import moment from 'moment';
+import Content from "./Content";
+import axios from "../actions/axios";
 
 const DataInfo = ({ backgroundColor, text }) => {
   return (
@@ -19,11 +20,18 @@ const DataInfo = ({ backgroundColor, text }) => {
 class ConcertDetail extends Component {
   constructor({ concertList, match }) {
     super();
+
     const concertId = match.params.id;
+
     const concert = find(concertList, c => c.id == concertId); // object가 들어와있음
     // concert: object, id: string
-    this.state = { concert: concert || { id: concertId }, stats: null };
+    this.state = {
+      concert: concert || { id: concertId },
+      stats: null,
+      fetched: false
+    };
     this.fetchConcertStats = this.fetchConcertStats.bind(this);
+    this.renderDatainfo=this.renderDatainfo.bind(this);
   }
 
   componentWillMount() {
@@ -34,19 +42,51 @@ class ConcertDetail extends Component {
     axios
       .get(`/ticket/${this.state.concert.id}/stats`)
       .then(res => {
-        this.setState({ stats: res.data });
+        this.setState({ stats: res.data, fetched: true });
+
+        console.log(this.state.stats);
       })
       .catch(err => console.log(err));
+  }
+
+  renderDatainfo(cancelled_at, checked_at){
+    console.log(cancelled_at);
+    if(cancelled_at!== null) {
+        return (
+            <DataInfo backgroundColor="#4a90e2"/>
+        )
+    }else{
+      let start_at= moment(this.state.stats.start_at);
+      let now = moment();
+
+      if(checked_at){
+        return <DataInfo backgroundColor="#4a90e2"/>
+      }else{
+          if(start_at.diff(now, 'hours')>0){
+              return (
+                  <DataInfo backgroundColor="#f8e71c"/>
+              )
+          }else{
+              return (
+                  <DataInfo backgroundColor="#d0021b"/>
+              )
+          }
+      }
+    }
+
+
   }
 
   render() {
     const { concert, stats } = this.state;
 
+
+
     return concert ? (
       <div id="detail">
         <div className="password-container">
           <p className="_fs_48 _white">
-            입장 비밀번호:{' '}
+            입장 비밀번호:{" "}
             <span className="_green-light">{concert.checkin_code}</span>
           </p>
         </div>
@@ -71,11 +111,21 @@ class ConcertDetail extends Component {
                 <div className="email text-cetner">닉네임</div>
               </div>
             </div>
-            <div className="_table-row _body">
-              <div className="_flex_1">
-                <div className="nickname text-cetner">TODO</div>
-                <div className="email text-cetner">TODO</div>
-              </div>
+
+              <div>
+                {this.state.fetched ? (
+                  map(this.state.stats.reservations, u => (
+                      <div key={u.id} className="_table-row _body">
+                            <div className="_flex_1">
+                                {this.renderDatainfo(u.cancelled_at, u.checked_at)}
+                              <div className="nickname text-cetner">{u.user.nickname}</div>
+                              <div className="email text-cetner">{u.user.email}</div>
+                            </div>
+                      </div>
+                  ))
+                ) : (
+                  <h2>데이터 로드 중</h2>
+                )}
             </div>
           </div>
         </Content>
@@ -88,7 +138,7 @@ class ConcertDetail extends Component {
         }
       </div>
     ) : (
-      'TODO 데이터 가져오기'
+      "TODO 데이터 가져오기"
     );
   }
 }

@@ -9,6 +9,8 @@ import ConcertManage from './components/ConcertManage';
 import ConcertDetail from './components/ConcertDetail';
 import UserList from './components/UserList';
 import ConcertAdd from './components/ConcertAdd';
+import FindPassword from './components/Session/FindPassword';
+import ChangePassword from './components/Session/ChangePassword';
 
 import { checkSession } from './actions';
 
@@ -34,9 +36,11 @@ class App extends Component {
     return this.state.ready ? (
       <BrowserRouter>
         <div className="_background">
-          <Navigation />
+          {/*<Navigation />*/}
           <Switch>
             <Route exact path="/" component={Session} />
+            <Route path="/find" component={FindPassword} />
+            <Route exact path="/password/:token" component={ChangePassword} />
             <Route path="/concerts" component={RequireAuth(ConcertManage)} />
             <Route path="/concert/:id" component={RequireAuth(ConcertDetail)} />
             <Route path="/users" component={RequireAuth(UserList)} />
