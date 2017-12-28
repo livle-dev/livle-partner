@@ -4,6 +4,9 @@ import { find } from "lodash";
 import { fetchConcertDetail } from "../actions";
 import Chart from "./Chart";
 import { map } from "lodash";
+
+import ProgressChart from './ProgressChart'
+
 import moment from 'moment';
 import Content from "./Content";
 import axios from "../actions/axios";
@@ -32,6 +35,7 @@ class ConcertDetail extends Component {
     };
     this.fetchConcertStats = this.fetchConcertStats.bind(this);
     this.renderDatainfo=this.renderDatainfo.bind(this);
+    this.calculateBooked=this.calculateBooked.bind(this);
   }
 
   componentWillMount() {
@@ -50,35 +54,40 @@ class ConcertDetail extends Component {
   }
 
   renderDatainfo(cancelled_at, checked_at){
-    console.log(cancelled_at);
-    if(cancelled_at!== null) {
+    // console.log(cancelled_at);
+    if(cancelled_at !== null) {
+        return (
+            <DataInfo backgroundColor="#d0021b"/>
+        )
+    }else if(checked_at){
         return (
             <DataInfo backgroundColor="#4a90e2"/>
         )
-    }else{
-      let start_at= moment(this.state.stats.start_at);
-      let now = moment();
-
-      if(checked_at){
-        return <DataInfo backgroundColor="#4a90e2"/>
-      }else{
-          if(start_at.diff(now, 'hours')>0){
-              return (
-                  <DataInfo backgroundColor="#f8e71c"/>
-              )
-          }else{
-              return (
-                  <DataInfo backgroundColor="#d0021b"/>
-              )
+      // let start_at= moment(this.state.stats.start_at);
+      // let now = moment();
+      // if(start_at.diff(now, 'hours')>0){
+      //     return (
+      //         <DataInfo backgroundColor="#d0021b"/>
+      //)
+    }
+  }
+    calculateBooked(){
+      const reservations=this.state.stats.reservations;
+      console.log(reservations);
+      var pureBooked=0;
+      for(var i=0; i<reservations.length ;i++){
+          console.log('hi');
+          if(reservations[i].cancelled_at === null ){
+              console.log(reservations[i].cancelled_at);
+              pureBooked++
           }
       }
-    }
-
-
-  }
+      return pureBooked;
+    };
 
   render() {
     const { concert, stats } = this.state;
+
 
 
 
@@ -102,7 +111,7 @@ class ConcertDetail extends Component {
           <div className="_flex_1 _column-direction">
             <div className="_flex _hright-position">
               <DataInfo backgroundColor="#4a90e2" text="이용완료" />
-              <DataInfo backgroundColor="#f8e71c" text="이용예정" />
+              {/*<DataInfo backgroundColor="#f8e71c" text="이용예정" />*/}
               <DataInfo backgroundColor="#d0021b" text="예매취소" />
             </div>
             <div className="_table-row _title">
@@ -127,8 +136,21 @@ class ConcertDetail extends Component {
                   <h2>데이터 로드 중</h2>
                 )}
             </div>
+
           </div>
+
+            <h1>예약자 수</h1>
+            {this.state.fetched ? (
+                <ProgressChart capacity={this.state.stats.capacity} booked={this.calculateBooked()}/>
+            ) : (
+                <h2>차트 로드중</h2>
+            )}
+
+
         </Content>
+
+
+
         {
           //콘서트 아이디: { concert.id }
           //제목 : { concert.title }
