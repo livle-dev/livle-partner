@@ -139,13 +139,14 @@ class ConcertDetail extends Component {
 
           </div>
 
-            <h1>예약자 수</h1>
+          <div className="count-container">
+            <h1 className="_fs_36 _white _fw-semi-bold">예약자 수</h1>
             {this.state.fetched ? (
-                <ProgressChart capacity={this.state.stats.capacity} booked={this.calculateBooked()}/>
+              <ProgressChart capacity={this.state.stats.capacity} booked={this.calculateBooked()}/>
             ) : (
-                <h2>차트 로드중</h2>
+              <h2>차트 로드중</h2>
             )}
-
+          </div>
 
         </Content>
 
