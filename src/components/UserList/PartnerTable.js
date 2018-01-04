@@ -16,8 +16,8 @@ const PartnerTable = ({ partners, approvePartner }) => {
           className="button text-cetner _green-aqua"
           onClick={e =>
             approvePartner(p.id)
-              .then(() => alert('성공'))
-              .catch(err => alert(err))
+              .then(() => alert('승인되었습니다'))
+              .catch(err => alert(err.response.data))
           }>
           승인
         </div>
@@ -26,7 +26,7 @@ const PartnerTable = ({ partners, approvePartner }) => {
   ));
 
   return (
-    <Content title="파트너 목록" backgroundColor="rgba(20, 42, 41, 0.58)">
+    <Content title="파트너 목록" backgroundColor="rgba(0, 0, 0, 0.58)">
       <div className="_flex_1 _column-direction">
         <div className="_table-row _title">
           <div className="user-id text-cetner">아이디</div>

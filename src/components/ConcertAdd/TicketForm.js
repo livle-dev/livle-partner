@@ -9,11 +9,13 @@ import _ from 'lodash';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-const Input = ({ title, children }) => {
+const Input = ({ title, children, ...option }) => {
   return (
-    <div className="input-container _row-direction _vcenter-position">
+    <div
+      className="input-container _row-direction _vcenter-position"
+      {...option}>
       <p className="input-placeholder _white _fs_22">{title}</p>
-      {children}
+      <div className="_flex_1">{children}</div>
     </div>
   );
 };
@@ -32,25 +34,27 @@ class TicketForm extends Component {
   }
 
   handleSubmit(values, e, formApi) {
-    !this.props.selected ? (
-    this.props
-      .createTicket(values)
-      .then(() => {
-        alert('공연을 추가했습니다.');
-        formApi.resetAll();
-      })
-      .catch(err => {
-        console.log(err);
-      }) )
-        : (
-          this.props
-              .patchTicket(values, this.props.selected.id, this.props.selected.partner_id)
-              .then(()=>{
-                  console.log(this.state);
-                  alert('공연이 수정되었습니다.');
-              })
-              .catch(err=>console.log(err))
-        )
+    !this.props.selected
+      ? this.props
+          .createTicket(values)
+          .then(() => {
+            alert('공연을 추가했습니다.');
+            formApi.resetAll();
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      : this.props
+          .patchTicket(
+            values,
+            this.props.selected.id,
+            this.props.selected.partner_id
+          )
+          .then(() => {
+            console.log(this.state);
+            alert('공연이 수정되었습니다.');
+          })
+          .catch(err => console.log(err));
   }
 
   render() {
@@ -59,26 +63,26 @@ class TicketForm extends Component {
         <NestedForm field={['artists', i]} key={`artist-${i}`}>
           <Form defaultValues={artist}>
             {formApi => (
-              <div className="add-artist-container">
+              <div className="add-artist-container _flex _column-direction">
                 <div
-                  className="button _red _flex _hright-position"
+                  className="button _red _hright-position"
                   onClick={e => {
                     e.preventDefault();
                     handleRemove(e);
                   }}>
-                  취소하기
+                  취소
                 </div>
                 <div>
                   <Text field="name" placeholder="아티스트 이름" />
                 </div>
-                <div>
+                <div className="">
                   {formApi.values.image && <img src={formApi.values.image} />}
-                  <ReactS3Uploader
-                    accept="image/*"
-                    getSignedUrl={this.props.getSignedUrl}
-                    onFinish={sign => formApi.setValue('image', sign.filePath)}
-                  />
                 </div>
+                <ReactS3Uploader
+                  accept="image/*"
+                  getSignedUrl={this.props.getSignedUrl}
+                  onFinish={sign => formApi.setValue('image', sign.filePath)}
+                />
               </div>
             )}
           </Form>
@@ -104,7 +108,7 @@ class TicketForm extends Component {
         }}>
         {formApi => (
           <form onSubmit={formApi.submitForm} id="ticket-form">
-            <div className="_row-direction">
+            <div className="artist-list-container _row-direction">
               <div className="left-container">
                 <Input title="공연이름">
                   <Text field="title" placeholder="공연이름" />
@@ -113,7 +117,9 @@ class TicketForm extends Component {
                   <Text field="place" placeholder="공연장소" />
                 </Input>
                 <Input title="대표이미지">
-                  {formApi.values.image && <img src={formApi.values.image} />}
+                  {formApi.values.image && (
+                    <img src={formApi.values.image} className="main-image" />
+                  )}
                   <ReactS3Uploader
                     accept="image/*"
                     getSignedUrl={this.props.getSignedUrl}
@@ -168,7 +174,7 @@ class TicketForm extends Component {
                     }
                   />
                 </Input>
-                <Input title="라인업">
+                <Input title="라인업" id="artist">
                   {formApi.values.artists &&
                     _.map(formApi.values.artists, (a, index) => (
                       <Artist
@@ -195,8 +201,10 @@ class TicketForm extends Component {
               </div>
             </div>
             <div className="_flex _hright-position">
-              <button type="submit" className="submit-button">
-                {this.props.selected === '' ? '공연 등록하기' : '수정하기'}
+              <button type="submit" className="submit-button _fs_22">
+                {this.props.selected.length === 0
+                  ? '공연 등록하기'
+                  : '수정하기'}
               </button>
             </div>
           </form>
@@ -206,4 +214,6 @@ class TicketForm extends Component {
   }
 }
 
-export default connect(null, { createTicket, patchTicket, getSignedUrl })(TicketForm);
+export default connect(null, { createTicket, patchTicket, getSignedUrl })(
+  TicketForm
+);

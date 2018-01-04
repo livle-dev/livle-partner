@@ -30,12 +30,12 @@ class ConcertAdd extends Component {
             return (
               <div className="_table-row _body" key={c.id}>
                 <div className="_flex_1">
-                  <div className="main-image text-cetner">TODO</div>
-                  <div className="main-title text-cetner">{c.title}</div>
-                  <div className="line-up text-cetner">TODO</div>
-                  <div className="place text-cetner">TODO</div>
+                  <div className="main-image _text-cetner">TODO</div>
+                  <div className="main-title _text-cetner">{c.title}</div>
+                  <div className="line-up _text-cetner">TODO</div>
+                  <div className="place _text-cetner">TODO</div>
                 </div>
-                <div className="number text-cetner">TODO</div>
+                <div className="number _text-cetner">TODO</div>
                 <div className="number">TODO</div>
                 <div
                   className="button _green-aqua"
@@ -61,12 +61,12 @@ class ConcertAdd extends Component {
           <div className="_flex_1 _column-direction">
             <div className="_table-row _title">
               <div className="_flex_1">
-                <div className="main-image text-cetner">메인 이미지</div>
-                <div className="main-title text-cetner">공연명</div>
-                <div className="line-up text-cetner">라인업</div>
-                <div className="place text-cetner">장소</div>
+                <div className="main-image _text-cetner">메인 이미지</div>
+                <div className="main-title _text-cetner">공연명</div>
+                <div className="line-up _text-cetner">라인업</div>
+                <div className="place _text-cetner">장소</div>
               </div>
-              <div className="number text-cetner">시간</div>
+              <div className="number _text-cetner">시간</div>
               <div className="number">영상 링크</div>
               <div className="button" />
             </div>
