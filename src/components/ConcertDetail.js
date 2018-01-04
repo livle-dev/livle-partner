@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { find } from "lodash";
-import { fetchConcertDetail } from "../actions";
-import Chart from "./Chart";
-import { map } from "lodash";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { find } from 'lodash';
+import { fetchConcertDetail } from '../actions';
+import Chart from './Chart';
+import { map } from 'lodash';
 
-import ProgressChart from './ProgressChart'
+import ProgressChart from './ProgressChart';
 
 import moment from 'moment';
-import Content from "./Content";
-import axios from "../actions/axios";
+import Content from './Content';
+import axios from '../actions/axios';
 
 const DataInfo = ({ backgroundColor, text }) => {
   return (
@@ -31,11 +31,11 @@ class ConcertDetail extends Component {
     this.state = {
       concert: concert || { id: concertId },
       stats: null,
-      fetched: false
+      fetched: false,
     };
     this.fetchConcertStats = this.fetchConcertStats.bind(this);
-    this.renderDatainfo=this.renderDatainfo.bind(this);
-    this.calculateBooked=this.calculateBooked.bind(this);
+    this.renderDatainfo = this.renderDatainfo.bind(this);
+    this.calculateBooked = this.calculateBooked.bind(this);
   }
 
   componentWillMount() {
@@ -53,16 +53,12 @@ class ConcertDetail extends Component {
       .catch(err => console.log(err));
   }
 
-  renderDatainfo(cancelled_at, checked_at){
+  renderDatainfo(cancelled_at, checked_at) {
     // console.log(cancelled_at);
-    if(cancelled_at !== null) {
-        return (
-            <DataInfo backgroundColor="#d0021b"/>
-        )
-    }else if(checked_at){
-        return (
-            <DataInfo backgroundColor="#4a90e2"/>
-        )
+    if (cancelled_at !== null) {
+      return <DataInfo backgroundColor="#d0021b" />;
+    } else if (checked_at) {
+      return <DataInfo backgroundColor="#4a90e2" />;
       // let start_at= moment(this.state.stats.start_at);
       // let now = moment();
       // if(start_at.diff(now, 'hours')>0){
@@ -71,31 +67,28 @@ class ConcertDetail extends Component {
       //)
     }
   }
-    calculateBooked(){
-      const reservations=this.state.stats.reservations;
-      console.log(reservations);
-      var pureBooked=0;
-      for(var i=0; i<reservations.length ;i++){
-          console.log('hi');
-          if(reservations[i].cancelled_at === null ){
-              console.log(reservations[i].cancelled_at);
-              pureBooked++
-          }
+  calculateBooked() {
+    const reservations = this.state.stats.reservations;
+    console.log(reservations);
+    var pureBooked = 0;
+    for (var i = 0; i < reservations.length; i++) {
+      console.log('hi');
+      if (reservations[i].cancelled_at === null) {
+        console.log(reservations[i].cancelled_at);
+        pureBooked++;
       }
-      return pureBooked;
-    };
+    }
+    return pureBooked;
+  }
 
   render() {
     const { concert, stats } = this.state;
-
-
-
 
     return concert ? (
       <div id="detail">
         <div className="password-container">
           <p className="_fs_48 _white">
-            입장 비밀번호:{" "}
+            입장 비밀번호:{' '}
             <span className="_green-light">{concert.checkin_code}</span>
           </p>
         </div>
@@ -121,35 +114,35 @@ class ConcertDetail extends Component {
               </div>
             </div>
 
-              <div>
-                {this.state.fetched ? (
-                  map(this.state.stats.reservations, u => (
-                      <div key={u.id} className="_table-row _body">
-                            <div className="_flex_1">
-                                {this.renderDatainfo(u.cancelled_at, u.checked_at)}
-                              <div className="nickname text-cetner">{u.user.nickname}</div>
-                              <div className="email text-cetner">{u.user.email}</div>
-                            </div>
+            <div>
+              {this.state.fetched ? (
+                map(this.state.stats.reservations, u => (
+                  <div key={u.id} className="_table-row _body">
+                    <div className="_flex_1 _row-direction">
+                      {this.renderDatainfo(u.cancelled_at, u.checked_at)}
+                      <div className="nickname text-cetner">
+                        {u.user.nickname}
                       </div>
-                  ))
-                ) : (
-                  <h2>데이터 로드 중</h2>
-                )}
+                      <div className="email text-cetner">{u.user.email}</div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <h2>데이터 로드 중</h2>
+              )}
             </div>
-
           </div>
 
-            <h1>예약자 수</h1>
-            {this.state.fetched ? (
-                <ProgressChart capacity={this.state.stats.capacity} booked={this.calculateBooked()}/>
-            ) : (
-                <h2>차트 로드중</h2>
-            )}
-
-
+          <h1>예약자 수</h1>
+          {this.state.fetched ? (
+            <ProgressChart
+              capacity={this.state.stats.capacity}
+              booked={this.calculateBooked()}
+            />
+          ) : (
+            <h2>차트 로드중</h2>
+          )}
         </Content>
-
-
 
         {
           //콘서트 아이디: { concert.id }
@@ -160,7 +153,7 @@ class ConcertDetail extends Component {
         }
       </div>
     ) : (
-      "TODO 데이터 가져오기"
+      'TODO 데이터 가져오기'
     );
   }
 }
