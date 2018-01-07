@@ -37,7 +37,7 @@ class App extends Component {
     return this.state.ready ? (
       <BrowserRouter>
         <div className="_background">
-          {/*<Navigation />*/}
+          <Navigation />
           <Switch>
             <Route exact path="/" component={Session} />
             <Route path="/find" component={FindPassword} />
@@ -50,7 +50,7 @@ class App extends Component {
         </div>
       </BrowserRouter>
     ) : (
-        <ReactLoading type='cylon' color="#444"/>
+      <ReactLoading type="cylon" color="#444" />
     );
   }
 }

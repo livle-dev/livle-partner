@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { find } from "lodash";
-import { fetchConcertDetail } from "../actions";
-import Chart from "./Chart";
-import { map } from "lodash";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { find } from 'lodash';
+import { fetchConcertDetail } from '../actions';
+import Chart from './Chart';
+import { map } from 'lodash';
 
-import ProgressChart from './ProgressChart'
+import ProgressChart from './ProgressChart';
 
 import moment from 'moment';
-import Content from "./Content";
-import axios from "../actions/axios";
+import Content from './Content';
+import axios from '../actions/axios';
 
 const DataInfo = ({ backgroundColor, text }) => {
   return (
@@ -31,11 +31,11 @@ class ConcertDetail extends Component {
     this.state = {
       concert: concert || { id: concertId },
       stats: null,
-      fetched: false
+      fetched: false,
     };
     this.fetchConcertStats = this.fetchConcertStats.bind(this);
-    this.renderDatainfo=this.renderDatainfo.bind(this);
-    this.calculateBooked=this.calculateBooked.bind(this);
+    this.renderDatainfo = this.renderDatainfo.bind(this);
+    this.calculateBooked = this.calculateBooked.bind(this);
   }
 
   componentWillMount() {
@@ -53,49 +53,33 @@ class ConcertDetail extends Component {
       .catch(err => console.log(err));
   }
 
-  renderDatainfo(cancelled_at, checked_at){
-    // console.log(cancelled_at);
-    if(cancelled_at !== null) {
-        return (
-            <DataInfo backgroundColor="#d0021b"/>
-        )
-    }else if(checked_at){
-        return (
-            <DataInfo backgroundColor="#4a90e2"/>
-        )
-      // let start_at= moment(this.state.stats.start_at);
-      // let now = moment();
-      // if(start_at.diff(now, 'hours')>0){
-      //     return (
-      //         <DataInfo backgroundColor="#d0021b"/>
-      //)
-    }
+  renderDatainfo(checked_at = null, cancelled_at = null) {
+    if (checked_at) return <DataInfo backgroundColor="#4a90e2" />;
+    else if (!cancelled_at) return <DataInfo backgroundColor="#d0021b" />;
+    else return <DataInfo backgroundColor="transparent" />;
   }
-    calculateBooked(){
-      const reservations=this.state.stats.reservations;
-      console.log(reservations);
-      var pureBooked=0;
-      for(var i=0; i<reservations.length ;i++){
-          console.log('hi');
-          if(reservations[i].cancelled_at === null ){
-              console.log(reservations[i].cancelled_at);
-              pureBooked++
-          }
+
+  calculateBooked() {
+    const reservations = this.state.stats.reservations;
+    console.log(reservations);
+    var pureBooked = 0;
+    for (var i = 0; i < reservations.length; i++) {
+      if (reservations[i].cancelled_at === null) {
+        console.log(reservations[i].cancelled_at);
+        pureBooked++;
       }
-      return pureBooked;
-    };
+    }
+    return pureBooked;
+  }
 
   render() {
     const { concert, stats } = this.state;
-
-
-
 
     return concert ? (
       <div id="detail">
         <div className="password-container">
           <p className="_fs_48 _white">
-            입장 비밀번호:{" "}
+            입장 비밀번호:{' '}
             <span className="_green-light">{concert.checkin_code}</span>
           </p>
         </div>
@@ -107,50 +91,60 @@ class ConcertDetail extends Component {
             />
           )}
         </Content>
-        <Content title="예약자" backgroundColor="rgba(20, 42, 41, 0.58)">
-          <div className="_flex_1 _column-direction">
-            <div className="_flex _hright-position">
-              <DataInfo backgroundColor="#4a90e2" text="이용완료" />
-              {/*<DataInfo backgroundColor="#f8e71c" text="이용예정" />*/}
-              <DataInfo backgroundColor="#d0021b" text="예매취소" />
-            </div>
-            <div className="_table-row _title">
-              <div className="_flex_1">
-                <div className="nickname text-cetner">예약자명</div>
-                <div className="email text-cetner">닉네임</div>
-              </div>
-            </div>
-
-              <div>
+        <div className="_flex _row-direction">
+          <div className="_flex_1">
+            <Content title="예약자" backgroundColor="#051716">
+              <div className="_flex_1 _column-direction">
+                <div className="_flex _hright-position">
+                  <DataInfo backgroundColor="#4a90e2" text="이용완료" />
+                  <DataInfo backgroundColor="#d0021b" text="예매취소" />
+                </div>
+                <div className="table-container _table-row _title">
+                  <div className="_flex_1">
+                    {this.renderDatainfo(null, 'EMPTY')}
+                    <div className="nickname text-cetner">예약자명</div>
+                    <div className="email text-cetner">닉네임</div>
+                  </div>
+                </div>
                 {this.state.fetched ? (
-                  map(this.state.stats.reservations, u => (
-                      <div key={u.id} className="_table-row _body">
-                            <div className="_flex_1">
-                                {this.renderDatainfo(u.cancelled_at, u.checked_at)}
-                              <div className="nickname text-cetner">{u.user.nickname}</div>
-                              <div className="email text-cetner">{u.user.email}</div>
-                            </div>
+                  map(this.state.stats.reservations, user => (
+                    <div key={user.id} className="_table-row _body">
+                      <div className="_flex_1 _row-direction">
+                        {this.renderDatainfo(
+                          user.checked_at,
+                          user.cancelled_at
+                        )}
+                        <div className="nickname text-cetner">
+                          {user.user.nickname}
+                        </div>
+                        <div className="email text-cetner">
+                          {user.user.email}
+                        </div>
                       </div>
+                    </div>
                   ))
                 ) : (
-                  <h2>데이터 로드 중</h2>
+                  <p>데이터 로드 중</p>
                 )}
-            </div>
-
+              </div>
+            </Content>
           </div>
 
-          <div className="count-container">
-            <h1 className="_fs_36 _white _fw-semi-bold">예약자 수</h1>
-            {this.state.fetched ? (
-              <ProgressChart capacity={this.state.stats.capacity} booked={this.calculateBooked()}/>
-            ) : (
-              <h2>차트 로드중</h2>
-            )}
+          <div className="reservation-container">
+            <Content title="예약자 수" backgroundColor="#142a29">
+              <div className="_flex _hcenter-position _vcenter-position">
+                {this.state.fetched ? (
+                  <ProgressChart
+                    capacity={this.state.stats.capacity}
+                    booked={this.calculateBooked()}
+                  />
+                ) : (
+                  <p>차트 로드중</p>
+                )}
+              </div>
+            </Content>
           </div>
-
-        </Content>
-
-
+        </div>
 
         {
           //콘서트 아이디: { concert.id }
@@ -161,7 +155,7 @@ class ConcertDetail extends Component {
         }
       </div>
     ) : (
-      "TODO 데이터 가져오기"
+      'TODO 데이터 가져오기'
     );
   }
 }
