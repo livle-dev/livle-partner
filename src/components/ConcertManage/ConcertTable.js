@@ -1,24 +1,32 @@
 // Libraried
 import React from 'react';
 import { connect } from 'react-redux';
-import { map } from 'lodash';
+import { map, find } from 'lodash';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 // Views
 import Content from '../Content';
 
-const ConcertTable = ({ title, backgroundColor, concerts, history }) => {
+const ConcertTable = ({ title, backgroundColor, concerts,
+  history, user, partnerList }) => {
+  const companyFromId = (id) => {
+    const partner = find(partnerList, (p) => p.id === id)
+    return partner ? partner.company : `Partner ${id}`
+  }
+
   const concertRows = map(concerts, c => (
     <div
       className="_table-row _clickable-body"
       key={c.id}
       onClick={e => history.push(`/concert/${c.id}`)}>
       <div className="_flex_1">
-        <div className="partner-id">{c.partner_id}</div>
+        { user.isAdmin &&
+            <div className="partner-id">{companyFromId(c.partner_id)}</div>
+        }
         <div className="title">{c.title}</div>
       </div>
       <div className="number text-cetner">{c.checkin_code}</div>
-      <div className="number">TODO</div>
+      <div className="number">{c.reserved}</div>
     </div>
   ));
 
@@ -27,7 +35,9 @@ const ConcertTable = ({ title, backgroundColor, concerts, history }) => {
       <div className="_flex_1 _column-direction">
         <div className="_table-row _title">
           <div className="_flex_1">
-            <div className="partner-id text-cetner">파트너명</div>
+            { user.isAdmin &&
+                <div className="partner-id text-cetner">파트너사</div>
+            }
             <div className="title text-cetner">공연명</div>
           </div>
 
@@ -45,4 +55,8 @@ ConcertTable.propTypes = {
   concerts: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default withRouter(ConcertTable);
+function mapStateToProps(state) {
+  return { partnerList: state.partnerList, user: state.auth };
+}
+
+export default withRouter(connect(mapStateToProps, { })(ConcertTable));

@@ -55,7 +55,7 @@ class ConcertDetail extends Component {
 
   renderDatainfo(checked_at = null, cancelled_at = null) {
     if (checked_at) return <DataInfo backgroundColor="#4a90e2" />;
-    else if (!cancelled_at) return <DataInfo backgroundColor="#d0021b" />;
+    else if (cancelled_at) return <DataInfo backgroundColor="#d0021b" />;
     else return <DataInfo backgroundColor="transparent" />;
   }
 
@@ -101,7 +101,7 @@ class ConcertDetail extends Component {
                 </div>
                 <div className="table-container _table-row _title">
                   <div className="_flex_1">
-                    {this.renderDatainfo(null, 'EMPTY')}
+                    {this.renderDatainfo(null, null)}
                     <div className="nickname text-cetner">예약자명</div>
                     <div className="email text-cetner">닉네임</div>
                   </div>
