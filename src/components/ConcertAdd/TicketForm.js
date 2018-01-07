@@ -35,27 +35,39 @@ class TicketForm extends Component {
   }
 
   handleSubmit(values, e, formApi) {
+    if (this.state.submitting) {
+      return alert('작업 중입니다.')
+    }
+
+    this.setState({ submitting: true })
+
     !this.props.selected
       ? this.props
-          .createTicket(values)
-          .then(() => {
-            alert('공연을 추가했습니다.');
-            formApi.resetAll();
-          })
-          .catch(err => {
-            console.log(err);
-          })
+      .createTicket(values)
+      .then(() => {
+        alert('공연을 추가했습니다.');
+        this.setState({ submitting: false })
+        formApi.resetAll();
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ submitting: false })
+      })
       : this.props
-          .patchTicket(
-            values,
-            this.props.selected.id,
-            this.props.selected.partner_id
-          )
-          .then(() => {
-            console.log(this.state);
-            alert('공연이 수정되었습니다.');
-          })
-          .catch(err => console.log(err));
+      .patchTicket(
+        values,
+        this.props.selected.id,
+        this.props.selected.partner_id
+      )
+      .then(() => {
+        console.log(this.state);
+        alert('공연이 수정되었습니다.');
+        this.setState({ submitting: false })
+      })
+      .catch(err => {
+        console.log(err)
+        this.setState({ submitting: false })
+      });
   }
 
   render() {
@@ -209,7 +221,8 @@ class TicketForm extends Component {
               </div>
             </div>
             <div className="_flex _hright-position">
-              <button type="submit" className="submit-button _fs_22">
+              <button type="submit" className="submit-button _fs_22"
+                style={ this.state.submitting ? { background: 'black' } : {} }>
                 {this.props.selected.length === 0
                   ? '공연 등록하기'
                   : '수정하기'}
