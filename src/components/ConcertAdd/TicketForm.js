@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form, NestedForm, Text } from 'react-form';
+import { Form, NestedForm, Text, Select } from 'react-form';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import ReactS3Uploader from 'react-s3-uploader';
-import { createTicket, getSignedUrl, patchTicket } from '../../actions';
+import { fetchPartners, createTicket, getSignedUrl, patchTicket } from '../../actions';
 import _ from 'lodash';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -27,6 +27,7 @@ class TicketForm extends Component {
     this.state = { startDate: moment(), endDate: moment() };
   }
   componentWillMount() {
+    if (!this.props.partnerList.length) this.props.fetchPartners()
     this.setState({
       startDate: moment(this.props.selected.start_at),
       endDate: moment(this.props.selected.end_at),
@@ -58,6 +59,10 @@ class TicketForm extends Component {
   }
 
   render() {
+    const partnerOptions = _.map(this.props.partnerList, (p) => {
+      return { label: p.company, value: p.id }
+    })
+
     const Artist = ({ i, handleRemove, artist }) => {
       return (
         <NestedForm field={['artists', i]} key={`artist-${i}`}>
@@ -163,6 +168,9 @@ class TicketForm extends Component {
                 </Input>
               </div>
               <div className="right-container">
+                <Input title="파트너사">
+                  <Select field="partner_id" options={partnerOptions} />
+                </Input>
                 <Input title="확보 좌석">
                   <input
                     type="number"
@@ -214,6 +222,9 @@ class TicketForm extends Component {
   }
 }
 
-export default connect(null, { createTicket, patchTicket, getSignedUrl })(
-  TicketForm
-);
+function mapStateToProps(state) {
+  return { partnerList: state.partnerList }
+}
+
+export default connect(mapStateToProps, { createTicket, patchTicket,
+  getSignedUrl, fetchPartners })(TicketForm);
