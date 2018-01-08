@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { map } from 'lodash';
+import { map, reduce } from 'lodash';
 import { fetchConcerts } from '../../actions';
 import TicketForm from './TicketForm';
 import Content from '../Content';
@@ -23,6 +23,27 @@ class ConcertAdd extends Component {
   }
 
   render() {
+    const formatDate = (dateString) => {
+      let date = new Date(dateString)
+      const month = date.getMonth() + 1
+      const d = date.getDate()
+      const h = date.getHours()
+      const m = date.getMinutes()
+      return `${month}/${d} ${h} : ${m > 10 ? m : '0' + m}`
+    }
+    const artistsToString = (artists) => {
+      const maxLength = 20
+      const string = reduce(artists, (result, artist, index) => {
+        const name = artist.name
+        if (index === 0) return name
+        return result + ', ' + name
+      }, '')
+      if (string.length > maxLength) {
+        return string.substring(0, maxLength) + '...'
+      } else {
+        return string
+      }
+    }
     const concertList =
       this.props.concertList.length == 0
         ? '등록된 공연이 없습니다.'
@@ -30,13 +51,15 @@ class ConcertAdd extends Component {
             return (
               <div className="_table-row _body" key={c.id}>
                 <div className="_flex_1">
-                  <div className="main-image _text-cetner">TODO</div>
+                  <div className="main-image _text-cetner">
+                    <a href={c.image}>보기</a>
+                  </div>
                   <div className="main-title _text-cetner">{c.title}</div>
-                  <div className="line-up _text-cetner">TODO</div>
-                  <div className="place _text-cetner">TODO</div>
+                  <div className="line-up _text-cetner">{artistsToString(c.artists)}</div>
+                  <div className="place _text-cetner">{c.place}</div>
                 </div>
-                <div className="number _text-cetner">TODO</div>
-                <div className="number">TODO</div>
+                <div className="number _text-cetner">{formatDate(c.start_at)}</div>
+                <div className="number">{c.video_id}</div>
                 <div
                   className="button _green-aqua"
                   onClick={e => {
