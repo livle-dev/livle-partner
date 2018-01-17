@@ -23,19 +23,18 @@ export function signinUser({ email, password }) {
   return dispatch => {
     // Submit email/password to the server
     return axios
-      .get('/partner/session', {
-        params: { username: email, password: password },
+      .post('/partner/session', {
+        username: email,
+        password: password,
       })
       .then(response => {
         //200 or 204인 경우 them을 hit함
-        //If request is good...
         dispatch(authUser(response.data));
         Promise.resolve();
       })
       .catch(e => {
         //If request is bad
         //- Show an error to the user
-        //dispatch(authError(e.response.data.message))
         return Promise.reject(e.response.data.message);
       });
   };

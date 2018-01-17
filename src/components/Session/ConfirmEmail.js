@@ -11,6 +11,7 @@ class ConfirmEmail extends Component {
     this.state = { email: '', emailComplete: false };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   handleSubmit({ email }) {
     axios
       .get('/user/password', {

@@ -10,7 +10,6 @@ import ConcertDetail from './components/ConcertDetail';
 import UserList from './components/UserList';
 import ConcertAdd from './components/ConcertAdd';
 import ConfirmEmail from './components/Session/ConfirmEmail';
-import ChangePassword from './components/Session/ChangePassword';
 import Dashboard from './components/Dashboard';
 import ReactLoading from 'react-loading';
 
@@ -42,7 +41,6 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Session} />
             <Route path="/confirm" component={ConfirmEmail} />
-            <Route exact path="/password/:token" component={ChangePassword} />
             <Route path="/concerts" component={RequireAuth(ConcertManage)} />
             <Route path="/concert/:id" component={RequireAuth(ConcertDetail)} />
             <Route path="/users" component={RequireAuth(UserList)} />
