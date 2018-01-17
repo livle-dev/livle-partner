@@ -9,7 +9,7 @@ import {
   FETCH_CONCERTS,
   CREATE_CONCERT,
   REPLACE_PARTNER,
-  PATCH_CONCERT
+  PATCH_CONCERT,
 } from './types';
 
 function authUser(data) {
@@ -50,7 +50,6 @@ export function signupUser({ email, password, company }) {
         password: password,
       })
       .then(response => {
-        console.log('succ');
         // Should not be logged in before approval of livle admin
         // dispatch(authUser(response.data));
         return Promise.resolve();
@@ -75,7 +74,6 @@ export function signoutUser() {
 export function fetchMessage() {
   return function(dispatch) {
     axios.get('').then(response => {
-      console.log(response);
       dispatch({
         type: FETCH_MESSAGE,
         payload: response.data,
@@ -89,12 +87,10 @@ export function checkSession() {
     axios
       .get('/partner')
       .then(res => {
-        console.log('dispatch, then');
         dispatch(authUser(res.data));
         return Promise.resolve();
       })
       .catch(e => {
-        console.log('dispatch, catch');
         dispatch(signoutUser());
         return Promise.reject();
       });
@@ -108,44 +104,39 @@ export function createTicket(values) {
       .catch(err => Promise.reject(err.response.data));
 }
 
-
 function _createConcert(data) {
-    return {
-        type: CREATE_CONCERT,
-        payload: data,
-    };
+  return {
+    type: CREATE_CONCERT,
+    payload: data,
+  };
 }
 
-
-export function patchTicket(value, id, partner_id){
-  value.id=id;
-  value.partner_id=partner_id;
+export function patchTicket(value, id, partner_id) {
+  value.id = id;
+  value.partner_id = partner_id;
   return dispatch =>
-      axios
-        .patch(`/ticket/${value.id}`, value)
-        .then((res)=>{
-          console.log(res.data);
-          dispatch(_patchConcert(res.data));
-          Promise.resolve();
-        })
-        .catch(err=>Promise.reject(err))
+    axios
+      .patch(`/ticket/${value.id}`, value)
+      .then(res => {
+        dispatch(_patchConcert(res.data));
+        Promise.resolve();
+      })
+      .catch(err => Promise.reject(err));
 }
 
 function _patchConcert(data) {
-    return {
-        type: PATCH_CONCERT,
-        payload: data,
-    };
+  return {
+    type: PATCH_CONCERT,
+    payload: data,
+  };
 }
-
 
 function _fetchConcert(data) {
-    return {
-        type: PATCH_CONCERT,
-        payload: data,
-    };
+  return {
+    type: PATCH_CONCERT,
+    payload: data,
+  };
 }
-
 
 export function getSignedUrl(file, callback) {
   return dispatch =>

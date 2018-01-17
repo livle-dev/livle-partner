@@ -4,7 +4,12 @@ import { Form, NestedForm, Text, Select } from 'react-form';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import ReactS3Uploader from 'react-s3-uploader';
-import { fetchPartners, createTicket, getSignedUrl, patchTicket } from '../../actions';
+import {
+  fetchPartners,
+  createTicket,
+  getSignedUrl,
+  patchTicket,
+} from '../../actions';
 import _ from 'lodash';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -27,7 +32,7 @@ class TicketForm extends Component {
     this.state = { startDate: moment(), endDate: moment() };
   }
   componentWillMount() {
-    if (!this.props.partnerList.length) this.props.fetchPartners()
+    if (!this.props.partnerList.length) this.props.fetchPartners();
     this.setState({
       startDate: moment(this.props.selected.start_at),
       endDate: moment(this.props.selected.end_at),
@@ -36,44 +41,41 @@ class TicketForm extends Component {
 
   handleSubmit(values, e, formApi) {
     if (this.state.submitting) {
-      return alert('작업 중입니다.')
+      return alert('작업 중입니다.');
     }
 
-    this.setState({ submitting: true })
+    this.setState({ submitting: true });
 
     !this.props.selected
       ? this.props
-      .createTicket(values)
-      .then(() => {
-        alert('공연을 추가했습니다.');
-        this.setState({ submitting: false })
-        formApi.resetAll();
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({ submitting: false })
-      })
+          .createTicket(values)
+          .then(() => {
+            alert('공연을 추가했습니다.');
+            this.setState({ submitting: false });
+            formApi.resetAll();
+          })
+          .catch(err => {
+            this.setState({ submitting: false });
+          })
       : this.props
-      .patchTicket(
-        values,
-        this.props.selected.id,
-        this.props.selected.partner_id
-      )
-      .then(() => {
-        console.log(this.state);
-        alert('공연이 수정되었습니다.');
-        this.setState({ submitting: false })
-      })
-      .catch(err => {
-        console.log(err)
-        this.setState({ submitting: false })
-      });
+          .patchTicket(
+            values,
+            this.props.selected.id,
+            this.props.selected.partner_id
+          )
+          .then(() => {
+            alert('공연이 수정되었습니다.');
+            this.setState({ submitting: false });
+          })
+          .catch(err => {
+            this.setState({ submitting: false });
+          });
   }
 
   render() {
-    const partnerOptions = _.map(this.props.partnerList, (p) => {
-      return { label: p.company, value: p.id }
-    })
+    const partnerOptions = _.map(this.props.partnerList, p => {
+      return { label: p.company, value: p.id };
+    });
 
     const Artist = ({ i, handleRemove, artist }) => {
       return (
@@ -120,7 +122,6 @@ class TicketForm extends Component {
           // datetime
           start_at: this.props.selected.start_at || moment(),
           end_at: this.props.selected.end_at || moment(),
-
           artists: this.props.selected.artists || [],
         }}>
         {formApi => (
@@ -221,8 +222,10 @@ class TicketForm extends Component {
               </div>
             </div>
             <div className="_flex _hright-position">
-              <button type="submit" className="submit-button _fs_22"
-                style={ this.state.submitting ? { background: 'black' } : {} }>
+              <button
+                type="submit"
+                className="submit-button _fs_22"
+                style={this.state.submitting ? { background: 'black' } : {}}>
                 {this.props.selected.length === 0
                   ? '공연 등록하기'
                   : '수정하기'}
@@ -236,8 +239,12 @@ class TicketForm extends Component {
 }
 
 function mapStateToProps(state) {
-  return { partnerList: state.partnerList }
+  return { partnerList: state.partnerList };
 }
 
-export default connect(mapStateToProps, { createTicket, patchTicket,
-  getSignedUrl, fetchPartners })(TicketForm);
+export default connect(mapStateToProps, {
+  createTicket,
+  patchTicket,
+  getSignedUrl,
+  fetchPartners,
+})(TicketForm);

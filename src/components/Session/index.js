@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import SignIn from "./SignIn";
-import SignUp from "./Signup";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import SignIn from './SignIn';
+import SignUp from './Signup';
 // images
-import { background } from "../../images";
+import { background } from '../../images';
 // style
-import { backgroundImage } from "../../styles/javascript";
-import { strings, stringToCode } from "../../strings";
+import { backgroundImage } from '../../styles/javascript';
+import { strings, stringToCode } from '../../strings';
 
 class Session extends Component {
   state = { isLogin: true };
 
   componentWillMount() {
     if (this.props.authenticated) {
-      this.props.history.push("/concerts");
+      this.props.history.push('/concerts');
     }
   }
 
@@ -24,8 +24,7 @@ class Session extends Component {
       <div
         id="session"
         className="_fullscreen _flex _hcenter-position _vcenter-position"
-        style={backgroundImage(background.session_bg)}
-      >
+        style={backgroundImage(background.session_bg)}>
         <div className="session-container _row-direction">
           <div className="_flex_1 _column-direction _hcenter-position">
             <div className="typo-title">
@@ -44,27 +43,22 @@ class Session extends Component {
             <div className="select-container _row-direction">
               <div
                 className={`_flex_1 _hcenter-position _vcenter-position ${!isLogin &&
-                  "unselected-container"}`}
-                onClick={e => this.setState({ isLogin: true })}
-              >
+                  'unselected-container'}`}
+                onClick={e => this.setState({ isLogin: true })}>
                 <p className="_fs_36 _fw-bold _ls-4 _white">LOG IN</p>
               </div>
               <div
                 className={`_flex_1 _hcenter-position _vcenter-position ${isLogin &&
-                  "unselected-container"}`}
-                onClick={e => this.setState({ isLogin: false })}
-              >
+                  'unselected-container'}`}
+                onClick={e => this.setState({ isLogin: false })}>
                 <p className="_fs_36 _fw-bold _ls-4 _white">SIGN UP</p>
               </div>
             </div>
             <div className="form-continer _flex_1 _vcenter-position">
               {this.state.isLogin ? <SignIn /> : <SignUp />}
-              </div>
-            <a href="/find">비밀번호 까먹으심?</a>
+            </div>
           </div>
-
         </div>
-
       </div>
     );
   }

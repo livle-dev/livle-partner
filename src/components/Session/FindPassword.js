@@ -1,30 +1,28 @@
-import React, { Component } from "react";
-import { Form, Text } from "react-form";
+import React, { Component } from 'react';
+import { Form, Text } from 'react-form';
 
-import axios from "../../actions/axios";
-import { patchTicket } from "../../actions/index";
+import axios from '../../actions/axios';
+import { patchTicket } from '../../actions/index';
 
 class FindPassword extends Component {
   constructor() {
     super();
-    this.state = { email: "", emailComplete: false };
+    this.state = { email: '', emailComplete: false };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit({ email }) {
     axios
-      .get("/user/password", {
-        params: { email }
+      .get('/user/password', {
+        params: { email },
       })
       .then(response => {
-        console.log("hi");
-        console.log(response);
         this.setState({ email, emailComplete: true });
       })
       .catch(e => {
         if (e.response.status === 404) {
-          alert("해당하는 유저가 없습니다");
+          alert('해당하는 유저가 없습니다');
         } else {
-          alert("이메일이 없거나 잘못된 형식입니다");
+          alert('이메일이 없거나 잘못된 형식입니다');
         }
       });
   }
@@ -41,8 +39,7 @@ class FindPassword extends Component {
         ) : (
           <Form
             class="temporaryFormStyle"
-            onSubmit={submittedValues => this.handleSubmit(submittedValues)}
-          >
+            onSubmit={submittedValues => this.handleSubmit(submittedValues)}>
             {formApi => (
               <form onSubmit={formApi.submitForm}>
                 <Text field="email" placeholder="이메일" />

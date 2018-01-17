@@ -53,5 +53,9 @@ $login-box-size: 28rem;
       border: none;
       @include border-radius(0.2rem);
     }
+
+    .find-password-button {
+      margin-top: 12%;
+    }
   }
 }

@@ -47,10 +47,8 @@ class ConcertDetail extends Component {
       .get(`/ticket/${this.state.concert.id}/stats`)
       .then(res => {
         this.setState({ stats: res.data, fetched: true });
-
-        console.log(this.state.stats);
       })
-      .catch(err => console.log(err));
+      .catch(err => Promise.reject(err));
   }
 
   renderDatainfo(checked_at = null, cancelled_at = null) {
@@ -61,14 +59,10 @@ class ConcertDetail extends Component {
 
   calculateBooked() {
     const reservations = this.state.stats.reservations;
-    console.log(reservations);
     var pureBooked = 0;
-    for (var i = 0; i < reservations.length; i++) {
-      if (reservations[i].cancelled_at === null) {
-        console.log(reservations[i].cancelled_at);
-        pureBooked++;
-      }
-    }
+    reservations.forEach(item => {
+      if (!item.cancelled_at) pureBooked++;
+    });
     return pureBooked;
   }
 
