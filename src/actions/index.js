@@ -28,13 +28,10 @@ export function signinUser({ email, password }) {
         password: password,
       })
       .then(response => {
-        //200 or 204인 경우 them을 hit함
         dispatch(authUser(response.data));
         Promise.resolve();
       })
       .catch(e => {
-        //If request is bad
-        //- Show an error to the user
         return Promise.reject(e.response.data.message);
       });
   };
@@ -91,7 +88,7 @@ export function checkSession() {
       })
       .catch(e => {
         dispatch(signoutUser());
-        return Promise.reject();
+        return Promise.reject(e.response);
       });
 }
 

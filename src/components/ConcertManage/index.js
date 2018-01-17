@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { fetchConcerts } from '../../actions';
 import { filter } from 'lodash';
 import { withRouter } from 'react-router-dom';
+// view
+import Loading from '../Loading';
 import ConcertTable from './ConcertTable';
 
 class ConcertManage extends Component {
@@ -16,7 +18,7 @@ class ConcertManage extends Component {
   }
 
   render() {
-    if (!this.state.fetched) return 'Loading...';
+    if (!this.state.fetched) return <Loading fullscreen />;
 
     const concerts = this.props.concertList;
     if (concerts.length == 0) return '등록된 공연이 없습니다.';

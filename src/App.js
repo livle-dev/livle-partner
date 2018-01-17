@@ -11,7 +11,7 @@ import UserList from './components/UserList';
 import ConcertAdd from './components/ConcertAdd';
 import ConfirmEmail from './components/Session/ConfirmEmail';
 import Dashboard from './components/Dashboard';
-import ReactLoading from 'react-loading';
+import Loading from './components/Loading';
 
 import { checkSession } from './actions';
 
@@ -50,7 +50,7 @@ class App extends Component {
         </div>
       </BrowserRouter>
     ) : (
-      <ReactLoading type="cylon" color="#444" />
+      <Loading />
     );
   }
 }
