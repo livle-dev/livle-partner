@@ -1,29 +1,41 @@
+// library
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, NestedForm, Text, Select } from 'react-form';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import ReactS3Uploader from 'react-s3-uploader';
+import _ from 'lodash';
+// actions
 import {
   fetchPartners,
   createTicket,
   getSignedUrl,
   patchTicket,
 } from '../../actions';
-import _ from 'lodash';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-const Input = ({ title, children, ...option }) => {
-  return (
-    <div
-      className="input-container _row-direction _vcenter-position"
-      {...option}>
-      <p className="input-placeholder _white _fs_22">{title}</p>
-      <div className="_flex_1">{children}</div>
-    </div>
-  );
-};
+const Input = ({ title, children, ...option }) => (
+  <div className="input-container _row-direction _vcenter-position" {...option}>
+    <p className="input-placeholder _white _fs_22">{title}</p>
+    <div className="_flex_1">{children}</div>
+  </div>
+);
+
+const InputDate = ({ selected, onChange }) => (
+  <div className="_flex_1 _hcenter-position">
+    <DatePicker
+      selected={selected}
+      showTimeSelect
+      timeFormat="HH:mm"
+      timeIntervals={15}
+      dateFormat="YYYY.MM.DD HH : mm"
+      // callback
+      onChange={onChange}
+    />
+  </div>
+);
 
 class TicketForm extends Component {
   constructor() {
@@ -31,6 +43,7 @@ class TicketForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = { startDate: moment(), endDate: moment() };
   }
+
   componentWillMount() {
     if (!this.props.partnerList.length) this.props.fetchPartners();
     this.setState({
@@ -40,10 +53,7 @@ class TicketForm extends Component {
   }
 
   handleSubmit(values, e, formApi) {
-    if (this.state.submitting) {
-      return alert('작업 중입니다.');
-    }
-
+    if (this.state.submitting) return alert('작업 중입니다.');
     this.setState({ submitting: true });
 
     !this.props.selected
@@ -73,13 +83,9 @@ class TicketForm extends Component {
   }
 
   render() {
-    const partnerOptions = _.map(this.props.partnerList, p => {
-      return { label: p.company, value: p.id };
-    });
-
-    const Artist = ({ i, handleRemove, artist }) => {
+    const InputArtist = ({ index, handleRemove, artist }) => {
       return (
-        <NestedForm field={['artists', i]} key={`artist-${i}`}>
+        <NestedForm field={['artists', index]} key={`artist-${index}`}>
           <Form defaultValues={artist}>
             {formApi => (
               <div className="add-artist-container _flex _column-direction">
@@ -109,6 +115,10 @@ class TicketForm extends Component {
       );
     };
 
+    const partnerOptions = _.map(this.props.partnerList, p => {
+      return { label: p.company, value: p.id };
+    });
+
     // TODO validation
     return (
       <Form
@@ -134,45 +144,39 @@ class TicketForm extends Component {
                 <Input title="공연장소">
                   <Text field="place" placeholder="공연장소" />
                 </Input>
-                <Input title="대표이미지">
-                  {formApi.values.image && (
-                    <img src={formApi.values.image} className="main-image" />
-                  )}
-                  <ReactS3Uploader
-                    accept="image/*"
-                    getSignedUrl={this.props.getSignedUrl}
-                    onProgress={percent =>
-                      this.setState({ uploadProgress: percent })
-                    }
-                    onFinish={sign => {
-                      this.setState({ uploadProgress: null });
-                      formApi.setValue('image', sign.filePath);
-                    }}
-                  />
-                  {!!this.state.uploadProgress &&
-                    `${this.state.uploadProgress}% 완료`}
+                <Input title="대표이미지" id="input-image">
+                  <div className="_flex _column-direction">
+                    {formApi.values.image && (
+                      <img src={formApi.values.image} className="main-image" />
+                    )}
+                    {this.state.uploadProgress && (
+                      <p className="_white _fs-18 _fw-light">
+                        {this.state.uploadProgress}%
+                      </p>
+                    )}
+                    <ReactS3Uploader
+                      accept="image/*"
+                      getSignedUrl={this.props.getSignedUrl}
+                      onProgress={percent =>
+                        this.setState({ uploadProgress: percent })
+                      }
+                      onFinish={sign => {
+                        this.setState({ uploadProgress: null });
+                        formApi.setValue('image', sign.filePath);
+                      }}
+                    />
+                  </div>
                 </Input>
-                <Input title="공연일정">
-                  <DatePicker
+                <Input title="공연일정" id="input-date">
+                  <InputDate
                     selected={this.state.startDate}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    dateFormat="LLL"
                     onChange={date => {
                       this.setState({ startDate: date });
                       formApi.setValue('start_at', date);
                     }}
                   />
-                  <div className="_flex_1 _vcenter-position _hcenter-position">
-                    <p className="_white _fs_2">~</p>
-                  </div>
-                  <DatePicker
+                  <InputDate
                     selected={this.state.endDate}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    dateFormat="LLL"
                     onChange={date => {
                       this.setState({ endDate: date });
                       formApi.setValue('end_at', date);
@@ -198,10 +202,10 @@ class TicketForm extends Component {
                 <Input title="라인업" id="artist">
                   {formApi.values.artists &&
                     _.map(formApi.values.artists, (a, index) => (
-                      <Artist
+                      <InputArtist
                         key={index}
                         artist={a}
-                        i={index}
+                        index={index}
                         handleRemove={() =>
                           formApi.removeValue('artists', index)
                         }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { map, reduce } from 'lodash';
 import { fetchConcerts } from '../../actions';
@@ -6,6 +7,26 @@ import { fetchConcerts } from '../../actions';
 import TicketForm from './TicketForm';
 import Content from '../Content';
 import Loading from '../Loading';
+
+const formatDate = time => moment(time).format('MM/DD HH : mm');
+
+const artistsToString = artists => {
+  const maxLength = 20;
+  const text = reduce(
+    artists,
+    (result, artist, index) => {
+      const name = artist.name;
+      if (index === 0) return name;
+      return result + ', ' + name;
+    },
+    ''
+  );
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + '...';
+  } else {
+    return text;
+  }
+};
 
 class ConcertAdd extends Component {
   state = { fetched: false };
@@ -25,34 +46,6 @@ class ConcertAdd extends Component {
   }
 
   render() {
-    const formatDate = dateString => {
-      console.log(dateString);
-      let date = new Date(dateString);
-      const month = date.getMonth() + 1;
-      const d = date.getDate();
-      const h = date.getHours();
-      const m = date.getMinutes();
-      return `${month}/${d} ${h} : ${m > 10 ? m : '0' + m}`;
-    };
-
-    const artistsToString = artists => {
-      const maxLength = 20;
-      const string = reduce(
-        artists,
-        (result, artist, index) => {
-          const name = artist.name;
-          if (index === 0) return name;
-          return result + ', ' + name;
-        },
-        ''
-      );
-      if (string.length > maxLength) {
-        return string.substring(0, maxLength) + '...';
-      } else {
-        return string;
-      }
-    };
-
     const concertList =
       this.props.concertList.length == 0
         ? '등록된 공연이 없습니다.'

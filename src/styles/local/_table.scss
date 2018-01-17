@@ -12,8 +12,8 @@ $user-id: 16rem;
 $partner-id: 30%;
 $title: 100% - $partner-id;
 // 공연등록
-$main-image: 20%;
-$main-title: 30%;
+$main-image: 10%;
+$main-title: 35%;
 $line-up: 30%;
 $place: 100% - ($main-image + $main-title + $line-up);
 
@@ -73,6 +73,7 @@ $place: 100% - ($main-image + $main-title + $line-up);
 
   .main-image {
     width: 100%;
+    max-height: 20rem;
     object-fit: contain;
   }
 

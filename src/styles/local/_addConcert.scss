@@ -1,0 +1,13 @@
+@import '../global/mixin';
+@import '../global/color';
+
+#input-date input {
+  @include cursor-pointer;
+  @include border-radius(0.2rem);
+  border: 1px solid $green-light;
+  text-align: center;
+}
+
+#input-image input {
+  border: none;
+}
