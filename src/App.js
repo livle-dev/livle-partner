@@ -9,7 +9,7 @@ import ConcertManage from './components/ConcertManage';
 import ConcertDetail from './components/ConcertDetail';
 import UserList from './components/UserList';
 import ConcertAdd from './components/ConcertAdd';
-import FindPassword from './components/Session/FindPassword';
+import ConfirmEmail from './components/Session/ConfirmEmail';
 import ChangePassword from './components/Session/ChangePassword';
 import Dashboard from './components/Dashboard';
 import ReactLoading from 'react-loading';
@@ -41,7 +41,7 @@ class App extends Component {
           <Navigation />
           <Switch>
             <Route exact path="/" component={Session} />
-            <Route path="/find" component={FindPassword} />
+            <Route path="/confirm" component={ConfirmEmail} />
             <Route exact path="/password/:token" component={ChangePassword} />
             <Route path="/concerts" component={RequireAuth(ConcertManage)} />
             <Route path="/concert/:id" component={RequireAuth(ConcertDetail)} />

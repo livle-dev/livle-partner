@@ -22,7 +22,7 @@ const SignIn = ({ history, signinUser }) => {
               로그인
             </button>
             <div className="find-password-button _flex _hcenter-position">
-              <a href="/find" className="_fw-semi-bold _fs_22 _green-light">
+              <a href="/confirm" className="_fw-semi-bold _fs_22 _green-light">
                 비밀번호 찾기
               </a>
             </div>
