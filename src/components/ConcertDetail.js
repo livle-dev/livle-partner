@@ -6,6 +6,7 @@ import Chart from './Chart';
 import { map } from 'lodash';
 
 import ProgressChart from './ProgressChart';
+import Loading from './Loading';
 
 import moment from 'moment';
 import Content from './Content';
@@ -25,7 +26,6 @@ class ConcertDetail extends Component {
     super();
 
     const concertId = match.params.id;
-
     const concert = find(concertList, c => c.id == concertId); // object가 들어와있음
     // concert: object, id: string
     this.state = {
@@ -78,11 +78,13 @@ class ConcertDetail extends Component {
           </p>
         </div>
         <Content title="예약현황" backgroundColor="rgba(0, 0, 0, 0.58)">
-          {stats && (
+          {stats ? (
             <Chart
               start_at={this.state.stats.start_at}
               reservations={this.state.stats.reservations}
             />
+          ) : (
+            <Loading />
           )}
         </Content>
         <div className="_flex _row-direction">
@@ -101,7 +103,7 @@ class ConcertDetail extends Component {
                   </div>
                 </div>
                 {this.state.fetched ? (
-                  map(this.state.stats.reservations, user => (
+                  map(stats.reservations, user => (
                     <div key={user.id} className="_table-row _body">
                       <div className="_flex_1 _row-direction">
                         {this.renderDatainfo(
@@ -118,7 +120,7 @@ class ConcertDetail extends Component {
                     </div>
                   ))
                 ) : (
-                  <p>데이터 로드 중</p>
+                  <Loading />
                 )}
               </div>
             </Content>
@@ -133,7 +135,7 @@ class ConcertDetail extends Component {
                     booked={this.calculateBooked()}
                   />
                 ) : (
-                  <p>차트 로드중</p>
+                  <Loading />
                 )}
               </div>
             </Content>
@@ -149,7 +151,7 @@ class ConcertDetail extends Component {
         }
       </div>
     ) : (
-      'TODO 데이터 가져오기'
+      <Loading fullscreen />
     );
   }
 }

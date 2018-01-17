@@ -6,34 +6,34 @@ import PropTypes from 'prop-types';
 import Content from '../Content';
 
 const UserTable = ({ users }) => {
-  const startOfSubscription = (user) => {
-    const formatter = (dateString) => {
-      const date = new Date(dateString)
-      return `${date.getMonth() + 1} / ${date.getDate()}`
-    }
+  const startOfSubscription = user => {
+    const formatter = dateString => {
+      const date = new Date(dateString);
+      return `${date.getMonth() + 1} / ${date.getDate()}`;
+    };
     const start = reduceRight(user.subscriptions, (result, curr) => {
-      if (!result) return curr
-      if (curr.next_subscription_id === result.id) return curr
-      return result
-    })
+      if (!result) return curr;
+      if (curr.next_subscription_id === result.id) return curr;
+      return result;
+    });
     if (start) {
-      return formatter(start.from)
+      return formatter(start.from);
     } else {
-      return '-'
+      return '-';
     }
-  }
+  };
 
-  const subscriptionStatus = (user) => {
-    const subs = user.subscriptions
-    if (subs.length === 0) return '-' // 구독한 적 없음
-    const unpaidSub = find(subs, (s) => !s.paid_at)
-    if (!unpaidSub) return 'X' // 구독한 적 있으나 중단함
+  const subscriptionStatus = user => {
+    const subs = user.subscriptions;
+    if (subs.length === 0) return '-'; // 구독한 적 없음
+    const unpaidSub = find(subs, s => !s.paid_at);
+    if (!unpaidSub) return 'X'; // 구독한 적 있으나 중단함
     if (new Date(unpaidSub.from) < new Date()) {
-      return '미납'
+      return '미납';
     } else {
-      return 'O' // 정상 구독
+      return 'O'; // 정상 구독
     }
-  }
+  };
 
   const userRows = map(users, u => (
     <div className="_table-row _body" key={u.id}>

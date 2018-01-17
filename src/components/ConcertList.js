@@ -28,7 +28,7 @@ class ConcertList extends Component {
             </div>
           ));
 
-    return <div>{this.state.fetched ? concertList : <Loading />}</div>;
+    return this.state.fetched ? <div>{concertList}</div> : <Loading />;
   }
 }
 

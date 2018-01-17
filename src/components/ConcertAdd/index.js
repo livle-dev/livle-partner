@@ -26,6 +26,7 @@ class ConcertAdd extends Component {
 
   render() {
     const formatDate = dateString => {
+      console.log(dateString);
       let date = new Date(dateString);
       const month = date.getMonth() + 1;
       const d = date.getDate();
@@ -33,6 +34,7 @@ class ConcertAdd extends Component {
       const m = date.getMinutes();
       return `${month}/${d} ${h} : ${m > 10 ? m : '0' + m}`;
     };
+
     const artistsToString = artists => {
       const maxLength = 20;
       const string = reduce(
@@ -50,6 +52,7 @@ class ConcertAdd extends Component {
         return string;
       }
     };
+
     const concertList =
       this.props.concertList.length == 0
         ? '등록된 공연이 없습니다.'
