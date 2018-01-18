@@ -26,7 +26,7 @@ const artistsToString = artists => {
   }
 };
 
-const ConcertList = ({ concertList }) => {
+const ConcertList = ({ concertList, handleClick }) => {
   let filterList = concertList.filter(
     item => moment(item.end_at).diff(moment()) > 0
   );
@@ -52,7 +52,7 @@ const ConcertList = ({ concertList }) => {
               className="button _green-aqua"
               onClick={e => {
                 e.preventDefault();
-                this.handleClick(c);
+                handleClick(c);
               }}>
               수정하기
             </div>
@@ -105,7 +105,10 @@ class ConcertAdd extends Component {
               <div className="button" />
             </div>
             {this.state.fetched ? (
-              <ConcertList concertList={this.props.concertList} />
+              <ConcertList
+                concertList={this.props.concertList}
+                handleClick={this.handleClick}
+              />
             ) : (
               <Loading />
             )}
