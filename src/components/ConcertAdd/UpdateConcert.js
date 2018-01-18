@@ -23,8 +23,13 @@ const Input = ({ title, children, ...option }) => (
   </div>
 );
 
-const InputDate = ({ selected, onChange }) => (
+const InputDate = ({ text, selected, onChange }) => (
   <div className="_flex_1 _hcenter-position">
+    <div
+      className="_flex _vcenter-position"
+      style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
+      <p className="_white _fw-semi-bold _fs-18 _whitespace-nowrap">{text} :</p>
+    </div>
     <DatePicker
       selected={selected}
       showTimeSelect
@@ -37,7 +42,7 @@ const InputDate = ({ selected, onChange }) => (
   </div>
 );
 
-class TicketForm extends Component {
+class UpdateConcert extends Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -169,6 +174,7 @@ class TicketForm extends Component {
                 </Input>
                 <Input title="공연일정" id="input-date">
                   <InputDate
+                    text="시작"
                     selected={this.state.startDate}
                     onChange={date => {
                       this.setState({ startDate: date });
@@ -176,6 +182,7 @@ class TicketForm extends Component {
                     }}
                   />
                   <InputDate
+                    text="종료"
                     selected={this.state.endDate}
                     onChange={date => {
                       this.setState({ endDate: date });
@@ -251,4 +258,4 @@ export default connect(mapStateToProps, {
   patchTicket,
   getSignedUrl,
   fetchPartners,
-})(TicketForm);
+})(UpdateConcert);

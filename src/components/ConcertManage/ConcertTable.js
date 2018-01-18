@@ -7,12 +7,18 @@ import { withRouter } from 'react-router-dom';
 // Views
 import Content from '../Content';
 
-const ConcertTable = ({ title, backgroundColor, concerts,
-  history, user, partnerList }) => {
-  const companyFromId = (id) => {
-    const partner = find(partnerList, (p) => p.id === id)
-    return partner ? partner.company : `Partner ${id}`
-  }
+const ConcertTable = ({
+  title,
+  backgroundColor,
+  concerts,
+  history,
+  user,
+  partnerList,
+}) => {
+  const companyFromId = id => {
+    const partner = find(partnerList, p => p.id === id);
+    return partner ? partner.company : `Partner ${id}`;
+  };
 
   const concertRows = map(concerts, c => (
     <div
@@ -20,12 +26,12 @@ const ConcertTable = ({ title, backgroundColor, concerts,
       key={c.id}
       onClick={e => history.push(`/concert/${c.id}`)}>
       <div className="_flex_1">
-        { user.isAdmin &&
-            <div className="partner-id">{companyFromId(c.partner_id)}</div>
-        }
+        {user.isAdmin && (
+          <div className="partner-id">{companyFromId(c.partner_id)}</div>
+        )}
         <div className="title">{c.title}</div>
       </div>
-      <div className="number text-cetner">{c.checkin_code}</div>
+      <div className="number _text-center">{c.checkin_code}</div>
       <div className="number">{c.reserved}</div>
     </div>
   ));
@@ -35,13 +41,13 @@ const ConcertTable = ({ title, backgroundColor, concerts,
       <div className="_flex_1 _column-direction">
         <div className="_table-row _title">
           <div className="_flex_1">
-            { user.isAdmin &&
-                <div className="partner-id text-cetner">파트너사</div>
-            }
-            <div className="title text-cetner">공연명</div>
+            {user.isAdmin && (
+              <div className="partner-id _text-center">파트너사</div>
+            )}
+            <div className="title _text-center">공연명</div>
           </div>
 
-          <div className="number text-cetner">입장비밀번호</div>
+          <div className="number _text-center">입장비밀번호</div>
           <div className="number">예약자수</div>
         </div>
         {concertRows}
@@ -51,7 +57,6 @@ const ConcertTable = ({ title, backgroundColor, concerts,
 };
 
 ConcertTable.propTypes = {
-  // prop 'tickets' should be an array of ticket objects
   concerts: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -59,4 +64,4 @@ function mapStateToProps(state) {
   return { partnerList: state.partnerList, user: state.auth };
 }
 
-export default withRouter(connect(mapStateToProps, { })(ConcertTable));
+export default withRouter(connect(mapStateToProps, {})(ConcertTable));

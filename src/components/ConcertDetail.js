@@ -98,8 +98,8 @@ class ConcertDetail extends Component {
                 <div className="table-container _table-row _title">
                   <div className="_flex_1">
                     {this.renderDatainfo(null, null)}
-                    <div className="nickname text-cetner">예약자명</div>
-                    <div className="email text-cetner">닉네임</div>
+                    <div className="nickname _text-center">예약자명</div>
+                    <div className="email _text-center">닉네임</div>
                   </div>
                 </div>
                 {this.state.fetched ? (
@@ -110,10 +110,10 @@ class ConcertDetail extends Component {
                           user.checked_at,
                           user.cancelled_at
                         )}
-                        <div className="nickname text-cetner">
+                        <div className="nickname _text-center">
                           {user.user.nickname}
                         </div>
-                        <div className="email text-cetner">
+                        <div className="email _text-center">
                           {user.user.email}
                         </div>
                       </div>

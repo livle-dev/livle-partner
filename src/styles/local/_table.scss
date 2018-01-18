@@ -1,4 +1,6 @@
 @import '../global/mixin';
+@import '../global/color';
+
 // 공통
 $number: 8rem;
 $date: 10rem;
@@ -18,9 +20,10 @@ $line-up: 30%;
 $place: 100% - ($main-image + $main-title + $line-up);
 
 ._table-row {
-  .text-cetner {
-    text-align: center;
+  a {
+    color: $green-light;
   }
+
   .number {
     width: $number;
   }

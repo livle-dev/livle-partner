@@ -1,31 +1,66 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { map, reduce } from 'lodash';
+import { map } from 'lodash';
 import { fetchConcerts } from '../../actions';
 // view
-import TicketForm from './TicketForm';
+import UpdateConcert from './UpdateConcert';
 import Content from '../Content';
 import Loading from '../Loading';
 
 const formatDate = time => moment(time).format('MM/DD HH : mm');
 
 const artistsToString = artists => {
-  const maxLength = 20;
-  const text = reduce(
-    artists,
-    (result, artist, index) => {
-      const name = artist.name;
-      if (index === 0) return name;
-      return result + ', ' + name;
-    },
-    ''
-  );
-  if (text.length > maxLength) {
-    return text.substring(0, maxLength) + '...';
+  const maxLength = 36;
+  let artistString = '';
+  artists.forEach((item, index) => {
+    artistString = artistString + item.name;
+    if (artists[index + 1]) artistString = artistString + ', ';
+  });
+
+  return artistString;
+  if (artistString.length > maxLength) {
+    return artistString.substring(0, maxLength) + '...';
   } else {
-    return text;
+    return artistString;
   }
+};
+
+const ConcertList = ({ concertList }) => {
+  let filterList = concertList.filter(
+    item => moment(item.end_at).diff(moment()) > 0
+  );
+  if (filterList.length === 0) return <p>등록된 공연이 없습니다.</p>;
+  filterList.sort((x, y) => moment(x.start_at).diff(moment(y.start_at)));
+
+  return (
+    <div>
+      {map(filterList, c => {
+        return (
+          <div className="_table-row _body" key={c.id}>
+            <div className="_flex_1 _vcenter-position">
+              <div className="main-image _text-center">
+                <a href={c.image}>보기</a>
+              </div>
+              <div className="main-title">{c.title}</div>
+              <div className="line-up">{artistsToString(c.artists)}</div>
+              <div className="place">{c.place}</div>
+            </div>
+            <div className="number">{formatDate(c.start_at)}</div>
+            <div className="number">{c.video_id}</div>
+            <div
+              className="button _green-aqua"
+              onClick={e => {
+                e.preventDefault();
+                this.handleClick(c);
+              }}>
+              수정하기
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
 class ConcertAdd extends Component {
@@ -46,42 +81,10 @@ class ConcertAdd extends Component {
   }
 
   render() {
-    const concertList =
-      this.props.concertList.length == 0
-        ? '등록된 공연이 없습니다.'
-        : map(this.props.concertList, c => {
-            return (
-              <div className="_table-row _body" key={c.id}>
-                <div className="_flex_1">
-                  <div className="main-image _text-cetner">
-                    <a href={c.image}>보기</a>
-                  </div>
-                  <div className="main-title _text-cetner">{c.title}</div>
-                  <div className="line-up _text-cetner">
-                    {artistsToString(c.artists)}
-                  </div>
-                  <div className="place _text-cetner">{c.place}</div>
-                </div>
-                <div className="number _text-cetner">
-                  {formatDate(c.start_at)}
-                </div>
-                <div className="number">{c.video_id}</div>
-                <div
-                  className="button _green-aqua"
-                  onClick={e => {
-                    e.preventDefault();
-                    this.handleClick(c);
-                  }}>
-                  수정하기
-                </div>
-              </div>
-            );
-          });
-
     return (
       <div>
         <Content title="공연 등록" backgroundColor="rgba(0, 0, 0, 0.58)">
-          <TicketForm
+          <UpdateConcert
             selected={this.state.selectedConcert}
             key={this.state.selectedConcert.id || '00000'}
           />
@@ -89,17 +92,23 @@ class ConcertAdd extends Component {
         <Content title="공연 목록" backgroundColor="rgba(20, 42, 41, 0.58)">
           <div className="_flex_1 _column-direction">
             <div className="_table-row _title">
-              <div className="_flex_1">
-                <div className="main-image _text-cetner">메인 이미지</div>
-                <div className="main-title _text-cetner">공연명</div>
-                <div className="line-up _text-cetner">라인업</div>
-                <div className="place _text-cetner">장소</div>
+              <div className="_flex_1 _vcenter-position">
+                <div className="main-image _text-center _whitespace-nowrap">
+                  대표이미지
+                </div>
+                <div className="main-title _text-center">공연명</div>
+                <div className="line-up _text-center">라인업</div>
+                <div className="place _text-center">장소</div>
               </div>
-              <div className="number _text-cetner">시간</div>
+              <div className="number">시간</div>
               <div className="number">영상 링크</div>
               <div className="button" />
             </div>
-            {this.state.fetched ? concertList : <Loading />}
+            {this.state.fetched ? (
+              <ConcertList concertList={this.props.concertList} />
+            ) : (
+              <Loading />
+            )}
           </div>
         </Content>
       </div>

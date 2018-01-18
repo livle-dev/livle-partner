@@ -38,8 +38,8 @@ const UserTable = ({ users }) => {
   const userRows = map(users, u => (
     <div className="_table-row _body" key={u.id}>
       <div className="_flex_1">
-        <div className="email text-cetner">{u.email}</div>
-        <div className="nickname text-cetner">{u.nickname || '없음'}</div>
+        <div className="email _text-center">{u.email}</div>
+        <div className="nickname _text-center">{u.nickname || '없음'}</div>
       </div>
       <div className="date _text-center">{startOfSubscription(u)}</div>
       <div className="short-text _text-center">{subscriptionStatus(u)}</div>
@@ -52,8 +52,8 @@ const UserTable = ({ users }) => {
       <div className="_flex_1 _column-direction">
         <div className="_table-row _title">
           <div className="_flex_1">
-            <div className="email text-cetner">이메일</div>
-            <div className="nickname text-cetner">닉네임</div>
+            <div className="email _text-center">이메일</div>
+            <div className="nickname _text-center">닉네임</div>
           </div>
           <div className="date _text-center">구독 시작일자</div>
           <div className="short-text _text-center">구독상태</div>
