@@ -15,7 +15,7 @@ const calculateBooked = reservations =>
 
 const DataInfo = ({ backgroundColor, text }) => {
   return (
-    <div className="info-container _row-direction">
+    <div className="status-container _row-direction">
       <div className="circle" style={{ backgroundColor: backgroundColor }} />
       <p className="_white _fs_18">{text}</p>
     </div>

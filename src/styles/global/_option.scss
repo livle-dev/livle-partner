@@ -53,3 +53,21 @@
 ._logo {
   @include size(auto, $logo-height);
 }
+
+// pointer
+._cursor-pointer {
+  @include cursor-pointer;
+}
+
+// blur
+.blur {
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='3');
+  -webkit-filter: url(#blur-filter);
+  filter: url(#blur-filter);
+  -webkit-filter: blur(3px);
+  filter: blur(3px);
+}
+
+._blur-svg {
+  display: none;
+}
