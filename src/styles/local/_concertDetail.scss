@@ -18,7 +18,62 @@
   .table-container {
     margin: 2rem 0 0;
   }
-  .reservation-container {
-    width: 40rem;
+
+  .count-reservation-container {
+    width: 28rem;
+  }
+  .count-reservation {
+    @include size(14rem);
+  }
+}
+
+.CircularProgressbar {
+  /*
+   * This fixes an issue where the CircularProgressbar svg has
+   * 0 width inside a "display: flex" container, and thus not visible.
+   *
+   * If you're not using "display: flex", you can remove this style.
+   */
+  width: 100%;
+  .CircularProgressbar-path {
+    stroke: #19e298;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease 0s;
+  }
+  .CircularProgressbar-trail {
+    stroke: #5a5a5a;
+  }
+  .CircularProgressbar-text {
+    fill: #19e298;
+    font-size: 15px;
+    dominant-baseline: middle;
+    text-anchor: middle;
+  }
+  .CircularProgressbar-background {
+    fill: #d6d6d6;
+  }
+
+  /*
+  * Sample background styles. Use these with e.g.:
+  *
+  *   <CircularProgressbar
+  *     className="CircularProgressbar-inverted"
+  *     background
+  *     percentage={50}
+  *   />
+  */
+  .CircularProgressbar-inverted {
+    .CircularProgressbar-background {
+      fill: #3e98c7;
+    }
+    .CircularProgressbar-text {
+      fill: #fff;
+    }
+    .CircularProgressbar-path {
+      stroke: #fff;
+    }
+    .CircularProgressbar-trail {
+      stroke: transparent;
+    }
   }
 }

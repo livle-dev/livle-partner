@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { find } from 'lodash';
-import { fetchConcertDetail } from '../actions';
-import Chart from './Chart';
 import { map } from 'lodash';
-
-import ProgressChart from './ProgressChart';
-import Loading from './Loading';
-
 import moment from 'moment';
-import Content from './Content';
-import axios from '../actions/axios';
+import { fetchConcertDetail } from '../../actions';
+import axios from '../../actions/axios';
+// view
+import Chart from './Chart';
+import CountReservation from './CountReservation';
+import Loading from '../Loading';
+import Content from '../Content';
 
 const DataInfo = ({ backgroundColor, text }) => {
   return (
@@ -126,11 +125,11 @@ class ConcertDetail extends Component {
             </Content>
           </div>
 
-          <div className="reservation-container">
+          <div className="count-reservation-container">
             <Content title="예약자 수" backgroundColor="#142a29">
               <div className="_flex _hcenter-position _vcenter-position">
                 {this.state.fetched ? (
-                  <ProgressChart
+                  <CountReservation
                     capacity={this.state.stats.capacity}
                     booked={this.calculateBooked()}
                   />
