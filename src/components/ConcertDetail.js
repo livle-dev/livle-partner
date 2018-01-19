@@ -6,6 +6,7 @@ import Chart from './Chart';
 import { map } from 'lodash';
 
 import ProgressChart from './ProgressChart';
+import Loading from './Loading';
 
 import moment from 'moment';
 import Content from './Content';
@@ -25,7 +26,6 @@ class ConcertDetail extends Component {
     super();
 
     const concertId = match.params.id;
-
     const concert = find(concertList, c => c.id == concertId); // object가 들어와있음
     // concert: object, id: string
     this.state = {
@@ -47,10 +47,8 @@ class ConcertDetail extends Component {
       .get(`/ticket/${this.state.concert.id}/stats`)
       .then(res => {
         this.setState({ stats: res.data, fetched: true });
-
-        console.log(this.state.stats);
       })
-      .catch(err => console.log(err));
+      .catch(err => Promise.reject(err));
   }
 
   renderDatainfo(checked_at = null, cancelled_at = null) {
@@ -61,14 +59,10 @@ class ConcertDetail extends Component {
 
   calculateBooked() {
     const reservations = this.state.stats.reservations;
-    console.log(reservations);
     var pureBooked = 0;
-    for (var i = 0; i < reservations.length; i++) {
-      if (reservations[i].cancelled_at === null) {
-        console.log(reservations[i].cancelled_at);
-        pureBooked++;
-      }
-    }
+    reservations.forEach(item => {
+      if (!item.cancelled_at) pureBooked++;
+    });
     return pureBooked;
   }
 
@@ -84,11 +78,13 @@ class ConcertDetail extends Component {
           </p>
         </div>
         <Content title="예약현황" backgroundColor="rgba(0, 0, 0, 0.58)">
-          {stats && (
+          {stats ? (
             <Chart
               start_at={this.state.stats.start_at}
               reservations={this.state.stats.reservations}
             />
+          ) : (
+            <Loading />
           )}
         </Content>
         <div className="_flex _row-direction">
@@ -102,29 +98,29 @@ class ConcertDetail extends Component {
                 <div className="table-container _table-row _title">
                   <div className="_flex_1">
                     {this.renderDatainfo(null, null)}
-                    <div className="nickname text-cetner">예약자명</div>
-                    <div className="email text-cetner">닉네임</div>
+                    <div className="nickname _text-center">예약자명</div>
+                    <div className="email _text-center">닉네임</div>
                   </div>
                 </div>
                 {this.state.fetched ? (
-                  map(this.state.stats.reservations, user => (
+                  map(stats.reservations, user => (
                     <div key={user.id} className="_table-row _body">
                       <div className="_flex_1 _row-direction">
                         {this.renderDatainfo(
                           user.checked_at,
                           user.cancelled_at
                         )}
-                        <div className="nickname text-cetner">
+                        <div className="nickname _text-center">
                           {user.user.nickname}
                         </div>
-                        <div className="email text-cetner">
+                        <div className="email _text-center">
                           {user.user.email}
                         </div>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <p>데이터 로드 중</p>
+                  <Loading />
                 )}
               </div>
             </Content>
@@ -139,7 +135,7 @@ class ConcertDetail extends Component {
                     booked={this.calculateBooked()}
                   />
                 ) : (
-                  <p>차트 로드중</p>
+                  <Loading />
                 )}
               </div>
             </Content>
@@ -155,7 +151,7 @@ class ConcertDetail extends Component {
         }
       </div>
     ) : (
-      'TODO 데이터 가져오기'
+      <Loading fullscreen />
     );
   }
 }

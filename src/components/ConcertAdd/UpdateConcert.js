@@ -1,33 +1,56 @@
+// library
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, NestedForm, Text, Select } from 'react-form';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import ReactS3Uploader from 'react-s3-uploader';
-import { fetchPartners, createTicket, getSignedUrl, patchTicket } from '../../actions';
 import _ from 'lodash';
+// actions
+import {
+  fetchPartners,
+  createTicket,
+  getSignedUrl,
+  patchTicket,
+} from '../../actions';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-const Input = ({ title, children, ...option }) => {
-  return (
-    <div
-      className="input-container _row-direction _vcenter-position"
-      {...option}>
-      <p className="input-placeholder _white _fs_22">{title}</p>
-      <div className="_flex_1">{children}</div>
-    </div>
-  );
-};
+const Input = ({ title, children, ...option }) => (
+  <div className="input-container _row-direction _vcenter-position" {...option}>
+    <p className="input-placeholder _white _fs_22">{title}</p>
+    <div className="_flex_1">{children}</div>
+  </div>
+);
 
-class TicketForm extends Component {
+const InputDate = ({ text, selected, onChange }) => (
+  <div className="_flex_1 _hcenter-position">
+    <div
+      className="_flex _vcenter-position"
+      style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
+      <p className="_white _fw-semi-bold _fs-18 _whitespace-nowrap">{text} :</p>
+    </div>
+    <DatePicker
+      selected={selected}
+      showTimeSelect
+      timeFormat="HH:mm"
+      timeIntervals={15}
+      dateFormat="YYYY.MM.DD HH : mm"
+      // callback
+      onChange={onChange}
+    />
+  </div>
+);
+
+class UpdateConcert extends Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = { startDate: moment(), endDate: moment() };
   }
+
   componentWillMount() {
-    if (!this.props.partnerList.length) this.props.fetchPartners()
+    if (!this.props.partnerList.length) this.props.fetchPartners();
     this.setState({
       startDate: moment(this.props.selected.start_at),
       endDate: moment(this.props.selected.end_at),
@@ -35,49 +58,39 @@ class TicketForm extends Component {
   }
 
   handleSubmit(values, e, formApi) {
-    if (this.state.submitting) {
-      return alert('작업 중입니다.')
-    }
-
-    this.setState({ submitting: true })
+    if (this.state.submitting) return alert('작업 중입니다.');
+    this.setState({ submitting: true });
 
     !this.props.selected
       ? this.props
-      .createTicket(values)
-      .then(() => {
-        alert('공연을 추가했습니다.');
-        this.setState({ submitting: false })
-        formApi.resetAll();
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({ submitting: false })
-      })
+          .createTicket(values)
+          .then(() => {
+            alert('공연을 추가했습니다.');
+            this.setState({ submitting: false });
+            formApi.resetAll();
+          })
+          .catch(err => {
+            this.setState({ submitting: false });
+          })
       : this.props
-      .patchTicket(
-        values,
-        this.props.selected.id,
-        this.props.selected.partner_id
-      )
-      .then(() => {
-        console.log(this.state);
-        alert('공연이 수정되었습니다.');
-        this.setState({ submitting: false })
-      })
-      .catch(err => {
-        console.log(err)
-        this.setState({ submitting: false })
-      });
+          .patchTicket(
+            values,
+            this.props.selected.id,
+            this.props.selected.partner_id
+          )
+          .then(() => {
+            alert('공연이 수정되었습니다.');
+            this.setState({ submitting: false });
+          })
+          .catch(err => {
+            this.setState({ submitting: false });
+          });
   }
 
   render() {
-    const partnerOptions = _.map(this.props.partnerList, (p) => {
-      return { label: p.company, value: p.id }
-    })
-
-    const Artist = ({ i, handleRemove, artist }) => {
+    const InputArtist = ({ index, handleRemove, artist }) => {
       return (
-        <NestedForm field={['artists', i]} key={`artist-${i}`}>
+        <NestedForm field={['artists', index]} key={`artist-${index}`}>
           <Form defaultValues={artist}>
             {formApi => (
               <div className="add-artist-container _flex _column-direction">
@@ -107,6 +120,10 @@ class TicketForm extends Component {
       );
     };
 
+    const partnerOptions = _.map(this.props.partnerList, p => {
+      return { label: p.company, value: p.id };
+    });
+
     // TODO validation
     return (
       <Form
@@ -120,7 +137,6 @@ class TicketForm extends Component {
           // datetime
           start_at: this.props.selected.start_at || moment(),
           end_at: this.props.selected.end_at || moment(),
-
           artists: this.props.selected.artists || [],
         }}>
         {formApi => (
@@ -133,45 +149,41 @@ class TicketForm extends Component {
                 <Input title="공연장소">
                   <Text field="place" placeholder="공연장소" />
                 </Input>
-                <Input title="대표이미지">
-                  {formApi.values.image && (
-                    <img src={formApi.values.image} className="main-image" />
-                  )}
-                  <ReactS3Uploader
-                    accept="image/*"
-                    getSignedUrl={this.props.getSignedUrl}
-                    onProgress={percent =>
-                      this.setState({ uploadProgress: percent })
-                    }
-                    onFinish={sign => {
-                      this.setState({ uploadProgress: null });
-                      formApi.setValue('image', sign.filePath);
-                    }}
-                  />
-                  {!!this.state.uploadProgress &&
-                    `${this.state.uploadProgress}% 완료`}
+                <Input title="대표이미지" id="input-image">
+                  <div className="_flex _column-direction">
+                    {formApi.values.image && (
+                      <img src={formApi.values.image} className="main-image" />
+                    )}
+                    {this.state.uploadProgress && (
+                      <p className="_white _fs-18 _fw-light">
+                        {this.state.uploadProgress}%
+                      </p>
+                    )}
+                    <ReactS3Uploader
+                      accept="image/*"
+                      getSignedUrl={this.props.getSignedUrl}
+                      onProgress={percent =>
+                        this.setState({ uploadProgress: percent })
+                      }
+                      onFinish={sign => {
+                        this.setState({ uploadProgress: null });
+                        formApi.setValue('image', sign.filePath);
+                      }}
+                    />
+                  </div>
                 </Input>
-                <Input title="공연일정">
-                  <DatePicker
+                <Input title="공연일정" id="input-date">
+                  <InputDate
+                    text="시작"
                     selected={this.state.startDate}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    dateFormat="LLL"
                     onChange={date => {
                       this.setState({ startDate: date });
                       formApi.setValue('start_at', date);
                     }}
                   />
-                  <div className="_flex_1 _vcenter-position _hcenter-position">
-                    <p className="_white _fs_2">~</p>
-                  </div>
-                  <DatePicker
+                  <InputDate
+                    text="종료"
                     selected={this.state.endDate}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    dateFormat="LLL"
                     onChange={date => {
                       this.setState({ endDate: date });
                       formApi.setValue('end_at', date);
@@ -197,10 +209,10 @@ class TicketForm extends Component {
                 <Input title="라인업" id="artist">
                   {formApi.values.artists &&
                     _.map(formApi.values.artists, (a, index) => (
-                      <Artist
+                      <InputArtist
                         key={index}
                         artist={a}
-                        i={index}
+                        index={index}
                         handleRemove={() =>
                           formApi.removeValue('artists', index)
                         }
@@ -221,8 +233,10 @@ class TicketForm extends Component {
               </div>
             </div>
             <div className="_flex _hright-position">
-              <button type="submit" className="submit-button _fs_22"
-                style={ this.state.submitting ? { background: 'black' } : {} }>
+              <button
+                type="submit"
+                className="submit-button _fs_22"
+                style={this.state.submitting ? { background: 'black' } : {}}>
                 {this.props.selected.length === 0
                   ? '공연 등록하기'
                   : '수정하기'}
@@ -236,8 +250,12 @@ class TicketForm extends Component {
 }
 
 function mapStateToProps(state) {
-  return { partnerList: state.partnerList }
+  return { partnerList: state.partnerList };
 }
 
-export default connect(mapStateToProps, { createTicket, patchTicket,
-  getSignedUrl, fetchPartners })(TicketForm);
+export default connect(mapStateToProps, {
+  createTicket,
+  patchTicket,
+  getSignedUrl,
+  fetchPartners,
+})(UpdateConcert);

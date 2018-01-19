@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { fetchConcerts } from '../actions';
 import { map } from 'lodash';
 import { withRouter } from 'react-router-dom';
+// view
+import Loading from './Loading';
 
 class ConcertList extends Component {
   state = { fetched: false };
@@ -21,13 +23,12 @@ class ConcertList extends Component {
         : map(this.props.concertList, c => (
             <div
               key={c.id}
-              onClick={e => this.props.history.push(`/concert/${c.id}`)}
-            >
+              onClick={e => this.props.history.push(`/concert/${c.id}`)}>
               {c.title}
             </div>
           ));
 
-    return <div>{this.state.fetched ? concertList : 'Loading...'}</div>;
+    return this.state.fetched ? <div>{concertList}</div> : <Loading />;
   }
 }
 

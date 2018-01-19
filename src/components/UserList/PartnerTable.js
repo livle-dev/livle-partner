@@ -13,7 +13,7 @@ const PartnerTable = ({ partners, approvePartner }) => {
       <div className="_flex_1">{p.company}</div>
       {!p.approved && (
         <div
-          className="button text-cetner _green-aqua"
+          className="button _text-center _green-aqua"
           onClick={e =>
             approvePartner(p.id)
               .then(() => alert('승인되었습니다'))
@@ -29,7 +29,7 @@ const PartnerTable = ({ partners, approvePartner }) => {
     <Content title="파트너 목록" backgroundColor="rgba(0, 0, 0, 0.58)">
       <div className="_flex_1 _column-direction">
         <div className="_table-row _title">
-          <div className="user-id text-cetner">아이디</div>
+          <div className="user-id _text-center">아이디</div>
           <div className="_flex_1">회사명</div>
           <div className="button" />
         </div>

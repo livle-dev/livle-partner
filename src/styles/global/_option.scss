@@ -46,7 +46,8 @@
   @include flex-direction(row);
   @include flex-wrap(nowrap);
   @include align-items(center);
-  @include size(100%, 2rem);
+  width: 100%;
+  min-height: 2rem;
   // border
   border-bottom: solid 1px $blue-dark;
   // font
@@ -57,6 +58,10 @@
 // text
 ._text-center {
   text-align: center;
+}
+
+._whitespace-nowrap {
+  white-space: nowrap;
 }
 
 // logo
