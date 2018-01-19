@@ -54,10 +54,9 @@ const ConcertList = ({ concertList, handleClick }) => {
         return (
           <div className="_table-row _body" key={c.id}>
             <div className="_flex_1 _vcenter-position">
-              <HoverableDiv className="main-image _text-center" hover={image}>
-                보기
+              <HoverableDiv className="main-title" hover={image}>
+                {c.title}
               </HoverableDiv>
-              <div className="main-title">{c.title}</div>
               <HoverableDiv className="line-up" hover={artists}>
                 {artistsToString(c.artists)}
               </HoverableDiv>
@@ -110,9 +109,6 @@ class ConcertAdd extends Component {
           <div className="_flex_1 _column-direction">
             <div className="_table-row _title">
               <div className="_flex_1 _vcenter-position">
-                <div className="main-image _text-center _whitespace-nowrap">
-                  대표이미지
-                </div>
                 <div className="main-title _text-center">공연명</div>
                 <div className="line-up _text-center">라인업</div>
                 <div className="place _text-center">장소</div>
