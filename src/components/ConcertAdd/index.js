@@ -7,7 +7,7 @@ import { fetchConcerts } from '../../actions';
 import UpdateConcert from './UpdateConcert';
 import Content from '../Content';
 import Loading from '../Loading';
-import HoverableDiv from './HoverableDiv'
+import HoverableDiv from './HoverableDiv';
 
 const formatDate = time => moment(time).format('MM/DD HH : mm');
 
@@ -37,20 +37,27 @@ const ConcertList = ({ concertList, handleClick }) => {
   return (
     <div>
       {map(filterList, c => {
-        const image = (<img src={c.image} style={
-          { width: '100%', maxWidth: '200px', maxHeight: '400px' }
-        } />)
-        const artists = (<div>
-          { map(c.artists, (c) => (<div key={c.id} style={ { display: 'inline-block' } }>
-            <div>
-              <img src={c.image} style={ { width: '100%', maxWidth: '100px' } }/>
-            </div>
-            <div>
-              { c.name }
-            </div>
-          </div>)
-          )}
-        </div>)
+        const image = (
+          <img
+            src={c.image}
+            style={{ width: '100%', maxWidth: '200px', maxHeight: '400px' }}
+          />
+        );
+        const artists = (
+          <div>
+            {map(c.artists, c => (
+              <div key={c.id} style={{ display: 'inline-block' }}>
+                <div>
+                  <img
+                    src={c.image}
+                    style={{ width: '100%', maxWidth: '100px' }}
+                  />
+                </div>
+                <div>{c.name}</div>
+              </div>
+            ))}
+          </div>
+        );
         return (
           <div className="_table-row _body" key={c.id}>
             <div className="_flex_1 _vcenter-position">

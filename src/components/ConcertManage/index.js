@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { fetchConcerts } from '../../actions';
-import { filter } from 'lodash';
 import { withRouter } from 'react-router-dom';
 // view
 import Loading from '../Loading';
@@ -23,21 +23,25 @@ class ConcertManage extends Component {
     const concerts = this.props.concertList;
     if (concerts.length == 0) return '등록된 공연이 없습니다.';
 
-    const now = new Date();
-    const upcomings = filter(concerts, c => Date.parse(c.start_at) > now);
-    const ended = filter(concerts, c => Date.parse(c.start_at) <= now);
+    const now = moment();
+    let upcomingConcerts = [];
+    let endConcerts = [];
+    concerts.forEach(item => {
+      if (moment(item.start_at).diff(now) > 0) upcomingConcerts.push(item);
+      else endConcerts.push(item);
+    });
 
     return (
       <div>
         <ConcertTable
           title="예정공연"
           backgroundColor="rgba(0, 0, 0, 0.58)"
-          concerts={upcomings}
+          concerts={upcomingConcerts}
         />
         <ConcertTable
           title="끝난공연"
           backgroundColor="rgba(20, 42, 41, 0.58)"
-          concerts={ended}
+          concerts={endConcerts}
         />
       </div>
     );

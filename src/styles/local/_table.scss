@@ -20,6 +20,19 @@ $line-up: 30%;
 $place: 100% - ($main-image + $main-title + $line-up);
 
 ._table-row {
+  @include display-flex;
+  @include flex-direction(row);
+  @include flex-wrap(nowrap);
+  @include align-items(center);
+
+  width: 100%;
+  min-height: 2rem;
+  // border
+  border-bottom: solid 1px $blue-dark;
+  // font
+  @include default_font;
+  font-size: calc-size(2rem);
+
   a {
     color: $green-light;
   }
@@ -136,11 +149,11 @@ $place: 100% - ($main-image + $main-title + $line-up);
 
 ._clickable-body {
   @include cursor-pointer;
-  color: $gray-light;
+  color: $white-clear;
   font-weight: $fw-normal;
 }
 
 ._body {
-  color: $gray-light;
+  color: $white-clear;
   font-weight: $fw-normal;
 }
