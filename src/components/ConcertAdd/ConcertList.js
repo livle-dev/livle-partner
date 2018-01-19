@@ -38,7 +38,7 @@ const ShowDetail = ({ concert, onClick }) => {
       <div className="info-box">
         <img src={concert.image} className="info-background" />
         <div className="info-content _flex _column-direction">
-          <div className="title _flex _vcenter-position _hcenter-position">
+          <div className="title _flex _hcenter-position">
             <p className="_white _fs_26 _fw-semi-bold _text-center">
               {concert.title}
             </p>
@@ -109,12 +109,13 @@ export default class ConcertList extends Component {
     return (
       <div id="add">
         {filterList.map(c => (
-          <div
-            className="_table-row _body _cursor-pointer"
-            key={c.id}
-            onClick={() => this.setState({ clickConcert: c })}>
+          <div className="_table-row _body" key={c.id}>
             <div className="_flex_1 _vcenter-position">
-              <div className="main-title">{c.title}</div>
+              <div
+                className="main-title _cursor-pointer"
+                onClick={() => this.setState({ clickConcert: c })}>
+                {c.title}
+              </div>
               <div className="line-up">{artistsToString(c.artists)}</div>
               <div className="place">{c.place}</div>
             </div>

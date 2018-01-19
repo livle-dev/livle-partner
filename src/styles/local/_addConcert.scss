@@ -29,10 +29,10 @@ $info-box-height: 72vh;
   .info-content {
     position: absolute;
     @include position(0);
-    padding: 2rem;
+    padding: 3.2rem 2rem;
     background: rgba(0, 0, 0, 0.4);
     .title {
-      height: 4rem;
+      margin-bottom: 1.6rem;
     }
     .image {
       @include size(100%, 30%);
@@ -53,7 +53,7 @@ $info-box-height: 72vh;
   }
 
   .artist-container {
-    @include size(6rem, 8rem);
+    @include size(6rem, 9rem);
     .artist-image {
       @include size(6rem);
       @include border-radius(3rem);
@@ -61,7 +61,7 @@ $info-box-height: 72vh;
       overflow: hidden;
     }
     .artist-name {
-      @include size(100%, 2rem);
+      @include size(100%, 3rem);
     }
   }
   .artist-margin {
