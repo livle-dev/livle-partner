@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { find } from 'lodash';
-import { map } from 'lodash';
 import moment from 'moment';
 import { fetchConcertDetail } from '../../actions';
 import axios from '../../actions/axios';
@@ -10,6 +9,9 @@ import Chart from './Chart';
 import CountReservation from './CountReservation';
 import Loading from '../Loading';
 import Content from '../Content';
+
+const calculateBooked = reservations =>
+  reservations.filter(item => !item.cancelled_at).length;
 
 const DataInfo = ({ backgroundColor, text }) => {
   return (
@@ -20,21 +22,18 @@ const DataInfo = ({ backgroundColor, text }) => {
   );
 };
 
-class ConcertDetail extends Component {
-  constructor({ concertList, match }) {
-    super();
+const UserStatus = (checked_at = null, cancelled_at = null) => {
+  if (checked_at) return <DataInfo backgroundColor="#4a90e2" />;
+  if (cancelled_at) return <DataInfo backgroundColor="#d0021b" />;
+  return <DataInfo backgroundColor="transparent" />;
+};
 
-    const concertId = match.params.id;
-    const concert = find(concertList, c => c.id == concertId); // object가 들어와있음
-    // concert: object, id: string
-    this.state = {
-      concert: concert || { id: concertId },
-      stats: null,
-      fetched: false,
-    };
+class ConcertDetail extends Component {
+  constructor() {
+    super();
+    this.state = { stats: null };
+
     this.fetchConcertStats = this.fetchConcertStats.bind(this);
-    this.renderDatainfo = this.renderDatainfo.bind(this);
-    this.calculateBooked = this.calculateBooked.bind(this);
   }
 
   componentWillMount() {
@@ -42,49 +41,26 @@ class ConcertDetail extends Component {
   }
 
   fetchConcertStats() {
+    const { match } = this.props;
     axios
-      .get(`/ticket/${this.state.concert.id}/stats`)
-      .then(res => {
-        this.setState({ stats: res.data, fetched: true });
-      })
-      .catch(err => Promise.reject(err));
-  }
-
-  renderDatainfo(checked_at = null, cancelled_at = null) {
-    if (checked_at) return <DataInfo backgroundColor="#4a90e2" />;
-    else if (cancelled_at) return <DataInfo backgroundColor="#d0021b" />;
-    else return <DataInfo backgroundColor="transparent" />;
-  }
-
-  calculateBooked() {
-    const reservations = this.state.stats.reservations;
-    var pureBooked = 0;
-    reservations.forEach(item => {
-      if (!item.cancelled_at) pureBooked++;
-    });
-    return pureBooked;
+      .get(`/ticket/${match.params.id}/stats`)
+      .then(res => this.setState({ stats: res.data }))
+      .catch(err => Promise.reject(err.response));
   }
 
   render() {
-    const { concert, stats } = this.state;
+    const { stats } = this.state;
 
-    return concert ? (
+    return stats ? (
       <div id="detail">
         <div className="password-container">
           <p className="_fs_48 _white">
-            입장 비밀번호:{' '}
-            <span className="_green-light">{concert.checkin_code}</span>
+            {'입장 비밀번호: '}
+            <span className="_green-light">{stats.checkin_code}</span>
           </p>
         </div>
         <Content title="예약현황" backgroundColor="rgba(0, 0, 0, 0.58)">
-          {stats ? (
-            <Chart
-              start_at={this.state.stats.start_at}
-              reservations={this.state.stats.reservations}
-            />
-          ) : (
-            <Loading />
-          )}
+          <Chart start_at={stats.start_at} reservations={stats.reservations} />
         </Content>
         <div className="_flex _row-direction">
           <div className="_flex_1">
@@ -96,31 +72,24 @@ class ConcertDetail extends Component {
                 </div>
                 <div className="table-container _table-row _title">
                   <div className="_flex_1">
-                    {this.renderDatainfo(null, null)}
+                    {UserStatus()}
                     <div className="nickname _text-center">예약자명</div>
                     <div className="email _text-center">닉네임</div>
                   </div>
                 </div>
-                {this.state.fetched ? (
-                  map(stats.reservations, user => (
-                    <div key={user.id} className="_table-row _body">
-                      <div className="_flex_1 _row-direction">
-                        {this.renderDatainfo(
-                          user.checked_at,
-                          user.cancelled_at
-                        )}
-                        <div className="nickname _text-center">
-                          {user.user.nickname}
-                        </div>
-                        <div className="email _text-center">
-                          {user.user.email}
-                        </div>
+                {stats.reservations.map(user => (
+                  <div key={user.id} className="_table-row _body">
+                    <div className="_flex_1 _row-direction">
+                      {UserStatus(user.checked_at, user.cancelled_at)}
+                      <div className="nickname _text-center">
+                        {user.user.nickname}
+                      </div>
+                      <div className="email _text-center">
+                        {user.user.email}
                       </div>
                     </div>
-                  ))
-                ) : (
-                  <Loading />
-                )}
+                  </div>
+                ))}
               </div>
             </Content>
           </div>
@@ -128,26 +97,14 @@ class ConcertDetail extends Component {
           <div className="count-reservation-container">
             <Content title="예약자 수" backgroundColor="#142a29">
               <div className="_flex _hcenter-position _vcenter-position">
-                {this.state.fetched ? (
-                  <CountReservation
-                    capacity={this.state.stats.capacity}
-                    booked={this.calculateBooked()}
-                  />
-                ) : (
-                  <Loading />
-                )}
+                <CountReservation
+                  capacity={stats.capacity}
+                  booked={calculateBooked(stats.reservations)}
+                />
               </div>
             </Content>
           </div>
         </div>
-
-        {
-          //콘서트 아이디: { concert.id }
-          //제목 : { concert.title }
-          // 이미지
-          // <img src={concert.image} />
-          // show other data...
-        }
       </div>
     ) : (
       <Loading fullscreen />

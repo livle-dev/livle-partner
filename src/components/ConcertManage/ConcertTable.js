@@ -46,8 +46,7 @@ const ConcertTable = ({
             )}
             <div className="title _text-center">공연명</div>
           </div>
-
-          <div className="number _text-center">입장비밀번호</div>
+          <div className="number _text-center">입장번호</div>
           <div className="number">예약자수</div>
         </div>
         {concertRows}

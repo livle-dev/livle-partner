@@ -120,7 +120,7 @@ class ConcertAdd extends Component {
                 <div className="line-up _text-center">라인업</div>
                 <div className="place _text-center">장소</div>
               </div>
-              <div className="number">시간</div>
+              <div className="number">시작 시각</div>
               <div className="number">영상 링크</div>
               <div className="button" />
             </div>
