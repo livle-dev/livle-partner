@@ -5,7 +5,7 @@ import { Form, NestedForm, Text, Select } from 'react-form';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import ReactS3Uploader from 'react-s3-uploader';
-import _ from 'lodash';
+import { map } from 'lodash';
 // actions
 import {
   fetchPartners,
@@ -120,7 +120,7 @@ class UpdateConcert extends Component {
       );
     };
 
-    const partnerOptions = _.map(this.props.partnerList, p => {
+    const partnerOptions = map(this.props.partnerList, p => {
       return { label: p.company, value: p.id };
     });
 
@@ -208,7 +208,7 @@ class UpdateConcert extends Component {
                 </Input>
                 <Input title="라인업" id="artist">
                   {formApi.values.artists &&
-                    _.map(formApi.values.artists, (a, index) => (
+                    map(formApi.values.artists, (a, index) => (
                       <InputArtist
                         key={index}
                         artist={a}

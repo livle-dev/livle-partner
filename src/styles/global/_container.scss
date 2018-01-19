@@ -16,6 +16,7 @@
 }
 
 ._content-container {
+  position: relative;
   width: 100%;
   min-height: $tabel-height;
   padding: 2rem 4rem;
@@ -26,6 +27,11 @@
     border-bottom: solid 4px $green-light;
     white-space: nowrap;
   }
+}
+
+._full-absolute {
+  position: absolute;
+  @include position(0);
 }
 
 ._navbar {
