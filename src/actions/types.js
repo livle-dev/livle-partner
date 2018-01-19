@@ -10,3 +10,5 @@ export const CREATE_CONCERT = 'create_concert';
 export const PATCH_CONCERT = 'patch_concert';
 
 export const REPLACE_PARTNER = 'replace_partner';
+
+export const UPDATE_LIMIT = 'update_limit';

@@ -10,6 +10,7 @@ import {
   CREATE_CONCERT,
   REPLACE_PARTNER,
   PATCH_CONCERT,
+  UPDATE_LIMIT,
 } from './types';
 
 function authUser(data) {
@@ -202,6 +203,20 @@ function replacePartner(data) {
     type: REPLACE_PARTNER,
     payload: data,
   };
+}
+
+export function updateLimit(subscriptionId, limit) {
+  return dispatch =>
+    axios.patch(`/subscription/${subscriptionId}/limit`, { limit })
+      .then((res) => dispatch(_updateLimit(subscriptionId, limit)))
+      .catch(err => Promise.reject(err.response.data));
+}
+
+function _updateLimit(subscriptionId, limit) {
+  return {
+    type: UPDATE_LIMIT,
+    payload: { subscriptionId, limit },
+  }
 }
 
 export function fetchConcertDetail() {
