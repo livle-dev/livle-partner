@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "webpack -p",
-    "start": "node server.js"
+    "build:dev": "webpack",
+    "build:prod": "webpack -p --env production",
+    "dev-server": "webpack-dev-server",
+    "test": "jest --config=jest.config.json",
+    "start": "node server.js",
+    "heroku-postbuild": "npm run build:prod"
   },
   "author": "LIVLE",
   "license": "ISC",
