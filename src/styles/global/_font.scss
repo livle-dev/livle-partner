@@ -37,6 +37,10 @@ $fw-bold: 700;
   @include default_font;
   font-size: calc-size(3.6rem);
 }
+._fs_26 {
+  @include default_font;
+  font-size: calc-size(2.6rem);
+}
 ._fs_22 {
   @include default_font;
   font-size: calc-size(2.2rem);

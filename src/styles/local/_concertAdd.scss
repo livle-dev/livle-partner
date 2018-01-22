@@ -1,0 +1,92 @@
+@import '../global/mixin';
+@import '../global/color';
+
+$info-box-width: 36rem;
+$info-box-height: 72vh;
+#concert-info {
+  .info-container {
+    position: fixed;
+    @include position(0);
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .info-box {
+    position: relative;
+    @include border-radius(0.2rem);
+    @include size($info-box-width, $info-box-height);
+    overflow: hidden;
+  }
+
+  .info-background {
+    position: absolute;
+    @include position(-8vh, -8rem);
+    object-fit: cover;
+    @include size($info-box-width + 16rem, $info-box-height + 16vh);
+    @include filter(blur(24px));
+  }
+
+  .info-content {
+    position: absolute;
+    @include position(0);
+    padding: 3.2rem 2rem;
+    background: rgba(0, 0, 0, 0.4);
+    .title {
+      margin-bottom: 1.6rem;
+    }
+    .image {
+      @include size(100%, 30%);
+      object-fit: contain;
+    }
+    .main-container {
+      padding: 2rem 0;
+    }
+    .text-container {
+      @include display-flex;
+      width: 100%;
+      margin: 0.5rem 0;
+      overflow-x: scroll;
+    }
+    .text-title {
+      width: 25%;
+    }
+  }
+
+  .artist-container {
+    @include size(6rem, 9rem);
+    .artist-image {
+      @include size(6rem);
+      @include border-radius(3rem);
+      object-fit: cover;
+      overflow: hidden;
+    }
+    .artist-name {
+      @include size(100%, 3rem);
+    }
+  }
+  .artist-margin {
+    margin-left: 1rem;
+  }
+
+  .close {
+    @include cursor-pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1.6rem;
+  }
+}
+
+#input-date input {
+  @include cursor-pointer;
+  @include border-radius(0.2rem);
+  border: 1px solid $green-light;
+  text-align: center;
+}
+
+#input-image,
+#input-artist-image {
+  input {
+    border: none;
+  }
+}

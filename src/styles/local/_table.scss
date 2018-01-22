@@ -7,11 +7,11 @@ $date: 10rem;
 $short-text: 6rem;
 $button: 4rem;
 // 회원목록
-$email: 40%;
+$email: 60%;
 $nickname: 100% - $email;
 $user-id: 16rem;
 // 공연관리
-$partner-id: 30%;
+$partner-id: 18%;
 $title: 100% - $partner-id;
 // 공연등록
 $main-image: 10%;
@@ -20,6 +20,19 @@ $line-up: 30%;
 $place: 100% - ($main-image + $main-title + $line-up);
 
 ._table-row {
+  @include display-flex;
+  @include flex-direction(row);
+  @include flex-wrap(nowrap);
+  @include align-items(center);
+
+  width: 100%;
+  min-height: 2rem;
+  // border
+  border-bottom: solid 1px $blue-dark;
+  // font
+  @include default_font;
+  font-size: calc-size(2rem);
+
   a {
     color: $green-light;
   }
@@ -92,22 +105,7 @@ $place: 100% - ($main-image + $main-title + $line-up);
 
   .input-container {
     margin: 0 0 2rem;
-  }
-
-  .artist-list-container {
     overflow-x: scroll;
-  }
-
-  .add-artist-container {
-    @include border-radius(0.2rem);
-    @include size(12rem, 20rem);
-    padding: 1rem;
-    margin: 0 1rem 0 0;
-    background: rgba(256, 256, 256, 0.2);
-    img {
-      @include size(10rem);
-      object-fit: cover;
-    }
   }
 
   .input-placeholder {
@@ -115,8 +113,34 @@ $place: 100% - ($main-image + $main-title + $line-up);
     margin: 0 1rem 0 0;
   }
 
-  .button {
+  .add-artist-container {
+    position: relative;
+    @include border-radius(0.2rem);
+    @include size(8rem, 16rem);
+    padding: 2rem 1rem 1rem;
+    margin: 0 1rem 0 0;
+    background: rgba(256, 256, 256, 0.2);
+    img {
+      @include size(6rem);
+      @include border-radius(3rem);
+      object-fit: cover;
+      overflow: hidden;
+    }
+
+    .remove-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      @include cursor-pointer;
+    }
+  }
+
+  .add-artist-button {
+    @include size(4rem);
+    @include border-radius(2rem);
     @include cursor-pointer;
+    background: rgba(256, 256, 256, 0.2);
+    color: $white;
   }
 
   .submit-button {
@@ -136,11 +160,11 @@ $place: 100% - ($main-image + $main-title + $line-up);
 
 ._clickable-body {
   @include cursor-pointer;
-  color: $gray-light;
+  color: $white-clear;
   font-weight: $fw-normal;
 }
 
 ._body {
-  color: $gray-light;
+  color: $white-clear;
   font-weight: $fw-normal;
 }

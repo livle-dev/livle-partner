@@ -50,7 +50,7 @@ class App extends Component {
         </div>
       </BrowserRouter>
     ) : (
-      <Loading />
+      <Loading fullscreen />
     );
   }
 }

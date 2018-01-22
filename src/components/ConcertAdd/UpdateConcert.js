@@ -19,7 +19,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 const Input = ({ title, children, ...option }) => (
   <div className="input-container _row-direction _vcenter-position" {...option}>
     <p className="input-placeholder _white _fs_22">{title}</p>
-    <div className="_flex_1">{children}</div>
+    <div className="input-children _flex_1">{children}</div>
   </div>
 );
 
@@ -41,6 +41,38 @@ const InputDate = ({ text, selected, onChange }) => (
     />
   </div>
 );
+
+const InputArtist = ({ index, artist, handleRemove, getSignedUrl }) => {
+  return (
+    <NestedForm field={['artists', index]} key={`artist-${index}`}>
+      <Form defaultValues={artist}>
+        {formApi => (
+          <div className="add-artist-container _flex _column-direction">
+            <div
+              className="remove-button _red"
+              onClick={e => {
+                e.preventDefault();
+                handleRemove(e);
+              }}>
+              삭제
+            </div>
+            <div id="input-artist-image">
+              {formApi.values.image && <img src={formApi.values.image} />}
+              <ReactS3Uploader
+                accept="image/*"
+                getSignedUrl={getSignedUrl}
+                onFinish={sign => formApi.setValue('image', sign.filePath)}
+              />
+            </div>
+            <div>
+              <Text field="name" placeholder="아티스트 이름" />
+            </div>
+          </div>
+        )}
+      </Form>
+    </NestedForm>
+  );
+};
 
 class UpdateConcert extends Component {
   constructor() {
@@ -88,38 +120,6 @@ class UpdateConcert extends Component {
   }
 
   render() {
-    const InputArtist = ({ index, handleRemove, artist }) => {
-      return (
-        <NestedForm field={['artists', index]} key={`artist-${index}`}>
-          <Form defaultValues={artist}>
-            {formApi => (
-              <div className="add-artist-container _flex _column-direction">
-                <div
-                  className="button _red _hright-position"
-                  onClick={e => {
-                    e.preventDefault();
-                    handleRemove(e);
-                  }}>
-                  취소
-                </div>
-                <div>
-                  <Text field="name" placeholder="아티스트 이름" />
-                </div>
-                <div className="">
-                  {formApi.values.image && <img src={formApi.values.image} />}
-                </div>
-                <ReactS3Uploader
-                  accept="image/*"
-                  getSignedUrl={this.props.getSignedUrl}
-                  onFinish={sign => formApi.setValue('image', sign.filePath)}
-                />
-              </div>
-            )}
-          </Form>
-        </NestedForm>
-      );
-    };
-
     const partnerOptions = map(this.props.partnerList, p => {
       return { label: p.company, value: p.id };
     });
@@ -141,7 +141,7 @@ class UpdateConcert extends Component {
         }}>
         {formApi => (
           <form onSubmit={formApi.submitForm} id="ticket-form">
-            <div className="artist-list-container _row-direction">
+            <div className="_row-direction">
               <div className="left-container">
                 <Input title="공연이름">
                   <Text field="title" placeholder="공연이름" />
@@ -213,18 +213,21 @@ class UpdateConcert extends Component {
                         key={index}
                         artist={a}
                         index={index}
+                        getSignedUrl={this.props.getSignedUrl}
                         handleRemove={() =>
                           formApi.removeValue('artists', index)
                         }
                       />
                     ))}
-                  <div
-                    className="button _green-aqua"
-                    onClick={e => {
-                      e.preventDefault();
-                      formApi.addValue('artists', {});
-                    }}>
-                    추가
+                  <div className="_flex _vcenter-position _hcenter-position">
+                    <div
+                      className="add-artist-button _flex _vcenter-position _hcenter-position"
+                      onClick={e => {
+                        e.preventDefault();
+                        formApi.addValue('artists', {});
+                      }}>
+                      + 추가
+                    </div>
                   </div>
                 </Input>
                 <Input title="영상정보">

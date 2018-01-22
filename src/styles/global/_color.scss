@@ -4,6 +4,7 @@
 $white: #ffffff;
 $black: #000000;
 $red: #ff0000;
+$white-clear: rgba(256, 256, 256, 0.7);
 $black-clear: rgba(0, 0, 0, 0.58);
 // green
 $green-clear: rgba(13, 54, 57, 0.38);
@@ -20,6 +21,9 @@ $gray-dark-dark: #183030;
 
 ._white {
   color: $white;
+}
+._white-clear {
+  color: $white-clear;
 }
 ._black {
   color: $black;
@@ -44,6 +48,9 @@ $gray-dark-dark: #183030;
   color: $green-dark-dark;
 }
 // gray
+._gray-light {
+  color: $gray-light;
+}
 ._gray-dark {
   color: $gray-dark;
 }

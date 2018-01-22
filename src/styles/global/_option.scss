@@ -40,21 +40,6 @@
   @include align-items(flex-end);
 }
 
-// table
-._table-row {
-  @include display-flex;
-  @include flex-direction(row);
-  @include flex-wrap(nowrap);
-  @include align-items(center);
-  width: 100%;
-  min-height: 2rem;
-  // border
-  border-bottom: solid 1px $blue-dark;
-  // font
-  @include default_font;
-  font-size: calc-size(2rem);
-}
-
 // text
 ._text-center {
   text-align: center;
@@ -67,4 +52,22 @@
 // logo
 ._logo {
   @include size(auto, $logo-height);
+}
+
+// pointer
+._cursor-pointer {
+  @include cursor-pointer;
+}
+
+// blur
+.blur {
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='3');
+  -webkit-filter: url(#blur-filter);
+  filter: url(#blur-filter);
+  -webkit-filter: blur(3px);
+  filter: blur(3px);
+}
+
+._blur-svg {
+  display: none;
 }
