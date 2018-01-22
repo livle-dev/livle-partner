@@ -8,9 +8,8 @@ module.exports = env => {
   return {
     entry: './src/index.js',
     output: {
-      path: path.resolve(__dirname, 'build'),
-      filename: 'bundle.js',
-      publicPath: '/dist/',
+      path: path.resolve(__dirname,  'dist'),
+      filename: 'bundle.js'
     },
     module: {
       rules: [
@@ -42,8 +41,8 @@ module.exports = env => {
           test: /\.(jpe?g|png|gif|svg)$/,
           use: [
             {
-              loader: 'url-loader',
-              options: { limit: 40000 },
+              loader: 'url-loader'
+              // options: { limit: 400000 },
             },
             'image-webpack-loader',
           ],
@@ -53,7 +52,7 @@ module.exports = env => {
     plugins: [CSSExtract],
     devtool: isProduction ? 'source-map' : 'inline-source-map',
     devServer: {
-      contentBase: path.join(__dirname, 'public'),
+      contentBase: path.join(__dirname),
       historyApiFallback: true,
       publicPath: '/dist/',
     },
