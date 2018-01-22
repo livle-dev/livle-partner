@@ -54,9 +54,10 @@ class ConcertDetail extends Component {
     return stats ? (
       <div id="detail">
         <div className="password-container">
-          <p className="_fs_48 _white">
-            {'입장 비밀번호: '}
+          <p className="_fs_36 _white">
+            {`${stats.title} ( 입장 비밀번호 : `}
             <span className="_green-light">{stats.checkin_code}</span>
+            {` )`}
           </p>
         </div>
         <Content title="예약현황" backgroundColor="rgba(0, 0, 0, 0.58)">
