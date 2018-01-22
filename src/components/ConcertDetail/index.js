@@ -74,19 +74,15 @@ class ConcertDetail extends Component {
                   <div className="_flex_1">
                     {UserStatus()}
                     <div className="nickname _text-center">예약자명</div>
-                    <div className="email _text-center">닉네임</div>
+                    <div className="email _text-center">이메일</div>
                   </div>
                 </div>
                 {stats.reservations.map(user => (
                   <div key={user.id} className="_table-row _body">
                     <div className="_flex_1 _row-direction">
                       {UserStatus(user.checked_at, user.cancelled_at)}
-                      <div className="nickname _text-center">
-                        {user.user.nickname}
-                      </div>
-                      <div className="email _text-center">
-                        {user.user.email}
-                      </div>
+                      <div className="nickname">{user.user.nickname}</div>
+                      <div className="email">{user.user.email}</div>
                     </div>
                   </div>
                 ))}

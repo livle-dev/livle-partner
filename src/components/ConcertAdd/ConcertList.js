@@ -107,7 +107,7 @@ export default class ConcertList extends Component {
     filterList.sort((x, y) => moment(x.start_at).diff(moment(y.start_at)));
 
     return (
-      <div id="add">
+      <div id="concert-info">
         {filterList.map(c => (
           <div className="_table-row _body" key={c.id}>
             <div className="_flex_1 _vcenter-position">

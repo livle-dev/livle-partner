@@ -3,7 +3,7 @@
 
 $info-box-width: 36rem;
 $info-box-height: 72vh;
-#add {
+#concert-info {
   .info-container {
     position: fixed;
     @include position(0);
@@ -84,6 +84,9 @@ $info-box-height: 72vh;
   text-align: center;
 }
 
-#input-image input {
-  border: none;
+#input-image,
+#input-artist-image {
+  input {
+    border: none;
+  }
 }
