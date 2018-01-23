@@ -146,7 +146,7 @@ export function getSignedUrl(file, callback) {
 export function fetchPartners() {
   return dispatch =>
     axios
-      .get('/partner/all')
+      .get('/partner/list', { params: { page: 1 } })
       .then(res => dispatch(_fetchPartners(res.data)))
       .catch(err => Promise.reject(err.response.data));
 }
@@ -161,7 +161,7 @@ function _fetchPartners(data) {
 export function fetchUsers() {
   return dispatch =>
     axios
-      .get('/user/all')
+      .get('/user/list', { params: { page: 1 } })
       .then(res => dispatch(_fetchUsers(res.data)))
       .catch(err => Promise.reject(err.response.data));
 }
@@ -177,7 +177,7 @@ export function fetchConcerts() {
   return (dispatch, getState) => {
     if (getState().concertList.length > 0) return Promise.resolve();
     return axios
-      .get('/ticket/all')
+      .get('/ticket/list', { params: { page: 1 } })
       .then(res => dispatch(_fetchConcerts(res.data)))
       .catch(err => Promise.reject(err.response.data));
   };
@@ -207,8 +207,9 @@ function replacePartner(data) {
 
 export function updateLimit(subscriptionId, limit) {
   return dispatch =>
-    axios.patch(`/subscription/${subscriptionId}/limit`, { limit })
-      .then((res) => dispatch(_updateLimit(subscriptionId, limit)))
+    axios
+      .patch(`/subscription/${subscriptionId}/limit`, { limit })
+      .then(res => dispatch(_updateLimit(subscriptionId, limit)))
       .catch(err => Promise.reject(err.response.data));
 }
 
@@ -216,7 +217,7 @@ function _updateLimit(subscriptionId, limit) {
   return {
     type: UPDATE_LIMIT,
     payload: { subscriptionId, limit },
-  }
+  };
 }
 
 export function fetchConcertDetail() {

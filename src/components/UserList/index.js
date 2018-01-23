@@ -22,10 +22,6 @@ class UserList extends Component {
   }
 
   render() {
-    const userList = map(this.props.userList, u => (
-      <div key={u.email}>{u.email}</div>
-    ));
-
     return (
       <div>
         <div>
@@ -37,6 +33,7 @@ class UserList extends Component {
             </Content>
           )}
         </div>
+        <p className="_white">TODO: PAGINATION</p>
         <div>
           {this.state.userFetched ? (
             <UserTable users={this.props.userList} />
@@ -46,6 +43,7 @@ class UserList extends Component {
             </Content>
           )}
         </div>
+        <p className="_white">TODO: PAGINATION</p>
       </div>
     );
   }

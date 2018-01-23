@@ -7,7 +7,8 @@ import PropTypes from 'prop-types';
 import Content from '../Content';
 
 const PartnerTable = ({ partners, approvePartner }) => {
-  const partnerRows = map(partners, p => (
+  const { total_pages, current_page, data } = partners;
+  const partnerRows = map(data, p => (
     <div className="_table-row _body" key={p.id}>
       <div className="user-id">{p.username}</div>
       <div className="_flex_1">{p.company}</div>

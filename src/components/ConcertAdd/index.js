@@ -56,6 +56,7 @@ class ConcertAdd extends Component {
             )}
           </div>
         </Content>
+        <p className="_white">TODO: PAGINATION</p>
       </div>
     );
   }

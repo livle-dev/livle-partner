@@ -120,7 +120,7 @@ class UpdateConcert extends Component {
   }
 
   render() {
-    const partnerOptions = map(this.props.partnerList, p => {
+    const partnerOptions = map(this.props.partnerList.data, p => {
       return { label: p.company, value: p.id };
     });
 

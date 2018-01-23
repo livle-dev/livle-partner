@@ -6,10 +6,14 @@ export default function(state = {}, action) {
     case FETCH_PARTNERS:
       return action.payload;
     case REPLACE_PARTNER: {
-      const newPartner = action.payload;
-      return map(state, p => (p.id === newPartner.id ? newPartner : p));
+      const { data } = state;
+      let newData = [];
+      data.forEach(item => {
+        if (item.id === action.payload.id) newData.push(action.payload);
+        else newData.push(item);
+      });
+      return { ...state, data: newData };
     }
-
     default:
       return state;
   }

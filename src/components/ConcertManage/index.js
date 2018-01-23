@@ -19,14 +19,13 @@ class ConcertManage extends Component {
 
   render() {
     if (!this.state.fetched) return <Loading fullscreen />;
-
-    const concerts = this.props.concertList;
-    if (concerts.length == 0) return '등록된 공연이 없습니다.';
+    const { total_pages, current_page, data } = this.props.concertList;
+    if (data.length == 0) return '등록된 공연이 없습니다.';
 
     const now = moment();
     let upcomingConcerts = [];
     let endConcerts = [];
-    concerts.forEach(item => {
+    data.forEach(item => {
       if (moment(item.start_at).diff(now) > 0) upcomingConcerts.push(item);
       else endConcerts.push(item);
     });
@@ -38,11 +37,13 @@ class ConcertManage extends Component {
           backgroundColor="rgba(0, 0, 0, 0.58)"
           concerts={upcomingConcerts}
         />
+        <p className="_white">TODO: PAGINATION</p>
         <ConcertTable
           title="끝난공연"
           backgroundColor="rgba(20, 42, 41, 0.58)"
           concerts={endConcerts}
         />
+        <p className="_white">TODO: PAGINATION</p>
       </div>
     );
   }

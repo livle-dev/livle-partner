@@ -99,7 +99,8 @@ export default class ConcertList extends Component {
 
   render() {
     const { concertList, handleClick } = this.props;
-    let filterList = concertList.filter(
+    const { total_pages, current_page, data } = concertList;
+    let filterList = data.filter(
       item => moment(item.end_at).diff(moment()) > 0
     );
     if (filterList.length === 0) return <p>등록된 공연이 없습니다.</p>;

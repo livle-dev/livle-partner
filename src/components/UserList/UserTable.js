@@ -4,7 +4,7 @@ import { map, find, reduceRight } from 'lodash';
 import PropTypes from 'prop-types';
 // Views
 import Content from '../Content';
-import ReservationCounter from './ReservationCounter'
+import ReservationCounter from './ReservationCounter';
 
 const startOfSubscription = user => {
   const formatter = dateString => {
@@ -36,13 +36,14 @@ const subscriptionStatus = user => {
 };
 
 const subscriptionLimit = user => {
-  const currSub = user.subscriptions[0]
-  if (!currSub) return '-'
-  return <ReservationCounter subscription={currSub} />
-}
+  const currSub = user.subscriptions[0];
+  if (!currSub) return '-';
+  return <ReservationCounter subscription={currSub} />;
+};
 
 const UserTable = ({ users }) => {
-  const userRows = map(users, u => (
+  const { total_pages, current_page, data } = users;
+  const userRows = map(data, u => (
     <div className="_table-row _body" key={u.id}>
       <div className="_flex_1">
         <div className="email _text-center">{u.email}</div>
