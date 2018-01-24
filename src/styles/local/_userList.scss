@@ -1,0 +1,19 @@
+@import '../global/mixin';
+@import '../global/color';
+
+#user-list {
+  .option-button {
+    min-width: 4rem;
+    height: 2rem;
+    padding: 0 1rem;
+    @include border-radius(0.2rem);
+  }
+
+  .button-active {
+    background: $green-light;
+  }
+
+  .button-deactive {
+    background: $gray-light;
+  }
+}

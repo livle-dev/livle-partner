@@ -9,7 +9,7 @@ export const CREATE_DUE_CONCERT = 'CREATE_DUE_CONCERT';
 export const PATCH_DUE_CONCERT = 'PATCH_DUE_CONCERT';
 // PartnerList
 export const FETCH_PARTNERS = 'fetch_partners';
-export const REPLACE_PARTNER = 'replace_partner';
+export const UPDATE_PARTNER = 'update_partner';
 // UserList
 export const FETCH_USERS = 'fetch_users';
 export const UPDATE_LIMIT = 'update_limit';

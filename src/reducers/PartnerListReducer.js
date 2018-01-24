@@ -1,11 +1,11 @@
-import { FETCH_PARTNERS, REPLACE_PARTNER } from '../actions/types';
+import { FETCH_PARTNERS, UPDATE_PARTNER } from '../actions/types';
 import { map } from 'lodash';
 
 export default function(state = {}, action) {
   switch (action.type) {
     case FETCH_PARTNERS:
       return action.payload;
-    case REPLACE_PARTNER: {
+    case UPDATE_PARTNER: {
       const { data } = state;
       let newData = [];
       data.forEach(item => {

@@ -128,6 +128,7 @@ export default class ConcertTable extends Component {
             </div>
           </div>
         ))}
+        <p className="_white">TODO: PAGINATION</p>
         {this.state.clickConcert && (
           <ShowDetail
             concert={this.state.clickConcert}

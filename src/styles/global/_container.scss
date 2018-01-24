@@ -29,6 +29,11 @@
   }
 }
 
+._table-option-container {
+  width: 100%;
+  height: 3rem;
+}
+
 ._full-absolute {
   position: absolute;
   @include position(0);

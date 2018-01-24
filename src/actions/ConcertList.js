@@ -51,13 +51,23 @@ export function getSignedUrl(file, callback) {
 
 export function fetchConcerts(state, page = 1) {
   return (dispatch, getState) => {
-    if (getState().concertList.length > 0) return Promise.resolve();
+    if (getState().concertList[state].data.length > 0) return Promise.resolve();
     return axios
-      .get('/ticket/list', { params: { page: page, state: state } })
+      .get('/ticket/list', { params: { state: state, page: page } })
       .then(res => dispatch(_fetchConcerts(state, res.data)))
       .catch(err => Promise.reject(err.response));
   };
 }
+
+export const fetchConcertByTitle = title =>
+  axios.get('/ticket/list', {
+    params: { page: 1, title: title },
+  });
+
+export const fetchConcertByPartnerId = partnerId =>
+  axios.get('/ticket/list', {
+    params: { page: 1, partnerId: partnerId },
+  });
 
 function _fetchConcerts(state, data) {
   let type;

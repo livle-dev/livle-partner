@@ -1,10 +1,12 @@
 import axios from './axios';
 import { FETCH_USERS, UPDATE_LIMIT } from './types';
 
-export function fetchUsers() {
+export function fetchUsers(page = 1, email = null) {
+  const params = { page: page };
+  if (email) params.email = email;
   return dispatch =>
     axios
-      .get('/user/list', { params: { page: 1 } })
+      .get('/user/list', { params: { page: page } })
       .then(res => dispatch(_fetchUsers(res.data)))
       .catch(err => Promise.reject(err.response.data));
 }

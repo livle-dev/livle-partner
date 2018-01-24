@@ -4,6 +4,7 @@ import { map, find, reduceRight } from 'lodash';
 import PropTypes from 'prop-types';
 // Views
 import Content from '../Content';
+import Loading from '../Loading';
 import ReservationCounter from './ReservationCounter';
 
 const startOfSubscription = user => {
@@ -41,7 +42,7 @@ const subscriptionLimit = user => {
   return <ReservationCounter subscription={currSub} />;
 };
 
-const UserTable = ({ users }) => {
+const UserTable = ({ users, fetched }) => {
   const { total_pages, current_page, data } = users;
   const userRows = map(data, u => (
     <div className="_table-row _body" key={u.id}>
@@ -69,7 +70,7 @@ const UserTable = ({ users }) => {
           <div className="number _text-center">현재 예약</div>
           <div className="number _text-center">월평균 예약 공연 수</div>
         </div>
-        {userRows}
+        {fetched ? userRows : <Loading />}
         <p className="_white">TODO: PAGINATION</p>
       </div>
     </Content>
