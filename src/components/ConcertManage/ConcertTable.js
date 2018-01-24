@@ -6,11 +6,13 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 // Views
 import Content from '../Content';
+import Loading from '../Loading';
 
 const ConcertTable = ({
   title,
   backgroundColor,
   concerts,
+  fetched,
   history,
   user,
   partnerList,
@@ -20,7 +22,7 @@ const ConcertTable = ({
     return partner ? partner.company : `Partner ${id}`;
   };
 
-  const concertRows = map(concerts, c => (
+  const concertRows = map(concerts.data, c => (
     <div
       className="_table-row _clickable-body"
       key={c.id}
@@ -49,14 +51,15 @@ const ConcertTable = ({
           <div className="number _text-center">입장번호</div>
           <div className="number">예약자수</div>
         </div>
-        {concertRows}
+        {fetched ? concertRows : <Loading />}
+        <p className="_white">TODO: PAGINATION</p>
       </div>
     </Content>
   );
 };
 
 ConcertTable.propTypes = {
-  concerts: PropTypes.arrayOf(PropTypes.object),
+  concerts: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

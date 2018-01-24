@@ -4,46 +4,38 @@ import { connect } from 'react-redux';
 import { fetchConcerts } from '../../actions';
 import { withRouter } from 'react-router-dom';
 // view
-import Loading from '../Loading';
 import ConcertTable from './ConcertTable';
 
 class ConcertManage extends Component {
-  state = { fetched: false };
+  state = { fetchedDue: false, fetchedEnd: false };
 
   componentWillMount() {
     const { fetchConcerts } = this.props;
-    fetchConcerts()
-      .then(() => this.setState({ fetched: true }))
-      .catch(msg => alert(msg));
+    fetchConcerts('due')
+      .then(() => this.setState({ fetchedDue: true }))
+      .catch(res => alert(res.data));
+    fetchConcerts('end')
+      .then(() => this.setState({ fetchedEnd: true }))
+      .catch(res => alert(res.data));
   }
 
   render() {
-    if (!this.state.fetched) return <Loading fullscreen />;
-    const { total_pages, current_page, data } = this.props.concertList;
-    if (data.length == 0) return '등록된 공연이 없습니다.';
-
-    const now = moment();
-    let upcomingConcerts = [];
-    let endConcerts = [];
-    data.forEach(item => {
-      if (moment(item.start_at).diff(now) > 0) upcomingConcerts.push(item);
-      else endConcerts.push(item);
-    });
+    const { concertList } = this.props;
 
     return (
       <div>
         <ConcertTable
           title="예정공연"
           backgroundColor="rgba(0, 0, 0, 0.58)"
-          concerts={upcomingConcerts}
+          concerts={concertList.due}
+          fetched={this.state.fetchedDue}
         />
-        <p className="_white">TODO: PAGINATION</p>
         <ConcertTable
           title="끝난공연"
           backgroundColor="rgba(20, 42, 41, 0.58)"
-          concerts={endConcerts}
+          concerts={concertList.end}
+          fetched={this.state.fetchedEnd}
         />
-        <p className="_white">TODO: PAGINATION</p>
       </div>
     );
   }

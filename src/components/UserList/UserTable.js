@@ -70,6 +70,7 @@ const UserTable = ({ users }) => {
           <div className="number _text-center">월평균 예약 공연 수</div>
         </div>
         {userRows}
+        <p className="_white">TODO: PAGINATION</p>
       </div>
     </Content>
   );
@@ -77,7 +78,7 @@ const UserTable = ({ users }) => {
 
 UserTable.propTypes = {
   // prop 'users' should be an array of user objects
-  users: PropTypes.arrayOf(PropTypes.object),
+  users: PropTypes.object.isRequired,
 };
 
 export default UserTable;

@@ -94,22 +94,18 @@ const ShowDetail = ({ concert, onClick }) => {
   );
 };
 
-export default class ConcertList extends Component {
+export default class ConcertTable extends Component {
   state = { clickConcert: null };
 
   render() {
     const { concertList, handleClick } = this.props;
     const { total_pages, current_page, data } = concertList;
-    let filterList = data.filter(
-      item => moment(item.end_at).diff(moment()) > 0
-    );
-    if (filterList.length === 0) return <p>등록된 공연이 없습니다.</p>;
-    // sort concert by start_at
-    filterList.sort((x, y) => moment(x.start_at).diff(moment(y.start_at)));
+    if (data.length === 0)
+      return <p className="_white">등록된 공연이 없습니다.</p>;
 
     return (
       <div id="concert-info">
-        {filterList.map(c => (
+        {data.map(c => (
           <div className="_table-row _body" key={c.id}>
             <div className="_flex_1 _vcenter-position">
               <div

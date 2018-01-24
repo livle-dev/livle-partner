@@ -35,14 +35,14 @@ const PartnerTable = ({ partners, approvePartner }) => {
           <div className="button" />
         </div>
         {partnerRows}
+        <p className="_white">TODO: PAGINATION</p>
       </div>
     </Content>
   );
 };
 
 PartnerTable.propTypes = {
-  // prop 'partners' should be an array of partner objects
-  partners: PropTypes.arrayOf(PropTypes.object),
+  partners: PropTypes.object.isRequired,
 };
 
 export default connect(null, { approvePartner })(PartnerTable);

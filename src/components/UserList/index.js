@@ -33,7 +33,6 @@ class UserList extends Component {
             </Content>
           )}
         </div>
-        <p className="_white">TODO: PAGINATION</p>
         <div>
           {this.state.userFetched ? (
             <UserTable users={this.props.userList} />
@@ -43,7 +42,6 @@ class UserList extends Component {
             </Content>
           )}
         </div>
-        <p className="_white">TODO: PAGINATION</p>
       </div>
     );
   }

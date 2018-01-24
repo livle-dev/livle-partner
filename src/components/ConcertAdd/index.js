@@ -4,28 +4,28 @@ import { connect } from 'react-redux';
 import { fetchConcerts } from '../../actions';
 // view
 import UpdateConcert from './UpdateConcert';
-import ConcertList from './ConcertList';
+import ConcertTable from './ConcertTable';
 import Content from '../Content';
 import Loading from '../Loading';
 
 class ConcertAdd extends Component {
-  state = { fetched: false };
-
-  constructor({ fetchConcerts }) {
+  constructor() {
     super();
+    this.state = { selectedConcert: '', fetched: false };
     this.handleClick = this.handleClick.bind(this);
-    fetchConcerts()
+  }
+
+  componentWillMount() {
+    const { fetchConcerts } = this.props;
+    fetchConcerts('due')
       .then(() => this.setState({ fetched: true }))
       .catch(msg => alert(msg));
-
-    this.state = { selectedConcert: '' };
   }
 
-  handleClick(selectedConcert) {
-    this.setState({ selectedConcert });
-  }
+  handleClick = selectedConcert => this.setState({ selectedConcert });
 
   render() {
+    const { concertList } = this.props;
     return (
       <div>
         <Content title="공연 등록" backgroundColor="rgba(0, 0, 0, 0.58)">
@@ -47,8 +47,8 @@ class ConcertAdd extends Component {
               <div className="button" />
             </div>
             {this.state.fetched ? (
-              <ConcertList
-                concertList={this.props.concertList}
+              <ConcertTable
+                concertList={concertList.due}
                 handleClick={this.handleClick}
               />
             ) : (
