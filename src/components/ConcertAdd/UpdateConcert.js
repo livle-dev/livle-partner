@@ -5,10 +5,10 @@ import { Form, NestedForm, Text, Select } from 'react-form';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import ReactS3Uploader from 'react-s3-uploader';
+import PartnerSuggest from './PartnerSuggest'
 import { map } from 'lodash';
 // actions
 import {
-  fetchPartners,
   createTicket,
   getSignedUrl,
   patchTicket,
@@ -82,7 +82,6 @@ class UpdateConcert extends Component {
   }
 
   componentWillMount() {
-    if (!this.props.partnerList.length) this.props.fetchPartners();
     this.setState({
       startDate: moment(this.props.selected.start_at),
       endDate: moment(this.props.selected.end_at),
@@ -120,10 +119,6 @@ class UpdateConcert extends Component {
   }
 
   render() {
-    const partnerOptions = map(this.props.partnerList.data, p => {
-      return { label: p.company, value: p.id };
-    });
-
     // TODO validation
     return (
       <Form
@@ -193,7 +188,7 @@ class UpdateConcert extends Component {
               </div>
               <div className="right-container">
                 <Input title="파트너사">
-                  <Select field="partner_id" options={partnerOptions} />
+                  <PartnerSuggest handleSelect={(partnerId) => formApi.setValue('partner_id', partnerId)} />
                 </Input>
                 <Input title="확보 좌석">
                   <input
@@ -252,13 +247,8 @@ class UpdateConcert extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { partnerList: state.partnerList };
-}
-
-export default connect(mapStateToProps, {
+export default connect(null, {
   createTicket,
   patchTicket,
   getSignedUrl,
-  fetchPartners,
 })(UpdateConcert);
