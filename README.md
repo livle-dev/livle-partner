@@ -1,5 +1,8 @@
 ## Livle Partner
 
+### 데모영상
+https://www.youtube.com/watch?v=dPbW06nZhTs
+
 ### Reducer Pattern
 
 > store 로 관리해야 할 데이터
